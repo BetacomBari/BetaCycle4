@@ -364,3 +364,4 @@ FodyWeavers.xsd
 
 #App-setting
 ./appsettings.json
+.\Models\AdventureWorksLt2019Context.cs
