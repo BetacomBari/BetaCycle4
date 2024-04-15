@@ -363,4 +363,8 @@ MigrationBackup/
 FodyWeavers.xsd
 
 #App-setting
+<<<<<<< Updated upstream
 #./appsettings.json
+=======
+./appsettings.json
+>>>>>>> Stashed changes

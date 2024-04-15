@@ -17,8 +17,8 @@ namespace BetaCycle4
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddDbContext<AdventureWorksLt2019Context>
-                (opt => opt.UseSqlServer(
-         builder.Configuration.GetConnectionString("ConnectionString")));
+              (opt => opt.UseSqlServer(
+                  builder.Configuration.GetConnectionString("Comics")));
             builder.Services.AddCors(opt =>
             {
                 opt.AddPolicy("CorsPolicy",
