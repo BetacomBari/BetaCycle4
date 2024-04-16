@@ -364,6 +364,7 @@ FodyWeavers.xsd
 
 #App-setting
 <<<<<<< HEAD
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 #./appsettings.json
 =======
@@ -374,3 +375,9 @@ FodyWeavers.xsd
 =======
 ./appsettings.json
 >>>>>>> 74966d177a831fa211fb7fa9976c9501e2c50486
+=======
+./appsettings.json
+
+# Context
+./Models/AdventureWorksLt2019Context.cs
+
