@@ -63,16 +63,20 @@ namespace WebAca5CodeFirst.Logic.Autentication.Basic
             }
             else
             {
-                string passwordFromInput = "";
-                var connecion_string = _configuration.GetConnectionString("ConnectionString");
-                DBUtility dBUtility = new(connecion_string);
+                string passwordFromInputHashed = string.Empty;
+                var connection_string = _configuration.GetConnectionString("ConnectionString");
+                DBUtility dBUtility = new(connection_string);
                 if (dBUtility.IsDbStatusValid)
                 {
                     string passwordHashFromDb = dBUtility.getPasswordFromEmail(authUser);
-                    authPassword = EncryptionSHA256.sha256Encrypt(passwordFromInput);
-                    if (passwordHashFromDb == authPassword)
+                    passwordFromInputHashed = EncryptionSHA256.sha256Encrypt(authPassword);
+                    if (passwordHashFromDb == passwordFromInputHashed)
                     {
-                        // authPassword già con hash? se no va bene come sta fatto
+                        ///////////////////////////////////////////////
+                        /// IL CONTROLLO VA FATTO SULLA MAIL, SE SI, ALLORA REGISTRA DI NUOVO
+                        ///////////////////////////////////////////////
+                        ///////////////////////////////////////////////
+                        ///////////////////////////////////////////////
                         Console.WriteLine("Login effettuato con successo");
                     }
                 }
