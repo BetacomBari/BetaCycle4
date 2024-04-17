@@ -6,7 +6,7 @@ namespace WebAca5CodeFirst.Logic.Autentication.Basic
     {
         public BasicAuthorizationAttributes() 
         {
-            Policy = "basicAuthentication";
+            Policy = "BasicAuthentication";
         }
     }
 }
