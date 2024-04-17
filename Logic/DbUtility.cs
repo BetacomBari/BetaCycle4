@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using BetaCycle4.Models;
+using System.ComponentModel;
 
 
 namespace SqlManager.BLogic
@@ -52,7 +53,7 @@ namespace SqlManager.BLogic
             sqlCmd.Parameters.Clear();
         }
 
-        
+
         internal string getPasswordFromEmail(string email)
         {
             string passwordFromDb = "";
@@ -82,6 +83,38 @@ namespace SqlManager.BLogic
 
             return passwordFromDb;
         }
+
+        internal bool CheckIsElseWhere(string email)
+        {
+            bool emailFlag = false;
+            try
+            {
+                checkDbOpen();
+                sqlCmd.CommandText = "SELECT email, iselsewhere FROM SalesLT.Customer WHERE SalesLT.Customer.Email = @email";
+                sqlCmd.Parameters.AddWithValue("@email", email);
+                sqlCmd.Connection = sqlCnn;
+
+                using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
+                {
+                    if (sqlReader.HasRows)
+                    {
+                        while (sqlReader.Read())
+                        {
+                            if (Convert.ToBoolean(sqlReader["iselsewhere"]) == false)
+                                emailFlag = true;
+                        }
+                    }
+
+                    checkDbClose();
+                }
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+
+
+            return emailFlag;
+        }
     }
 }
-            

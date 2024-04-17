@@ -63,22 +63,33 @@ namespace WebAca5CodeFirst.Logic.Autentication.Basic
             }
             else
             {
-                string passwordFromInputHashed = string.Empty;
+                //string passwordFromInputHashed = string.Empty;
                 var connection_string = _configuration.GetConnectionString("ConnectionString");
                 DBUtility dBUtility = new(connection_string);
                 if (dBUtility.IsDbStatusValid)
                 {
-                    string passwordHashFromDb = dBUtility.getPasswordFromEmail(authUser);
-                    passwordFromInputHashed = EncryptionSHA256.sha256Encrypt(authPassword);
-                    if (passwordHashFromDb == passwordFromInputHashed)
-                    {
-                        ///////////////////////////////////////////////
-                        /// IL CONTROLLO VA FATTO SULLA MAIL, SE SI, ALLORA REGISTRA DI NUOVO
-                        ///////////////////////////////////////////////
-                        ///////////////////////////////////////////////
-                        ///////////////////////////////////////////////
-                        Console.WriteLine("Login effettuato con successo");
+
+                    if (dBUtility.CheckIsElseWhere(authUser)) {
+                        //registriamo di nuovo
+                    
                     }
+                    else
+                    {
+                        //check della password
+                    }
+
+
+                    //string passwordHashFromDb = dBUtility.getPasswordFromEmail(authUser);
+                    //passwordFromInputHashed = EncryptionSHA256.sha256Encrypt(authPassword);
+                    //if (passwordHashFromDb == passwordFromInputHashed)
+                    //{
+                    //    ///////////////////////////////////////////////
+                    //    /// IL CONTROLLO VA FATTO SULLA MAIL, SE SI, ALLORA REGISTRA DI NUOVO
+                    //    ///////////////////////////////////////////////
+                    //    ///////////////////////////////////////////////
+                    //    ///////////////////////////////////////////////
+                    //    Console.WriteLine("Login effettuato con successo");
+                    //}
                 }
             }
 
