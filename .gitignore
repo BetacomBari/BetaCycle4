@@ -364,10 +364,6 @@ FodyWeavers.xsd
 
 #App-setting
 ./appsettings.json
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 
 # Context
 ./Models/AdventureWorksLt2019Context.cs
