@@ -65,7 +65,7 @@ namespace WebAca5CodeFirst.Logic.Autentication.Basic
             {
                 //string passwordFromInputHashed = string.Empty;
                 var connection_string = _configuration.GetConnectionString("ConnectionString");
-                DBUtility dBUtility = new(connection_string);
+                DbUtility dBUtility = new(connection_string);
                 if (dBUtility.IsDbStatusValid)
                 {
 
