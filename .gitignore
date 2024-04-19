@@ -363,4 +363,14 @@ MigrationBackup/
 FodyWeavers.xsd
 
 #App-setting
+<<<<<<< HEAD
 ./appsettings.json
+=======
+./appsettings.json
+
+#CONTEXT
+./Models/AdventureWorksLt2019Context.cs
+
+
+
+>>>>>>> f60b2858e958e19214c41917015e337355b5f476
