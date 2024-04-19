@@ -54,9 +54,6 @@ public partial class AdventureWorksLt2019Context : DbContext
 
         => optionsBuilder.UseSqlServer("Data Source=(LocalDb)\\SQLEXPRESS;Initial Catalog=AdventureWorksLT2019;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
 
-        //=> optionsBuilder.UseSqlServer("Data Source=DESKTOP-CISCO\\SQLEXPRESS;Initial Catalog=AdventureWorksLT2019;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
-/// e464053562f87885c50794db43d425c77b8a38dc
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.UseCollation("SQL_Latin1_General_CP1_CI_AS");
