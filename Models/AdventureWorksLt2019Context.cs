@@ -57,6 +57,7 @@ public partial class AdventureWorksLt2019Context : DbContext
     {
         modelBuilder.UseCollation("SQL_Latin1_General_CP1_CI_AS");
 
+
         modelBuilder.Entity<Address>(entity =>
         {
             entity.HasKey(e => e.AddressId).HasName("PK_Address_AddressID");
