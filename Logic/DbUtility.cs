@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using BetaCycle4.Models;
 using System.ComponentModel;
+using BetaCycle4.Logic;
 
 
 namespace SqlManager.BLogic
@@ -29,9 +30,9 @@ namespace SqlManager.BLogic
                 sqlCnn = new SqlConnection(sqlConnection.ConnectionString);
                 IsDbStatusValid = true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                ErrorManager.RegisterError(e.Message, Convert.ToInt16(e.HResult), System.Reflection.MethodBase.GetCurrentMethod().Name);
             }
             finally
             {
@@ -184,6 +185,31 @@ namespace SqlManager.BLogic
 
             return new KeyValuePair<string, string>(pwrHash, pwrSalt);
         }
+        #endregion
+
+        #region ErrorWriter in LOGERROR
+
+        /// <summary>
+        /// Metodo unico richiamato dalla classe statica per la scrittura degli errori nella tabella apposita.
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="code"></param>
+        /// <param name="location"></param>
+        public void ErrorWriter(string message, short code, string location)
+        {
+            checkDbOpen();
+
+            sqlCmd.CommandText = "INSERT INTO LogError (ErrorMessage, ErrorCode, ErrorDate, ErrorLocation) VALUES (@message, @code, @date, @location)";
+            sqlCmd.Parameters.AddWithValue("@message", message);
+            sqlCmd.Parameters.AddWithValue("@code", code);
+            sqlCmd.Parameters.AddWithValue("@date", DateTime.UtcNow);
+            sqlCmd.Parameters.AddWithValue("@location", location);
+
+            sqlCmd.ExecuteNonQuery();
+
+            checkDbClose();
+        }
+
         #endregion
 
 
