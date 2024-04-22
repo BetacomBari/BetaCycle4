@@ -22,6 +22,10 @@ namespace BetaCycle4.Logic
 
         }
 
+        /* COMANDO DA METTERE AD OGNI CATCH
+ErrorManager.RegisterError(e.Message, Convert.ToInt16(e.HResult), System.Reflection.MethodBase.GetCurrentMethod().Name);
+*/
+
 
     }
 }
