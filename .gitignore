@@ -362,6 +362,7 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
+<<<<<<< HEAD
 #App-setting
 <<<<<<< HEAD
 ./appsettings.json
@@ -370,6 +371,9 @@ FodyWeavers.xsd
 
 #CONTEXT
 ./Models/AdventureWorksLt2019Context.cs
+=======
+
+>>>>>>> f1581396e5a09b233154cddb57451749faa84013
 
 
 
