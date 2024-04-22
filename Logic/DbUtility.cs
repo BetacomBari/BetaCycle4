@@ -126,7 +126,7 @@ namespace SqlManager.BLogic
                 email = EncryptionSHA256.sha256Encrypt(email);
 
 
-                sqlCmd.CommandText = "SELECT EmailAddress FROM [dbo].[Credentials] WHERE [dbo].[Credentials].EmailAddressEncrypt = @email";
+                sqlCmd.CommandText = "SELECT EmailAddressEncrypt FROM [dbo].[Credentials] WHERE [dbo].[Credentials].EmailAddressEncrypt = @email";
                 sqlCmd.Parameters.AddWithValue("@email", email);
                 sqlCmd.Connection = sqlCnn;
 
@@ -163,7 +163,11 @@ namespace SqlManager.BLogic
             try
             {
                 checkDbOpen();
-                sqlCmd.CommandText = "SELECT PasswordHash, PasswordSalt from [dbo].[Credentials] WHERE [dbo].[Credentials].EmailAddress = @email";
+
+                //Criptazione della mail dato che nel db è criptata
+                email = EncryptionSHA256.sha256Encrypt(email);
+
+                sqlCmd.CommandText = "SELECT PasswordHash, PasswordSalt from [dbo].[Credentials] WHERE [dbo].[Credentials].EmailAddressEncrypt = @email";
                 sqlCmd.Parameters.AddWithValue("@email", email);
                 sqlCmd.Connection = sqlCnn;
 
