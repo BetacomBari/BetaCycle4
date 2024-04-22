@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BetaCycle4.Logic.Authentication.EncryptionWithSha256
 {
-    public class EncryptionSHA256
+    public static class EncryptionSHA256
     {
         public static string sha256Encrypt(string s)
         {

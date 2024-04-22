@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using BetaCycle4.Models;
 using System.ComponentModel;
+using BetaCycle4.Logic.Authentication.EncryptionWithSha256;
 
 
 namespace SqlManager.BLogic
@@ -120,7 +121,12 @@ namespace SqlManager.BLogic
             try
             {
                 checkDbOpen();
-                sqlCmd.CommandText = "SELECT EmailAddress FROM [dbo].[Credentials] WHERE [dbo].[Credentials].EmailAddress = @email";
+
+                //Criptazione della mail dato che nel db è criptata
+                email = EncryptionSHA256.sha256Encrypt(email);
+
+
+                sqlCmd.CommandText = "SELECT EmailAddress FROM [dbo].[Credentials] WHERE [dbo].[Credentials].EmailAddressEncrypt = @email";
                 sqlCmd.Parameters.AddWithValue("@email", email);
                 sqlCmd.Connection = sqlCnn;
 
