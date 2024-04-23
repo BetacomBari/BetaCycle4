@@ -11,6 +11,9 @@ namespace WebAca5CodeFirst.Logic.Autentication.Basic
             IsAuthenticated = isAuthenticated;
             Name = name;
         
+
+
+            // this is a comment
         }
 
 
