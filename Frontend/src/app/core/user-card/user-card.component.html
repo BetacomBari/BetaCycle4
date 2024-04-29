@@ -1,12 +1,15 @@
 <p>user-card works!</p>
 
 <div class="user-card">
+    
     <div class="profile-photo">
-        <img [src]="userProfile.picture" alt="Profile Photo" />
+        <img *ngIf="userProfile.picture" [src]="userProfile.picture" alt="Profile Picture">
+
     </div>
 
     <div class="user-info">
-        <h2> {{userProfile.given_name}}  {{userProfile.family_name}}</h2>>
+        
+        <h2> {{userProfile.given_name}} {{userProfile.family_name}}</h2>>
         <p>{{userProfile.email}}</p>
     </div>
 </div>
