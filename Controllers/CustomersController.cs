@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BetaCycle4.Models;
 using WebAca5CodeFirst.Logic.Autentication.Basic;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BetaCycle4.Controllers
 {
@@ -30,7 +31,8 @@ namespace BetaCycle4.Controllers
 
         // GET: api/Customers/5
         [HttpGet("{id}")]
-        [BasicAuthorizationAttributes]
+        //[BasicAuthorizationAttributes]
+        [Authorize]
         public async Task<ActionResult<Customer>> GetCustomer(int id)
         {
             var customer = await _context.Customers.FindAsync(id);
