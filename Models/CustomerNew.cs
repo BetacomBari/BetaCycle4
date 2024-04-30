@@ -33,7 +33,7 @@ public partial class CustomerNew
 
     public Guid Rowguid { get; set; }
 
-    public DateTime ModifieDate { get; set; }
+    public DateTime ModifiedDate { get; set; }
 
     public bool? IsElseWhere { get; set; }
 }
