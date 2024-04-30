@@ -6,10 +6,9 @@ namespace BetaCycle4.Controllers
     [Route("[controller]")]
     public class RegisterController : Controller
     {
-        [HttpPost]
-        public IActionResult Register()
+        public IActionResult Index()
         {
-
+            return View();
         }
     }
 }
