@@ -23,17 +23,10 @@ public partial class CustomerNew
 
     public string? SalesPerson { get; set; }
 
-    public string? EmailAddress { get; set; }
-
     public string? Phone { get; set; }
-
-    public string PasswordHash { get; set; } = null!;
-
-    public string PasswordSalt { get; set; } = null!;
 
     public Guid Rowguid { get; set; }
 
-    public DateTime ModifieDate { get; set; }
-
-    public bool? IsElseWhere { get; set; }
+    public DateTime ModifiedDate { get; set; }
+    public int Role {  get; set; }
 }
