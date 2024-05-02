@@ -44,17 +44,14 @@ export class LoginComponent {
       this.loginCredientals.Password = password.value
 
       this.http.loginPost(this.loginCredientals).subscribe(resp =>{    
-        if (resp.status === HttpStatusCode.Accepted) {
+        if (resp.status == 200) {
           console.log("LOGIN OK!");
           this.logged_in = true;
           this.email_toShow = email.value;
         }else{
           console.log("Status: " + resp.status);      
-          this.logged_in = true;
-          this.email_toShow = email.value; 
         }
-        this.logged_in = true;
-        this.email_toShow = email.value;
+        
       })
     } else{
       console.log("error")
