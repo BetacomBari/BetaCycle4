@@ -51,8 +51,8 @@ public partial class AdventureWorksLt2019Context : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 
-
         => optionsBuilder.UseSqlServer("Data Source=.\\SQLEXPRESS;Initial Catalog=AdventureWorksLT2019;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
+
 
 
 
@@ -231,11 +231,17 @@ public partial class AdventureWorksLt2019Context : DbContext
             entity.Property(e => e.LastName).HasMaxLength(50);
             entity.Property(e => e.MiddleName).HasMaxLength(50);
             entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> Encryption
             entity.Property(e => e.Phone).HasMaxLength(25);
             entity.Property(e => e.Rowguid).HasColumnName("rowguid");
             entity.Property(e => e.SalesPerson).HasMaxLength(256);
             entity.Property(e => e.Suffix).HasMaxLength(10);
             entity.Property(e => e.Title).HasMaxLength(8);
+            entity.Property(e => e.Role).HasDefaultValue(1);
         });
 
         modelBuilder.Entity<ErrorLog>(entity =>

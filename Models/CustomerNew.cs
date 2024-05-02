@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace BetaCycle4.Models;
+﻿namespace BetaCycle4.Models;
 
 public partial class CustomerNew
 {
@@ -28,5 +25,8 @@ public partial class CustomerNew
     public Guid Rowguid { get; set; }
 
     public DateTime ModifiedDate { get; set; }
-    public int Role {  get; set; }
+
+    public int Role { get; set; }
+
+
 }

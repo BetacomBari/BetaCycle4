@@ -2,8 +2,12 @@ using BetaCycle4.Logic;
 using BetaCycle4.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using SqlManager.BLogic;
 using System.Configuration;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace BetaCycle4.Controllers
 {
@@ -12,6 +16,14 @@ namespace BetaCycle4.Controllers
 
     public class LoginController : ControllerBase
     {
+
+        private JwtSettings _jwtSettings;
+
+        public LoginController(JwtSettings jwtSettings)
+        {
+            _jwtSettings = jwtSettings;
+        }
+
         [HttpPost]
         public IActionResult Login(LoginCredentials credentials)
         {
@@ -46,7 +58,10 @@ namespace BetaCycle4.Controllers
 
                         if (isLogin == true)
                         {
-                            return Ok();
+                            var token = GenerateJwtToken(inputEmail);
+
+
+                            return Ok(new { token });
                         }
                         else
                         {
@@ -72,7 +87,10 @@ namespace BetaCycle4.Controllers
 
                         if (isLogged == true)
                         {
-                            return Ok();
+                            var token = GenerateJwtToken(inputEmail);
+
+
+                            return Ok(new { token });
                         }
                         else
                         {
@@ -88,5 +106,36 @@ namespace BetaCycle4.Controllers
             }
             return BadRequest();
         }
+
+
+        #region GenerateJwtToken
+        private string GenerateJwtToken(string username)
+        {
+
+            var secretKey = _jwtSettings.SecretKey;
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(secretKey);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new System.Security.Claims.ClaimsIdentity(new[]
+                {
+                    new Claim(ClaimTypes.Name, username)
+                }),
+
+                Expires = DateTime.Now.AddMinutes(_jwtSettings.ExpirationMinutes),
+                Issuer = _jwtSettings.Issuer,
+                Audience = _jwtSettings.Audience,
+                SigningCredentials = new SigningCredentials(
+                    new SymmetricSecurityKey(key),
+                    SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            string tokenString = tokenHandler.WriteToken(token);
+
+
+            return tokenString;
+        }
+        #endregion
     }
 }
