@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserCardComponent } from '../user-card/user-card.component';
+
 declare var handleSignOut: any;
 
 @Component({
@@ -48,6 +49,10 @@ export class LoginComponent {
           console.log("LOGIN OK!");
           this.logged_in = true;
           this.email_toShow = email.value;
+          console.log(resp);
+          localStorage.setItem('loggedInUser', JSON.stringify(resp.body.token));
+          console.log(resp.body.token);
+
         }else{
           console.log("Status: " + resp.status);      
         }
