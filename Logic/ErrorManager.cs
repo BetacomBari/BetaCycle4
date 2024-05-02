@@ -18,7 +18,7 @@ namespace BetaCycle4.Logic
             //Apro la connessione al DB che contiene la tabella degli errori -S
             DbUtility errormanager = new DbUtility("Data Source=.\\SQLEXPRESS;Initial Catalog=AdventureWorksLT2019;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
 
-            errormanager.ErrorWriter(message, code, location);
+            //errormanager.ErrorWriter(message, code, location);
 
         }
 

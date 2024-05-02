@@ -362,9 +362,12 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
+<<<<<<< HEAD
 #App-setting
 <<<<<<< Updated upstream
 #./appsettings.json
 =======
 ./appsettings.json
 >>>>>>> Stashed changes
+=======
+>>>>>>> Encryption
