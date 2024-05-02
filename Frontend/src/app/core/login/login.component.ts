@@ -81,6 +81,11 @@ export class LoginComponent {
     this.router.navigate(["/login"]).then( ()=>{
       window.location.reload();
     });
+    localStorage.removeItem("loggedInUser");
+    this.router.navigate(["/login"]).then( ()=>{
+      window.location.reload();
+    });
+    
   }
 
   writeInDb(){
