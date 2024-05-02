@@ -37,7 +37,7 @@ namespace SqlManager.BLogic
             finally
             {
                 checkDbClose();
-            }
+        }
         }
         #endregion
 
@@ -102,7 +102,7 @@ namespace SqlManager.BLogic
                 }
             }
             catch (Exception e)
-            {
+        {
                 throw;
             }
             finally
@@ -122,7 +122,7 @@ namespace SqlManager.BLogic
             {
                 checkDbOpen();
 
-                //Criptazione della mail dato che nel db è criptata
+                //Criptazione della mail dato che nel db Ã¨ criptata
                 email = EncryptionSHA256.sha256Encrypt(email);
 
 
@@ -135,11 +135,11 @@ namespace SqlManager.BLogic
                     if (sqlReader.HasRows)
                     {
                         emailExists = true;
-                    }
+            }
                     else
                     {
                         emailExists = false;
-                    }
+        }
                 }
             }
             catch (Exception e)
@@ -154,7 +154,7 @@ namespace SqlManager.BLogic
             return emailExists;
         }
         #endregion
-
+        
         #region GetPasswordHashEndSalt From DB CustomerCredentials
         internal KeyValuePair<string,string> GetPasswordHashAndSalt(string email)
         {
@@ -164,7 +164,7 @@ namespace SqlManager.BLogic
             {
                 checkDbOpen();
 
-                //Criptazione della mail dato che nel db è criptata
+                //Criptazione della mail dato che nel db Ã¨ criptata
                 email = EncryptionSHA256.sha256Encrypt(email);
 
                 sqlCmd.CommandText = "SELECT PasswordHash, PasswordSalt from [dbo].[Credentials] WHERE [dbo].[Credentials].EmailAddressEncrypt = @email";
@@ -182,6 +182,7 @@ namespace SqlManager.BLogic
                         }
                     }
                 }
+                checkDbClose();
             }
             catch (Exception)
             {
@@ -204,9 +205,9 @@ namespace SqlManager.BLogic
             if (sqlCnn.State == System.Data.ConnectionState.Closed)
             {
                 sqlCnn.Open();
-            }
-        }
-
+    }
+}
+            
         void checkDbClose()
         {
             if (sqlCnn.State == System.Data.ConnectionState.Closed)
