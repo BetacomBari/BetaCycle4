@@ -64,11 +64,19 @@
         </div>
     </div>
 </div>
-
+<div>
+    <h3>admin_admin.com</h3>
+    <h3>admin</h3>
+</div>
 
 <ng-container *ngIf="userProfile">
     <div> Welcome {{userProfile.name}}</div>    
     <app-user-card [userProfile]="userProfile"></app-user-card>
+</ng-container>
+
+<ng-container *ngIf="logged_in">
+    <div> Welcome {{email_toShow}}</div>    
+    
 </ng-container>
 
 <button id="signout-button" (click)="handleSignOut()">Sign Out</button>
