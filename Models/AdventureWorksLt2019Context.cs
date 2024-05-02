@@ -56,6 +56,7 @@ public partial class AdventureWorksLt2019Context : DbContext
 
 
 
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.UseCollation("SQL_Latin1_General_CP1_CI_AS");
@@ -227,23 +228,16 @@ public partial class AdventureWorksLt2019Context : DbContext
 
             entity.Property(e => e.CompanyName).HasMaxLength(128);
             entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
-            entity.Property(e => e.EmailAddress).HasMaxLength(50);
             entity.Property(e => e.FirstName).HasMaxLength(50);
-            entity.Property(e => e.IsElseWhere).HasDefaultValue(true);
             entity.Property(e => e.LastName).HasMaxLength(50);
             entity.Property(e => e.MiddleName).HasMaxLength(50);
-            entity.Property(e => e.ModifieDate).HasColumnType("datetime");
-            entity.Property(e => e.PasswordHash)
-                .HasMaxLength(128)
-                .IsUnicode(false);
-            entity.Property(e => e.PasswordSalt)
-                .HasMaxLength(10)
-                .IsUnicode(false);
+            entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
             entity.Property(e => e.Phone).HasMaxLength(25);
             entity.Property(e => e.Rowguid).HasColumnName("rowguid");
             entity.Property(e => e.SalesPerson).HasMaxLength(256);
             entity.Property(e => e.Suffix).HasMaxLength(10);
             entity.Property(e => e.Title).HasMaxLength(8);
+            entity.Property(e => e.Role).HasDefaultValue(1);
         });
 
         modelBuilder.Entity<ErrorLog>(entity =>

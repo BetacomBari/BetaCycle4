@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using System.Configuration;
 using Humanizer.Configuration;
 using System.Security.Cryptography.Xml;
+using BetaCycle4.Logic.Authentication.EncryptionWithSha256;
 
 
 
