@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserCardComponent } from '../user-card/user-card.component';
-
+import { User } from '../../shared/models/user';
 declare var handleSignOut: any;
 
 @Component({
@@ -25,6 +25,7 @@ export class LoginComponent {
   email_toShow:string="";
   logged_in: boolean = false;
   userProfile: any;
+  user: User = new User();
 
 
   loginCredientals: Credientals = new Credientals()
@@ -80,5 +81,21 @@ export class LoginComponent {
     this.router.navigate(["/login"]).then( ()=>{
       window.location.reload();
     });
+  }
+
+  writeInDb(){
+    this.user.EmailAddress = this.email_toShow;
+    this.user.Password = "passwordFromGoogle";
+
+    this.http.postUser(this.user).subscribe({
+      next: (data: any) => {
+        this.user = data;
+        console.log(this.user)
+      },
+      error: (err: any) => {
+        console.log(err);
+      }
+    })
+
   }
 }

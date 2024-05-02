@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Credientals } from '../models/credentials';
+import { User } from '../models/user';
 
 
 @Injectable({
@@ -14,5 +15,9 @@ export class HttprequestService {
   loginPost(credentials: Credientals): Observable<any>
   {
     return this.http.post(`https://localhost:7165/Login`, credentials, {observe: 'response'})
+  }
+
+  postUser(user: User): Observable<any> {
+    return this.http.post(`https://localhost:7165/api/Customer`, user)
   }
 }
