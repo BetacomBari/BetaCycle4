@@ -15,7 +15,6 @@ export class UserCardComponent implements OnInit{
 
   ngOnInit(): void {
       console.log(this.userProfile);
-      console.log(this.email);
   }
 
 }

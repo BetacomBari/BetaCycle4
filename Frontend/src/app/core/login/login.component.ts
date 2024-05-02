@@ -84,18 +84,22 @@ export class LoginComponent {
   }
 
   writeInDb(){
-    this.user.EmailAddress = this.email_toShow;
-    this.user.Password = "passwordFromGoogle";
+    this.user.EmailAddress = this.userProfile.email;
+    this.user.FirstName = this.userProfile.given_name;
+    this.user.LastName = this.userProfile.family_name;
+    this.user.PasswordHash = "passwordFromGoogle";
+    this.user.PasswordSalt = "passwordFromGoogle";
+    console.log(this.user);
 
-    this.http.postUser(this.user).subscribe({
-      next: (data: any) => {
-        this.user = data;
-        console.log(this.user)
-      },
-      error: (err: any) => {
-        console.log(err);
-      }
-    })
+    // this.http.postUser(this.user).subscribe({
+    //   next: (data: any) => {
+    //     this.user = data;
+    //     console.log(this.user)
+    //   },
+    //   error: (err: any) => {
+    //     console.log(err);
+    //   }
+    // })
 
   }
 }

@@ -1,4 +1,7 @@
 export class User{
-    EmailAddress: string = ''
-    Password: string = ''
+    EmailAddress: string = '';
+    FirstName: string = '';
+    LastName: string = '';
+    PasswordHash: string = '';
+    PasswordSalt: string = '';
 }
