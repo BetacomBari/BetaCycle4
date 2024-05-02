@@ -18,6 +18,6 @@ export class HttprequestService {
   }
 
   postUser(user: User): Observable<any> {
-    return this.http.post(`https://localhost:7165/api/Customer`, user)
+    return this.http.post(`https://localhost:7165/api/Customers`, user)
   }
 }
