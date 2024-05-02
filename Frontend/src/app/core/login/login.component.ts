@@ -1,5 +1,5 @@
 import { HttpRequest, HttpStatusCode } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttprequestService } from '../../shared/services/httprequest.service';
 import { Credientals } from '../../shared/models/credentials';
 import { RouterModule } from '@angular/router';
@@ -21,21 +21,30 @@ export class LoginComponent {
 
   constructor(private http: HttprequestService) { }
 
-  login(usr: HTMLInputElement, pwd: HTMLInputElement) {
+  
 
-    if (usr.value != "" && pwd.value != "") {
-      this.loginCredientals.EmailAddress = usr.value
-      this.loginCredientals.Password = usr.value
+  login(email: HTMLInputElement, password: HTMLInputElement) {
+    console.log("sono entrato nella funzione");
+    this.loginCredientals.EmailAddress = email.value
+    this.loginCredientals.Password = password.value
+    console.log(email.value);
+    console.log(password.value);
+
+    if (email.value != "" && password.value != "") { 
+      this.loginCredientals.EmailAddress = email.value
+      this.loginCredientals.Password = password.value
 
       this.http.loginPost(this.loginCredientals).subscribe(resp =>{    
-        if (resp.status === HttpStatusCode.Ok) {
+        if (resp.status === HttpStatusCode.Accepted) {
           console.log("LOGIN OK!");
         }else{
           console.log("LOGIN NON RIUSCITO" + resp.status);       
         }
       })
-    } else (alert("Usurname e password sono obbligatori"))
-  }
+    } else{
+      console.log("error")
+    }
+  } 
 
   hideShowPassword(){
     this.isText = !this.isText;

@@ -13,6 +13,6 @@ export class HttprequestService {
 
   loginPost(credentials: Credientals): Observable<any>
   {
-    return this.http.post("https://localhost:7165/login", credentials, {observe: 'response'})
+    return this.http.post(`https://localhost:7165/Login`, credentials, {observe: 'response'})
   }
 }
