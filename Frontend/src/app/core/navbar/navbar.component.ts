@@ -13,19 +13,19 @@ declare var handleSignOut: any;
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
-export class NavbarComponent implements OnInit{
-  constructor(private router: Router){}
-  userProfile: any;
+export class NavbarComponent {
+  // constructor(private router: Router){}
+  // userProfile: any;
 
-  ngOnInit() {
-      this.userProfile = JSON.parse(sessionStorage.getItem("loggedInUser") || "");
-  }
+  // ngOnInit() {
+  //     this.userProfile = JSON.parse(sessionStorage.getItem("loggedInUser") || "");
+  // }
 
-  handleSignOut() {
-    handleSignOut();
-    sessionStorage.removeItem("loggedInUser");
-    this.router.navigate(["/login"]).then( ()=>{
-      window.location.reload();
-    });
-  }
+  // handleSignOut() {
+  //   handleSignOut();
+  //   sessionStorage.removeItem("loggedInUser");
+  //   this.router.navigate(["/login"]).then( ()=>{
+  //     window.location.reload();
+  //   });
+  // }
 }

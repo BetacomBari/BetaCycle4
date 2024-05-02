@@ -3,11 +3,16 @@ import { Component, OnInit } from '@angular/core';
 import { HttprequestService } from '../../shared/services/httprequest.service';
 import { Credientals } from '../../shared/models/credentials';
 import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { UserCardComponent } from '../user-card/user-card.component';
+declare var handleSignOut: any;
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, CommonModule, FormsModule, RouterModule,UserCardComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -16,10 +21,12 @@ export class LoginComponent {
   type: string = "password";
   isText: boolean = false;
   eyeIcon:string = "fa-eye-slash"
+  userProfile: any;
+
 
   loginCredientals: Credientals = new Credientals()
 
-  constructor(private http: HttprequestService) { }
+  constructor(private http: HttprequestService, private router: Router) { }
 
   
 
@@ -38,7 +45,7 @@ export class LoginComponent {
         if (resp.status === HttpStatusCode.Accepted) {
           console.log("LOGIN OK!");
         }else{
-          console.log("LOGIN NON RIUSCITO" + resp.status);       
+          console.log("Status: " + resp.status);       
         }
       })
     } else{
@@ -52,4 +59,16 @@ export class LoginComponent {
     this.isText ? this.type="text" : this.type = "password"
   }
 
+
+  ngOnInit() {
+      this.userProfile = JSON.parse(sessionStorage.getItem("loggedInUser") || "");
+  }
+
+  handleSignOut() {
+    handleSignOut();
+    sessionStorage.removeItem("loggedInUser");
+    this.router.navigate(["/login"]).then( ()=>{
+      window.location.reload();
+    });
+  }
 }
