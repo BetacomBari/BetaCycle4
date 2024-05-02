@@ -6,7 +6,7 @@ namespace BetaCycle4.Logic
     public static class PasswordLogic
     {
         //DA STRING PASSWORD A PASSWORD HASH CON SALT
-        public static KeyValuePair<string, string> GetPasswordHashEndSalt(string password)
+        public static KeyValuePair<string, string> GetPasswordHashAndSalt(string password)
         {
 
             byte[] byteSalt = new byte[6];
