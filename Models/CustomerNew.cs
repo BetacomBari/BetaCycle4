@@ -28,4 +28,5 @@ public partial class CustomerNew
 
     public int Role { get; set; }
 
+
 }
