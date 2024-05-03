@@ -1,6 +1,7 @@
 <router-outlet></router-outlet>
 
-<button class="btn btn-primary">Click me</button>
+<app-navbar></app-navbar>
+
 
 <div class="outher">
     <div class="container">
@@ -65,9 +66,6 @@
     </div>
 </div>
 
-<div>
-    <h3>admin</h3>
-</div>
 
 <ng-container *ngIf="userProfile"> 
         <div> Welcome {{userProfile.name}}</div>    

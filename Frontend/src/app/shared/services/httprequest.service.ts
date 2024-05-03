@@ -20,4 +20,12 @@ export class HttprequestService {
   postUser(user: User): Observable<any> {
     return this.http.post(`https://localhost:7165/api/Customers`, user)
   }
+
+  getCustomer(): Observable<any> {
+    return this.http.get(`https://localhost:7165/api/Customers`)
+  }
+
+  getCustomerByID(id:number): Observable<any> {
+    return this.http.get(`https://localhost:7165/api/Customers/${id}`)
+  }
 }

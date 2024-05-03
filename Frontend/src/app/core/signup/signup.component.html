@@ -1,71 +1,74 @@
-<p>signup works!</p>
 <router-outlet></router-outlet>
 
-<button class="btn btn-primary">Click me</button>
+<app-navbar></app-navbar>
+
+
 
 <div class="outher">
     <div class="container">
-        <div class ="row">
-         <div class="offset-md-2 col-lg-5 col-md-7 offset-lg-4 offset-md-3">
-            <div class="panel border bg-white">
-                <div class = "panel-heading">
-                    <h3 class = "pt3 font-weight-bold">Sign Up</h3>    
-                </div>
-                <div class="panel-body p-3">
-                    <form>
-                        <!-- First Name -->
-                        <div class="form-group pt-3">
-                            <div class="input-field">
-                                <span class = "fa fa-user p-2"></span>
-                                <input type="text" placeholder="First Name">
+        <div class="row">
+            <div class="offset-md-2 col-lg-5 col-md-7 offset-lg-4 offset-md-3">
+                <div class="panel border bg-white">
+                    <div class="panel-heading">
+                        <h3 class="pt3 font-weight-bold">Sign Up</h3>
+                    </div>
+                    <div class="panel-body p-3">
+                        <form>
+                            <!-- First Name -->
+                            <div class="form-group pt-3">
+                                <div class="input-field">
+                                    <span class="fa fa-user p-2"></span>
+                                    <input type="text" placeholder="First Name">
+                                </div>
                             </div>
-                        </div>
-                        <!-- Middle Name -->
-                        <div class="form-group pt-3">
-                            <div class="input-field">
-                                <span class = "fa fa-user p-2"></span>
-                                <input type="text" placeholder="Middle Name">
+                            <!-- Middle Name -->
+                            <div class="form-group pt-3">
+                                <div class="input-field">
+                                    <span class="fa fa-user p-2"></span>
+                                    <input type="text" placeholder="Middle Name">
+                                </div>
                             </div>
-                        </div>
-                        <!-- Last Name -->
-                        <div class="form-group pt-3">
-                            <div class="input-field">
-                                <span class = "fa fa-user p-2"></span>
-                                <input type="text" placeholder="Last Name">
+                            <!-- Last Name -->
+                            <div class="form-group pt-3">
+                                <div class="input-field">
+                                    <span class="fa fa-user p-2"></span>
+                                    <input type="text" placeholder="Last Name">
+                                </div>
                             </div>
-                        </div>
-                        <!-- Email -->
-                        <div class="form-group pt-3">
-                            <div class="input-field">
-                                <span class = "fa fa-user p-2"></span>
-                                <input type="text" placeholder="Email">
+                            <!-- Email -->
+                            <div class="form-group pt-3">
+                                <div class="input-field">
+                                    <span class="fa fa-user p-2"></span>
+                                    <input type="text" placeholder="Email">
+                                </div>
                             </div>
-                        </div>
-                        <!-- Password -->
-                        <div class="form-group pt-3">
-                            <div class="input-field">
-                                <span class="fa-solid fa-lock"></span>
-                                <input [type]=type placeholder="Password">
-                                <span (click)="hideShowPassword()" class="fa {{eyeIcon}}"></span>
+                            <!-- Password -->
+                            <div class="form-group pt-3">
+                                <div class="input-field">
+                                    <span class="fa-solid fa-lock"></span>
+                                    <input [type]=type placeholder="Password">
+                                    <span (click)="hideShowPassword()" class="fa {{eyeIcon}}"></span>
+                                </div>
                             </div>
-                        </div>
-                         <!-- ReType Password -->
-                         <div class="form-group pt-3">
-                            <div class="input-field">
-                                <span class="fa-solid fa-lock"></span>
-                                <input [type]=type placeholder="Password">
-                                <span (click)="hideShowPassword()" class="fa {{eyeIcon}}"></span>
+                            <!-- ReType Password -->
+                            <div class="form-group pt-3">
+                                <div class="input-field">
+                                    <span class="fa-solid fa-lock"></span>
+                                    <input [type]=type placeholder="Password">
+                                    <span (click)="hideShowPassword()" class="fa {{eyeIcon}}"></span>
+                                </div>
                             </div>
-                        </div>
                             <div class="form-inline fr mt4">
                                 <a id="forget" class="font-weight-bold">Forget password?</a>
                             </div>
 
                             <button type="submit" class="btn btn-primary btn-block mt-4 w-100">Sign Up</button>
-                            <div class="text-center pt-4 text-muted">Aleady have account? <a id="forget" routerLink="/login">Login</a></div>                    </form>
+                            <div class="text-center pt-4 text-muted">Aleady have account? <a id="forget"
+                                    routerLink="/login">Login</a></div>
+                        </form>
+                    </div>
+
                 </div>
-                
             </div>
         </div>
     </div>
-</div>

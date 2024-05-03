@@ -8,12 +8,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserCardComponent } from '../user-card/user-card.component';
 import { User } from '../../shared/models/user';
+import { NavbarComponent } from '../navbar/navbar.component';
 declare var handleSignOut: any;
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterModule, CommonModule, FormsModule, RouterModule,UserCardComponent],
+  imports: [RouterModule, CommonModule, FormsModule, RouterModule,UserCardComponent, NavbarComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
