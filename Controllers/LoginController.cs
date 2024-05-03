@@ -1,3 +1,4 @@
+using BetaCycle4.Logger;
 using BetaCycle4.Logic;
 using BetaCycle4.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -12,10 +13,15 @@ namespace BetaCycle4.Controllers
 
     public class LoginController : ControllerBase
     {
+        private readonly DbTracer _dbTracer;
+       public LoginController(DbTracer dbTracer)
+        {
+            _dbTracer = dbTracer;
+        }
+
         [HttpPost]
         public IActionResult Login(LoginCredentials credentials)
         {
-
             DbUtility dbUtilityLT2019 = new("Data Source=DESKTOP-CISCO\\SQLEXPRESS;Initial Catalog=AdventureWorksLT2019;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
             DbUtility dbUtilityCredentials = new("Data Source=DESKTOP-CISCO\\SQLEXPRESS;Initial Catalog=CustomerCredentials;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
 
@@ -84,6 +90,7 @@ namespace BetaCycle4.Controllers
             }
             catch (Exception ex)
             {
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
                 return BadRequest();
             }
             return BadRequest();

@@ -11,7 +11,7 @@ public partial class LogError
 
     public string? ErrorMessage { get; set; }
 
-    public short? ErrorCode { get; set; }
+    public int? ErrorCode { get; set; }
 
     public DateTime? ErrorDate { get; set; }
 

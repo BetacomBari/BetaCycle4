@@ -230,7 +230,7 @@ public partial class AdventureWorksLt2019Context : DbContext
             entity.Property(e => e.IsElseWhere).HasDefaultValue(true);
             entity.Property(e => e.LastName).HasMaxLength(50);
             entity.Property(e => e.MiddleName).HasMaxLength(50);
-            entity.Property(e => e.ModifieDate).HasColumnType("datetime");
+            entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
             entity.Property(e => e.PasswordHash)
                 .HasMaxLength(128)
                 .IsUnicode(false);
