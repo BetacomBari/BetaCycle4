@@ -32,7 +32,7 @@ namespace BetaCycle4.Controllers
         // GET: api/Customers/5
         [HttpGet("{id}")]
         //[BasicAuthorizationAttributes]
-        [Authorize]
+        //[Authorize]
         public async Task<ActionResult<Customer>> GetCustomer(int id)
         {
             var customer = await _context.Customers.FindAsync(id);
