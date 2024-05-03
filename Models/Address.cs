@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace BetaCycle4.Models;
 
@@ -11,6 +12,7 @@ public partial class Address
     /// <summary>
     /// Primary key for Address records.
     /// </summary>
+    [Key]
     public int AddressId { get; set; }
 
     /// <summary>
