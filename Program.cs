@@ -2,8 +2,11 @@
 using BetaCycle4.Logger;
 using BetaCycle4.Models;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using WebAca5CodeFirst.Logic.Autentication.Basic;
 
 namespace BetaCycle4
@@ -23,10 +26,10 @@ namespace BetaCycle4
             builder.Services.AddSingleton(tracer);
 
             builder.Services.AddControllers();
-            
+
             builder.Services.AddEndpointsApiExplorer();
 
-            //AUTHENTICATION
+            #region BASIC AUTHENTICATION
             builder.Services.AddAuthentication()
             .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", opt => { });
             builder.Services.AddAuthorization(opts =>
@@ -34,6 +37,28 @@ namespace BetaCycle4
                 opts.AddPolicy("BasicAuthentication", new AuthorizationPolicyBuilder("BasicAuthentication")
                 .RequireAuthenticatedUser().Build());
             });
+            #endregion
+
+            #region JWT AUTHENTICATION
+            JwtSettings jwtSettings = new();
+            jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
+            builder.Services.AddSingleton(jwtSettings);
+
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opts =>
+            opts.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = jwtSettings.Issuer,
+                ValidAudience = jwtSettings.Audience,
+                RequireExpirationTime = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey))
+
+            });
+            #endregion
+
 
             builder.Services.AddSwaggerGen();
             builder.Services.AddDbContext<AdventureWorksLt2019Context>

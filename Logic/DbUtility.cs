@@ -8,8 +8,15 @@ using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using BetaCycle4.Models;
 using System.ComponentModel;
+<<<<<<< HEAD
 using BetaCycle4.Logger;
+=======
+<<<<<<< HEAD
+>>>>>>> a7114882871ec76d8dd19ce36097ef1d595ae3d8
 using BetaCycle4.Logic;
+=======
+using BetaCycle4.Logic.Authentication.EncryptionWithSha256;
+>>>>>>> Encryption
 
 
 namespace SqlManager.BLogic
@@ -41,7 +48,7 @@ namespace SqlManager.BLogic
             finally
             {
                 checkDbClose();
-            }
+        }
         }
         #endregion
 
@@ -106,7 +113,7 @@ namespace SqlManager.BLogic
                 }
             }
             catch (Exception e)
-            {
+        {
                 throw;
             }
             finally
@@ -125,7 +132,12 @@ namespace SqlManager.BLogic
             try
             {
                 checkDbOpen();
-                sqlCmd.CommandText = "SELECT EmailAddress FROM [dbo].[Credentials] WHERE [dbo].[Credentials].EmailAddress = @email";
+
+                //Criptazione della mail dato che nel db è criptata
+                email = EncryptionSHA256.sha256Encrypt(email);
+
+
+                sqlCmd.CommandText = "SELECT EmailAddressEncrypt FROM [dbo].[Credentials] WHERE [dbo].[Credentials].EmailAddressEncrypt = @email";
                 sqlCmd.Parameters.AddWithValue("@email", email);
                 sqlCmd.Connection = sqlCnn;
 
@@ -134,11 +146,11 @@ namespace SqlManager.BLogic
                     if (sqlReader.HasRows)
                     {
                         emailExists = true;
-                    }
+            }
                     else
                     {
                         emailExists = false;
-                    }
+        }
                 }
             }
             catch (Exception e)
@@ -153,7 +165,7 @@ namespace SqlManager.BLogic
             return emailExists;
         }
         #endregion
-
+        
         #region GetPasswordHashEndSalt From DB CustomerCredentials
         internal KeyValuePair<string,string> GetPasswordHashAndSalt(string email)
         {
@@ -162,7 +174,11 @@ namespace SqlManager.BLogic
             try
             {
                 checkDbOpen();
-                sqlCmd.CommandText = "SELECT PasswordHash, PasswordSalt from [dbo].[Credentials] WHERE [dbo].[Credentials].EmailAddress = @email";
+
+                //Criptazione della mail dato che nel db è criptata
+                email = EncryptionSHA256.sha256Encrypt(email);
+
+                sqlCmd.CommandText = "SELECT PasswordHash, PasswordSalt from [dbo].[Credentials] WHERE [dbo].[Credentials].EmailAddressEncrypt = @email";
                 sqlCmd.Parameters.AddWithValue("@email", email);
                 sqlCmd.Connection = sqlCnn;
 
@@ -177,6 +193,7 @@ namespace SqlManager.BLogic
                         }
                     }
                 }
+                checkDbClose();
             }
             catch (Exception)
             {
@@ -201,9 +218,9 @@ namespace SqlManager.BLogic
             if (sqlCnn.State == System.Data.ConnectionState.Closed)
             {
                 sqlCnn.Open();
-            }
-        }
-
+    }
+}
+            
         void checkDbClose()
         {
             if (sqlCnn.State == System.Data.ConnectionState.Open)

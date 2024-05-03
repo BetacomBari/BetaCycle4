@@ -50,7 +50,9 @@ public partial class AdventureWorksLt2019Context : DbContext
     public virtual DbSet<VProductModelCatalogDescription> VProductModelCatalogDescriptions { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+
         => optionsBuilder.UseSqlServer("Data Source=.\\SQLEXPRESS;Initial Catalog=AdventureWorksLT2019;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
+
 
 
 
@@ -225,23 +227,27 @@ public partial class AdventureWorksLt2019Context : DbContext
 
             entity.Property(e => e.CompanyName).HasMaxLength(128);
             entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
-            entity.Property(e => e.EmailAddress).HasMaxLength(50);
             entity.Property(e => e.FirstName).HasMaxLength(50);
-            entity.Property(e => e.IsElseWhere).HasDefaultValue(true);
             entity.Property(e => e.LastName).HasMaxLength(50);
             entity.Property(e => e.MiddleName).HasMaxLength(50);
             entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
+<<<<<<< HEAD
             entity.Property(e => e.PasswordHash)
                 .HasMaxLength(128)
                 .IsUnicode(false);
             entity.Property(e => e.PasswordSalt)
                 .HasMaxLength(10)
                 .IsUnicode(false);
+=======
+
+
+>>>>>>> a7114882871ec76d8dd19ce36097ef1d595ae3d8
             entity.Property(e => e.Phone).HasMaxLength(25);
             entity.Property(e => e.Rowguid).HasColumnName("rowguid");
             entity.Property(e => e.SalesPerson).HasMaxLength(256);
             entity.Property(e => e.Suffix).HasMaxLength(10);
             entity.Property(e => e.Title).HasMaxLength(8);
+            entity.Property(e => e.Role).HasDefaultValue(1);
         });
 
         modelBuilder.Entity<ErrorLog>(entity =>
