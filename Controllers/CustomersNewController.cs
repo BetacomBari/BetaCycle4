@@ -77,12 +77,18 @@ namespace BetaCycle4.Controllers
         // POST: api/CustomerNews
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<CustomerNew>> PostCustomerNew(CustomerNew customerNew)
+        public async Task<ActionResult<CustomerNew>> PostCustomerNew(CustomerNew customerNew, Credentials credential)
         {
             _context.CustomerNews.Add(customerNew);
             await _context.SaveChangesAsync();
 
             //se il nome è giusto ecc.. far partire la post per le credenziali
+
+            CredentialsController credentialsController = new CredentialsController();
+            Credentials credentials = credential;
+
+
+            bool isNewUser = credentialsController.PostCredentials(credentials);
 
             return CreatedAtAction("GetCustomerNew", new { id = customerNew.CustomerId }, customerNew);
         }

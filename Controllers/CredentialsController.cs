@@ -11,7 +11,7 @@ namespace BetaCycle4.Controllers
     public class CredentialsController : ControllerBase
     {
         [HttpPost]
-        public async Task<ActionResult> PostCredentials(Credentials credentials)
+        public bool PostCredentials(Credentials credentials)
         {
 
             DbUtility dbUtilityCredentials = new("Data Source=.\\SQLEXPRESS;Initial Catalog=CustomerCredentials;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
@@ -34,41 +34,41 @@ namespace BetaCycle4.Controllers
                 //CONTROLLO SE L'UTENTE È PRESENTE NELLA TABELLA VECCHIA E IN QUELLA NUOVA
                 if (isElseWhere == true && emailExists == true)
                 {
-                    return BadRequest("UTENTE GIÀ REGISTRATO");
+                    return false;
                 }
                 else if (isElseWhere == false && emailExists == true)
                 {
                     if (dbUtilityCredentials.CheckEmailDbCustomerCredentials(inputEmail))
                     {
-                        return BadRequest("UTENTE GIÀ REGISTRATO");
+                        return false;
                     }
                     else
                     {
                         //insert di credentials nel db credential
-                        return Ok();
+                        return true;
                     }
                 }
                 else if (emailExists == false)
                 {
                     if (dbUtilityCredentials.CheckEmailDbCustomerCredentials(inputEmail))
                     {
-                        return BadRequest("UTENTE GIÀ REGISTRATO");
+                        return false;
                     }
                     else
                     {
                         //insert di credentials nel db credential
-                        return Ok();
+                        return true;
                     }
                 }
 
             }
             catch (Exception ex)
             {
-                return BadRequest();
+                return false;
             }
-            return BadRequest();
+            return false;
         }
     }
 
 }
-}
+
