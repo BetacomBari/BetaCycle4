@@ -18,35 +18,35 @@
                             <div class="form-group pt-3">
                                 <div class="input-field">
                                     <span class="fa fa-user p-2"></span>
-                                    <input type="text" placeholder="First Name">
+                                    <input type="text" placeholder="First Name" #firstName>
                                 </div>
                             </div>
                             <!-- Middle Name -->
                             <div class="form-group pt-3">
                                 <div class="input-field">
                                     <span class="fa fa-user p-2"></span>
-                                    <input type="text" placeholder="Middle Name">
+                                    <input type="text" placeholder="Middle Name" #middleName>
                                 </div>
                             </div>
                             <!-- Last Name -->
                             <div class="form-group pt-3">
                                 <div class="input-field">
                                     <span class="fa fa-user p-2"></span>
-                                    <input type="text" placeholder="Last Name">
+                                    <input type="text" placeholder="Last Name" #lastName>
                                 </div>
                             </div>
                             <!-- Email -->
                             <div class="form-group pt-3">
                                 <div class="input-field">
                                     <span class="fa fa-user p-2"></span>
-                                    <input type="text" placeholder="Email">
+                                    <input type="text" placeholder="Email" #email>
                                 </div>
                             </div>
                             <!-- Password -->
                             <div class="form-group pt-3">
                                 <div class="input-field">
                                     <span class="fa-solid fa-lock"></span>
-                                    <input [type]=type placeholder="Password">
+                                    <input [type]=type placeholder="Password" #password>
                                     <span (click)="hideShowPassword()" class="fa {{eyeIcon}}"></span>
                                 </div>
                             </div>
@@ -62,7 +62,7 @@
                                 <a id="forget" class="font-weight-bold">Forget password?</a>
                             </div>
 
-                            <button type="submit" class="btn btn-primary btn-block mt-4 w-100">Sign Up</button>
+                            <button type="submit" class="btn btn-primary btn-block mt-4 w-100" (click)="createCustomer(firstName, middleName, lastName, email, password)">Sign Up</button>
                             <div class="text-center pt-4 text-muted">Aleady have account? <a id="forget"
                                     routerLink="/login">Login</a></div>
                         </form>
