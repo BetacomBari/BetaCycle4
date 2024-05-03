@@ -82,14 +82,6 @@ namespace BetaCycle4.Controllers
             _context.CustomerNews.Add(customerNew);
             await _context.SaveChangesAsync();
 
-            //se il nome è giusto ecc.. far partire la post per le credenziali
-
-            CredentialsController credentialsController = new CredentialsController();
-            //Credentials credentials = credential;
-
-
-            bool isNewUser = credentialsController.PostCredentials(credentials);
-
             return CreatedAtAction("GetCustomerNew", new { id = customerNew.CustomerId }, customerNew);
         }
 

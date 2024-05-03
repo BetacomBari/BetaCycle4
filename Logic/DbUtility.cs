@@ -216,7 +216,7 @@ namespace SqlManager.BLogic
                 sqlCmd.Parameters.AddWithValue("@CredentialsCnnId", credentials.CredentialsCnnId);
 
 
-                customerInsert = sqlCmd.ExecuteNonQuery();
+                credentialsInsert = sqlCmd.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
@@ -225,7 +225,7 @@ namespace SqlManager.BLogic
             finally
             { checkDbClose(); }
 
-            return customerInsert;
+            return credentialsInsert;
         }
         #endregion
 
