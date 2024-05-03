@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,16 +6,18 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BetaCycle4.Models;
+using SqlManager.BLogic;
+using Microsoft.Identity.Client.Platforms.Features.DesktopOs.Kerberos;
 
 namespace BetaCycle4.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CustomerNewsController : ControllerBase
+    public class CustomersNewController : ControllerBase
     {
         private readonly AdventureWorksLt2019Context _context;
 
-        public CustomerNewsController(AdventureWorksLt2019Context context)
+        public CustomersNewController(AdventureWorksLt2019Context context)
         {
             _context = context;
         }
