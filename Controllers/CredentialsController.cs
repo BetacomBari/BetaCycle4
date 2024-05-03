@@ -44,7 +44,7 @@ namespace BetaCycle4.Controllers
                     }
                     else
                     {
-                        
+                        dbUtilityCredentials.InsertCredentials(credentials);
                         return true;
                     }
                 }
@@ -56,7 +56,7 @@ namespace BetaCycle4.Controllers
                     }
                     else
                     {
-                        //insert di credentials nel db credential
+                        dbUtilityCredentials.InsertCredentials(credentials);
                         return true;
                     }
                 }

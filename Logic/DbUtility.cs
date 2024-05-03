@@ -197,7 +197,7 @@ namespace SqlManager.BLogic
         }
         #endregion
 
-        #region InsertCredentials
+        #region INSERT CREDENTIALS
         internal int InsertCredentials(Credentials credentials)
         {
             int credentialsInsert = 0;
@@ -228,7 +228,6 @@ namespace SqlManager.BLogic
             return credentialsInsert;
         }
         #endregion
-
 
         #region CHECK OPEN/CLOSE DB
         void checkDbOpen()
