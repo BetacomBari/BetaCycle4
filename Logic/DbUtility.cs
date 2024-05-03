@@ -9,6 +9,7 @@ using Microsoft.Data.SqlClient;
 using BetaCycle4.Models;
 using System.ComponentModel;
 using BetaCycle4.Logic.Authentication.EncryptionWithSha256;
+using BetaCycle4.Logic;
 
 
 namespace SqlManager.BLogic
@@ -40,7 +41,6 @@ namespace SqlManager.BLogic
         }
         }
         #endregion
-
 
         #region CheckIsElseWhere
         internal bool CheckIsElseWhere(string email)
@@ -197,6 +197,37 @@ namespace SqlManager.BLogic
         }
         #endregion
 
+        #region InsertCredentials
+        internal int InsertCredentials(Credentials credentials)
+        {
+            int credentialsInsert = 0;
+            try
+            {
+                checkDbOpen();
+
+                string emailAddressEncrypt = EncryptionSHA256.sha256Encrypt(credentials.EmailAddress);
+
+                KeyValuePair<string, string> passwordHashSalt= PasswordLogic.GetPasswordHashAndSalt(credentials.Password);
+
+                sqlCmd.CommandText = "INSERT INTO [dbo].[Credentials] ([EmailAddressEncrypt] ,[PasswordHash] ,[PasswordSalt] ,[CredentialsCnnId]) VALUES (@EmailAddressEncrypt, @PasswordHash, @PasswordSalt, )";
+                sqlCmd.Parameters.AddWithValue("@EmailAddressEncrypt", emailAddressEncrypt);
+                sqlCmd.Parameters.AddWithValue("@PasswordHash", passwordHashSalt.Key);
+                sqlCmd.Parameters.AddWithValue("@PasswordSalt", passwordHashSalt.Value);
+                sqlCmd.Parameters.AddWithValue("@CredentialsCnnId", credentials.CredentialsCnnId);
+
+
+                customerInsert = sqlCmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            { checkDbClose(); }
+
+            return customerInsert;
+        }
+        #endregion
 
 
         #region CHECK OPEN/CLOSE DB
