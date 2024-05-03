@@ -1,7 +1,10 @@
-﻿namespace BetaCycle4.Models;
+using System.ComponentModel.DataAnnotations;
+
+namespace BetaCycle4.Models;
 
 public partial class CustomerNew
 {
+    [Key]
     public int CustomerId { get; set; }
 
     public bool NameStyle { get; set; }

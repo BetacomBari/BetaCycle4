@@ -4,6 +4,7 @@ using BetaCycle4.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BetaCycle4.Migrations
 {
     [DbContext(typeof(AdventureWorksLt2019Context))]
-    partial class AdventureWorksLt2019ContextModelSnapshot : ModelSnapshot
+    [Migration("20240503104339_update")]
+    partial class update
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -283,16 +286,13 @@ namespace BetaCycle4.Migrations
 
             modelBuilder.Entity("BetaCycle4.Models.CustomerNew", b =>
                 {
-                    b.Property<int>("CustomerId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("CustomerID");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerId"));
-
                     b.Property<string>("CompanyName")
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int")
+                        .HasColumnName("CustomerID");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -338,9 +338,6 @@ namespace BetaCycle4.Migrations
                     b.Property<string>("Title")
                         .HasMaxLength(8)
                         .HasColumnType("nvarchar(8)");
-
-                    b.HasKey("CustomerId")
-                        .HasName("PK_CustomerNew_CustomerID");
 
                     b.ToTable("CustomerNew", (string)null);
                 });
