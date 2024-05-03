@@ -15,6 +15,7 @@ namespace BetaCycle4.Controllers
 
             credentialToPass.EmailAddress = customerRegister.EmailAddress;
             credentialToPass.Password = customerRegister.PasswordHash + "|" + customerRegister.PasswordSalt;
+            credentialToPass.CredentialsCnnId = customerRegister.CustomerId;
 
             customersNewToPass.CustomerId = customerRegister.CustomerId;
             customersNewToPass.NameStyle = customerRegister.NameStyle;
