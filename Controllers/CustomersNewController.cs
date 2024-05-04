@@ -79,7 +79,8 @@ namespace BetaCycle4.Controllers
         [HttpPost]
         public async Task<ActionResult<CustomerNew>> PostCustomerNew(CustomerNew customerNew)
         {
-            _context.CustomerNews.Add(customerNew);
+            CustomerNew customerNew1 = customerNew;
+            _context.CustomerNews.Add(customerNew1);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetCustomerNew", new { id = customerNew.CustomerId }, customerNew);

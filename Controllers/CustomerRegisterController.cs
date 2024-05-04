@@ -14,6 +14,11 @@ namespace BetaCycle4.Controllers
 
         private readonly AdventureWorksLt2019Context _context;
 
+        public CustomerRegisterController(AdventureWorksLt2019Context context)
+        {
+            _context = context;
+        }
+
         [HttpPost]
         public IActionResult Register(CustomerRegister customerRegister)
         {
