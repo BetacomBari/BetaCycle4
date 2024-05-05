@@ -1,4 +1,5 @@
 
+using BetaCycle4.Logic;
 using BetaCycle4.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -57,6 +58,9 @@ namespace BetaCycle4
             builder.Services.AddDbContext<AdventureWorksLt2019Context>
                 (opt => opt.UseSqlServer(
          builder.Configuration.GetConnectionString("ConnectionString")));
+
+            builder.Services.AddScoped<IEmailService, EmailService>();
+
             builder.Services.AddCors(opt =>
             {
                 opt.AddPolicy("CorsPolicy",

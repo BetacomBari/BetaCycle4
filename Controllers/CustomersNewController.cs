@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BetaCycle4.Models;
+using System.Security.Cryptography;
+using BetaCycle4.Logic;
 
 namespace BetaCycle4.Controllers
 {
@@ -14,10 +16,14 @@ namespace BetaCycle4.Controllers
     public class CustomerNewsController : ControllerBase
     {
         private readonly AdventureWorksLt2019Context _context;
+        private readonly IConfiguration _config;
+        private readonly IEmailService _emailService;
 
-        public CustomerNewsController(AdventureWorksLt2019Context context)
+        public CustomerNewsController(AdventureWorksLt2019Context context, IConfiguration config, EmailService emailService)
         {
             _context = context;
+            _config = config;
+            _emailService = emailService;   
         }
 
         // GET: api/CustomerNews
@@ -102,6 +108,69 @@ namespace BetaCycle4.Controllers
         private bool CustomerNewExists(int id)
         {
             return _context.CustomerNews.Any(e => e.CustomerId == id);
+        }
+
+        [HttpPost("send-reset-email/{email}")]
+        public async Task<IActionResult> sendEmail(string email)
+        {
+            // it should be done into credentials
+            var user = await _context.CustomerNews.FirstOrDefaultAsync(a => a.Email == email);
+            if (user is null)
+            {
+                return NotFound(new
+                {
+                    StatusCode = 404,
+                    Message = "email does not exist"
+                }) ;
+            }
+            var tokenBytes = RandomNumberGenerator.GetBytes(64);
+            var emailToken = Convert.ToBase64String(tokenBytes);
+            user.ResetPasswordToken = emailToken;
+            user.ResetPasswordExpiry = DateTime.Now.AddMinutes(15);
+            string from = _config["EmailSettings:From"];
+            var emailModel = new EmailModel(email, "Reset Password", EmailBody.EmailStringBody(email, emailToken));
+            _emailService.sendEmail(emailModel);
+            _context.Entry(user).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return Ok(new
+            {
+                StatusCode = 200,
+                Message = "Email sent"
+            });
+        }
+
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> resetPassword(ResetPassword resetPassword)
+        {
+            var newToken = resetPassword.EmailToken.Replace(" ", "+");
+            var customer = await _context.CustomerNews.AsNoTracking().FirstOrDefaultAsync(a => a.Email == resetPassword.Email);
+            if (customer is null)
+            {
+                return NotFound(new
+                {
+                    StatusCode = 404,
+                    Message = "Customer does not exist"
+                });
+            }
+            var tokenCode = customer.ResetPasswordToken;
+            DateTime emailTokenExpiry = customer.ResetPasswordExpiry;
+            if (tokenCode != resetPassword.EmailToken || emailTokenExpiry< DateTime.Now)
+            {
+                return BadRequest(new
+                {
+                    StatusCode = 400,
+                    message = "Token expired"
+                });
+            }
+            // customer.Password = cript password
+            _context.Entry(customer).State = EntityState.Modified;  
+            await _context.SaveChangesAsync();
+            return Ok(new
+            {
+                StatusCode = 200,
+                Message = "Password reset successfully"
+            });
         }
     }
 }
