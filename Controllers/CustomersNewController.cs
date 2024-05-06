@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BetaCycle4.Models;
+using SqlManager.BLogic;
+using Microsoft.Identity.Client.Platforms.Features.DesktopOs.Kerberos;
 using System.Security.Cryptography;
 using BetaCycle4.Logic;
 
@@ -13,13 +15,13 @@ namespace BetaCycle4.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CustomerNewsController : ControllerBase
+    public class CustomersNewController : ControllerBase
     {
         private readonly AdventureWorksLt2019Context _context;
         private readonly IConfiguration _config;
         private readonly IEmailService _emailService;
 
-        public CustomerNewsController(AdventureWorksLt2019Context context, IConfiguration config, EmailService emailService)
+        public CustomerNewsController(AdventureWorksLt2019Context context)
         {
             _context = context;
             _config = config;
