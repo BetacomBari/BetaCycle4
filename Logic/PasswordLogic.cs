@@ -5,7 +5,11 @@ namespace BetaCycle4.Logic
 {
     public static class PasswordLogic
     {
-        //DA STRING PASSWORD A PASSWORD HASH CON SALT
+        /// <summary>
+        /// DA STRING PASSWORD A PASSWORD HASH CON SALT
+        /// </summary>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public static KeyValuePair<string, string> GetPasswordHashAndSalt(string password)
         {
 
@@ -30,7 +34,13 @@ namespace BetaCycle4.Logic
         }
 
 
-        //VERIFICA SE LA INPUT PASSWORD è UGUALE A PASSWORD HASH CON IL proprio SALT
+        /// <summary>
+        /// VERIFICA SE LA INPUT PASSWORD è UGUALE A PASSWORD HASH CON IL proprio SALT
+        /// </summary>
+        /// <param name="encryptedResult"></param>
+        /// <param name="encryptedSalt"></param>
+        /// <param name="inputPassword"></param>
+        /// <returns></returns>
         public static bool Encrypted(string encryptedResult, string encryptedSalt, string inputPassword)
         {
             byte[] decryptSalt = Convert.FromBase64String(encryptedSalt);

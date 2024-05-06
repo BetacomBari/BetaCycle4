@@ -61,7 +61,7 @@ namespace BetaCycle4.Controllers
                         {
                             var token = GenerateJwtToken(inputEmail);
 
-
+                            _dbTracer.LogTrace(keyValuePair);
                             return Ok(new { token });
                         }
                         else
