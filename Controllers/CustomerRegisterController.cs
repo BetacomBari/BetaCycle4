@@ -48,41 +48,15 @@ namespace BetaCycle4.Controllers
 
 
             var result = customersNewController.PostCustomerNew(customersNewToPass);
-            if (result is CreatedAtActionResult)
+
+            if (credentialsController.PostCredentials(credentialToPass))
             {
-                // Creazione del cliente avvenuta con successo
-                if (credentialsController.PostCredentials(credentialToPass))
-                {
-                    return Ok();
-                }
+                return Ok();
             }
-            return BadRequest();
+            else
+            {
+                return BadRequest();
+            }           
         }
-
-
-        //public Tuple<Credentials, CustomerNew> splitInfo(CustomerRegister customerRegister)
-        //{
-        //    Credentials credentialToPass = new();
-        //    CustomerNew customersNewToPass = new();
-
-        //    credentialToPass.EmailAddress = customerRegister.EmailAddress;
-        //    credentialToPass.Password = customerRegister.PasswordHash + "|" + customerRegister.PasswordSalt;
-        //    credentialToPass.CredentialsCnnId = customerRegister.CustomerId;
-
-        //    customersNewToPass.CustomerId = customerRegister.CustomerId;
-        //    customersNewToPass.NameStyle = customerRegister.NameStyle;
-        //    customersNewToPass.Title = customerRegister.Title;
-        //    customersNewToPass.FirstName = customerRegister.FirstName;
-        //    customersNewToPass.MiddleName = customerRegister.MiddleName;
-        //    customersNewToPass.LastName = customerRegister.LastName;
-        //    customersNewToPass.Suffix = customerRegister.Suffix;
-        //    customersNewToPass.CompanyName = customerRegister.CompanyName;
-        //    customersNewToPass.SalesPerson = customerRegister.SalesPerson;
-        //    customersNewToPass.Phone = customerRegister.Phone;
-        //    customersNewToPass.Rowguid = customerRegister.Rowguid;
-        //    customersNewToPass.ModifiedDate = customerRegister.ModifiedDate;
-
-        //    return Tuple.Create(credentialToPass, customersNewToPass);
-        //}      
     }
 }

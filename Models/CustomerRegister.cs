@@ -75,5 +75,6 @@ namespace BetaCycle4.Models
 
         public int Role { get; set; }
 
+
     }
 }
