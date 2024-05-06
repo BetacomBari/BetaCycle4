@@ -30,7 +30,6 @@ public partial class CustomerNew
     public DateTime ModifiedDate { get; set; }
 
     public int Role { get; set; }
-    public string Martina {  get; set; }
 
 
 }
