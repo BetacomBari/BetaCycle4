@@ -25,7 +25,7 @@ namespace BetaCycle4.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(LoginCredentials credentials)
+        public IActionResult Login(Credentials credentials)
         {
 
             DbUtility dbUtilityLT2019 = new("Data Source=.\\SQLEXPRESS;Initial Catalog=AdventureWorksLT2019;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
