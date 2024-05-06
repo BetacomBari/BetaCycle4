@@ -36,7 +36,7 @@ namespace BetaCycle4.Logger
             }
             catch (Exception e) //Qualsiasi errore che avviene durante la comunicazione col db, lo scrivo su file
             {
-
+                PrintError(e.Source, e.Message, e.StackTrace);
             }
         }
         #endregion
