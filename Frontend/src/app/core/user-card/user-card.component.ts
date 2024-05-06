@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 export class UserCardComponent implements OnInit{
   constructor(){}
   @Input() userProfile: any;
+  @Input() email: any
 
   ngOnInit(): void {
       console.log(this.userProfile);

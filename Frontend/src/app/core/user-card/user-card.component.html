@@ -7,9 +7,12 @@
 
     </div>
 
-    <div class="user-info">
-        
-        <h2> {{userProfile.given_name}} {{userProfile.family_name}}</h2>
+    <div class="user-info">        
+        <h2> {{userProfile?.given_name}} {{userProfile?.family_name}}</h2>
         <p>{{userProfile.email}}</p>
+    </div>
+
+    <div class="general-user">
+        <p *ngIf="email">{{email}}</p>
     </div>
 </div>
