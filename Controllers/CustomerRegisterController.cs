@@ -13,6 +13,8 @@ namespace BetaCycle4.Controllers
     {
 
         private readonly AdventureWorksLt2019Context _context;
+        private readonly IConfiguration _config;
+        private readonly IEmailService _emailService;
 
         public CustomerRegisterController(AdventureWorksLt2019Context context)
         {
@@ -23,7 +25,7 @@ namespace BetaCycle4.Controllers
         public IActionResult Register(CustomerRegister customerRegister)
         {
             CredentialsController credentialsController = new CredentialsController();
-            CustomersNewController customersNewController = new CustomersNewController(_context);
+            CustomersNewController customersNewController = new CustomersNewController(_context, _config, _emailService);
 
             Credentials credentialToPass = new();
             CustomerNew customersNewToPass = new();

@@ -100,6 +100,7 @@ namespace SqlManager.BLogic
                         emailExists = false;
                     }
                 }
+
             }
             catch (Exception e)
             {
@@ -155,6 +156,59 @@ namespace SqlManager.BLogic
         }
         #endregion
 
+
+        internal CredentialDB credentialsFromEmail (string email)
+        {
+            CredentialDB credentials = new CredentialDB();
+            
+            try
+            {
+                checkDbOpen();
+
+                //Criptazione della mail dato che nel db è criptata
+                string emailEncrypt = EncryptionSHA256.sha256Encrypt(email);
+
+                sqlCmd.CommandText = "SELECT * FROM [dbo].[Credentials] WHERE [dbo].[Credentials].EmailAddressEncrypt = @email";
+                sqlCmd.Parameters.AddWithValue("@email", emailEncrypt);
+                sqlCmd.Connection = sqlCnn;
+
+                using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
+                {
+                    if (sqlReader.HasRows)
+                    {
+                        while (sqlReader.Read())
+                        {
+                            credentials.EmailAddressEncrypt = sqlReader["EmailAddressEncrypt"].ToString();
+                            credentials.PasswordHash = sqlReader["PasswordHash"].ToString();
+                            credentials.PasswordSalt = sqlReader["PasswordSalt"].ToString();
+                            credentials.ResetPasswordToken = sqlReader["ResetPasswordToken"].ToString();
+                            credentials.ResetPasswordExpiry = (sqlReader["ResetPasswordExpiry"]) as DateTime?;
+                            if (credentials.ResetPasswordExpiry == null)
+                            {
+                                // Set default value here
+                                credentials.ResetPasswordExpiry = DateTime.Now; // Example default (reset in 30 days)
+                            }
+                            credentials.CredentialsCnnId = Convert.ToInt16(sqlReader["CredentialsCnnId"]);
+                        }
+
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            finally
+            {
+                checkDbClose();
+            }
+
+            return credentials;
+        }
         #region GetPasswordHashEndSalt From DB CustomerCredentials
         internal KeyValuePair<string, string> GetPasswordHashAndSalt(string email)
         {
@@ -254,7 +308,7 @@ namespace SqlManager.BLogic
             { checkDbClose(); }
 
             return update;
-
+        }
 
             #region CHECK OPEN/CLOSE DB
             void checkDbOpen()
@@ -277,4 +331,3 @@ namespace SqlManager.BLogic
         }
         #endregion
     }
-}
