@@ -56,8 +56,10 @@ namespace BetaCycle4.Controllers
                     }
                     else
                     {
-                        dbUtilityCredentials.InsertCredentials(credentials);
-                        return true;
+                        if ( dbUtilityCredentials.InsertCredentials(credentials) == 1)
+                        {
+                            return true;
+                        }                       
                     }
                 }
 
