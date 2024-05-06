@@ -71,6 +71,12 @@ namespace BetaCycle4.Models
         /// Date and time the record was last updated.
         /// </summary>
         public DateTime ModifiedDate { get; set; }
+<<<<<<< HEAD
+
+        public int Role { get; set; }
+
+=======
         public int Role {  get; set; }
+>>>>>>> 9e8dd1639925524453800cb4cbd3f1c7f6fffce0
     }
 }
