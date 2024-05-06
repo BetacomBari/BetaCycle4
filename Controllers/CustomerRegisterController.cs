@@ -52,15 +52,24 @@ namespace BetaCycle4.Controllers
             //}
 
             var result = customersNewController.PostCustomerNew(customersNewToPass);
-            if (result is CreatedAtActionResult)
+            // Creazione del cliente avvenuta con successo
+            if (credentialsController.PostCredentials(credentialToPass))
             {
-                // Creazione del cliente avvenuta con successo
-                if (credentialsController.PostCredentials(credentialToPass))
-                {
-                    return Ok();
-                }
+                return Ok();
             }
-            return BadRequest();
+            //if (result is CreatedAtActionResult)
+            //{
+            //    // Creazione del cliente avvenuta con successo
+            //    if (credentialsController.PostCredentials(credentialToPass))
+            //    {
+            //        return Ok();
+            //    }
+            //}
+            else
+            {
+                return BadRequest();
+            }
+            
         }
 
 
