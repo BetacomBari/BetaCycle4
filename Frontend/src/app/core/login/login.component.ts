@@ -1,6 +1,6 @@
 import { HttpRequest, HttpStatusCode } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { HttprequestService } from '../../shared/services/httprequest.service';
+import { HttprequestService } from '../services/httprequest.service';
 import { Credientals } from '../../shared/models/credentials';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { UserCardComponent } from '../user-card/user-card.component';
 import { User } from '../../shared/models/user';
 import { NavbarComponent } from '../navbar/navbar.component';
+import { ResetPasswordService } from '../services/reset-password.service';
 declare var handleSignOut: any;
 
 @Component({
@@ -33,7 +34,7 @@ export class LoginComponent {
 
   loginCredientals: Credientals = new Credientals()
 
-  constructor(private http: HttprequestService, private router: Router) { }
+  constructor(private http: HttprequestService, private router: Router, private resetService: ResetPasswordService) { }
 
   
 
@@ -129,6 +130,17 @@ export class LoginComponent {
       const buttonRef = document.getElementById("closeBtn");
       buttonRef?.click();
       // API call
+      this.resetService.sendResetPasswordLink(this.resetPassword)
+      .subscribe({
+        next: (res) => {
+          this.resetPassword = "";
+          const buttonRef = document.getElementById("closeBtn");
+          buttonRef?.click();
+        },
+        error:(err)=>{
+          console.log(err);
+        }
+      })
     }
   }
 }

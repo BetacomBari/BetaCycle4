@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavbarComponent } from '../../../core/navbar/navbar.component';
-import { HttprequestService } from '../../../shared/services/httprequest.service';
+import { HttprequestService } from '../../../core/services/httprequest.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
