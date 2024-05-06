@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { Customer } from '../../shared/models/customer';
+import { HttprequestService } from '../../shared/services/httprequest.service';
+
 
 @Component({
   selector: 'app-signup',
@@ -14,6 +16,8 @@ export class SignupComponent {
   type: string = "password";
   isText: boolean = false;
   eyeIcon:string = "fa-eye-slash"
+
+  constructor(private mainhttp: HttprequestService) { }
 
   customer: Customer = new Customer();
 
@@ -30,6 +34,9 @@ export class SignupComponent {
     this.customer.lastName = lastName.value;
     this.customer.email = email.value;
     this.customer.password = password.value;
+
+    this.mainhttp.registerPost(this.customer);
+  
   }
 
 }

@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Credientals } from '../models/credentials';
 import { User } from '../models/user';
+import { Customer } from '../models/customer';
+import { observeNotification } from 'rxjs/internal/Notification';
 
 
 @Injectable({
@@ -15,6 +17,10 @@ export class HttprequestService {
   loginPost(credentials: Credientals): Observable<any>
   {
     return this.http.post(`https://localhost:7165/Login`, credentials, {observe: 'response'})
+  }
+
+  registerPost(customer: Customer):Observable<any>{
+    return this.http.post(`https://localhost:7165/api/CustomerRegister`, customer, {observe: 'response'})
   }
 
   postUser(user: User): Observable<any> {
