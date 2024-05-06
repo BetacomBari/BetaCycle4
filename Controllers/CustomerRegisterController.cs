@@ -44,6 +44,7 @@ namespace BetaCycle4.Controllers
             customersNewToPass.Phone = customerRegister.Phone;
             customersNewToPass.Rowguid = customerRegister.Rowguid;
             customersNewToPass.ModifiedDate = customerRegister.ModifiedDate;
+            customersNewToPass.Role = customerRegister.Role;
 
             //if (customersNewController.PostCustomerNew(customersNewToPass) == 200)
             //{
