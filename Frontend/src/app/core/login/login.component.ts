@@ -27,6 +27,8 @@ export class LoginComponent {
   logged_in: boolean = false;
   userProfile: any;
   user: User = new User();
+  resetPassword!: string;
+  isEmailForResetValid!: boolean;
 
 
   loginCredientals: Credientals = new Credientals()
@@ -107,5 +109,26 @@ export class LoginComponent {
     //   }
     // })
 
+  }
+
+  
+
+  checkValidEmailForReset(event: string){
+    const value = event;
+    //const pattern = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,3}$/;
+    let pattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/;
+    this.isEmailForResetValid = pattern.test(value);
+    console.log(this.isEmailForResetValid);
+    return this.isEmailForResetValid;
+  }
+
+  confirmToSend(){
+    if (this.checkValidEmailForReset(this.resetPassword)){
+      console.log(this.resetPassword);
+      this.resetPassword = "";
+      const buttonRef = document.getElementById("closeBtn");
+      buttonRef?.click();
+      // API call
+    }
   }
 }
