@@ -38,7 +38,7 @@ namespace SqlManager.BLogic
             finally
             {
                 checkDbClose();
-        }
+            }
         }
         #endregion
 
@@ -102,7 +102,7 @@ namespace SqlManager.BLogic
                 }
             }
             catch (Exception e)
-        {
+            {
                 throw;
             }
             finally
@@ -135,11 +135,11 @@ namespace SqlManager.BLogic
                     if (sqlReader.HasRows)
                     {
                         emailExists = true;
-            }
+                    }
                     else
                     {
                         emailExists = false;
-        }
+                    }
                 }
             }
             catch (Exception e)
@@ -154,9 +154,9 @@ namespace SqlManager.BLogic
             return emailExists;
         }
         #endregion
-        
+
         #region GetPasswordHashEndSalt From DB CustomerCredentials
-        internal KeyValuePair<string,string> GetPasswordHashAndSalt(string email)
+        internal KeyValuePair<string, string> GetPasswordHashAndSalt(string email)
         {
             string? pwrHash = string.Empty;
             string? pwrSalt = string.Empty;
@@ -197,7 +197,7 @@ namespace SqlManager.BLogic
         }
         #endregion
 
-        #region INSERT CREDENTIALS
+        #region Insert Ccredentials
         internal int InsertCredentials(Credentials credentials)
         {
             int credentialsInsert = 0;
@@ -207,7 +207,7 @@ namespace SqlManager.BLogic
 
                 string emailAddressEncrypt = EncryptionSHA256.sha256Encrypt(credentials.EmailAddress);
 
-                KeyValuePair<string, string> passwordHashSalt= PasswordLogic.GetPasswordHashAndSalt(credentials.Password);
+                KeyValuePair<string, string> passwordHashSalt = PasswordLogic.GetPasswordHashAndSalt(credentials.Password);
 
                 sqlCmd.CommandText = "INSERT INTO [dbo].[Credentials] ([EmailAddressEncrypt] ,[PasswordHash] ,[PasswordSalt] ,[CredentialsCnnId]) VALUES (@EmailAddressEncrypt, @PasswordHash, @PasswordSalt, @CredentialsCnnId)";
                 sqlCmd.Parameters.AddWithValue("@EmailAddressEncrypt", emailAddressEncrypt);
@@ -229,22 +229,51 @@ namespace SqlManager.BLogic
         }
         #endregion
 
-        #region CHECK OPEN/CLOSE DB
-        void checkDbOpen()
+        #region Update token Ccredentials
+        internal int UpdateTokenCredentials(string EmailAddressEncrypt, string ResetPasswordToken, DateTime ResetPasswordExpiry)
         {
-            if (sqlCnn.State == System.Data.ConnectionState.Closed)
+            int update = 0;
+
+            try
             {
-                sqlCnn.Open();
-    }
-}
-            
-        void checkDbClose()
-        {
-            if (sqlCnn.State == System.Data.ConnectionState.Closed)
-            {
-                sqlCnn.Close();
+                checkDbOpen();
+                sqlCmd.Connection = sqlCnn;
+                sqlCmd.CommandText = "UPDATE [dbo].[Credentials] SET [ResetPasswordToken] = @ResetPasswordToken ,[ResetPasswordExpiry] = @ResetPasswordExpiry WHERE [EmailAddressEncrypt] = @EmailAddressEncrypt";
+                sqlCmd.Parameters.AddWithValue("@EmailAddressEncrypt", EmailAddressEncrypt);
+                sqlCmd.Parameters.AddWithValue("@ResetPasswordToken", ResetPasswordToken);
+                sqlCmd.Parameters.AddWithValue("@ResetPasswordExpiry", ResetPasswordExpiry);
+
+
+                update = sqlCmd.ExecuteNonQuery();
             }
-            sqlCmd.Parameters.Clear();
+            catch (Exception ex)
+            {
+                Console.WriteLine($"ERRORE: {ex.Message}");
+            }
+            finally
+            { checkDbClose(); }
+
+            return update;
+
+
+            #region CHECK OPEN/CLOSE DB
+            void checkDbOpen()
+            {
+                if (sqlCnn.State == System.Data.ConnectionState.Closed)
+                {
+                    sqlCnn.Open();
+                }
+            }
+
+            void checkDbClose()
+            {
+                if (sqlCnn.State == System.Data.ConnectionState.Closed)
+                {
+                    sqlCnn.Close();
+                }
+                sqlCmd.Parameters.Clear();
+            }
+            #endregion
         }
         #endregion
     }

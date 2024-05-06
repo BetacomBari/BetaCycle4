@@ -21,11 +21,11 @@ namespace BetaCycle4.Controllers
         private readonly IConfiguration _config;
         private readonly IEmailService _emailService;
 
-        public CustomerNewsController(AdventureWorksLt2019Context context)
+        public CustomersNewController(AdventureWorksLt2019Context context, IConfiguration config, IEmailService emailService)
         {
             _context = context;
             _config = config;
-            _emailService = emailService;   
+            _emailService = emailService;
         }
 
         // GET: api/CustomerNews
