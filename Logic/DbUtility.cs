@@ -209,7 +209,7 @@ namespace SqlManager.BLogic
 
                 KeyValuePair<string, string> passwordHashSalt= PasswordLogic.GetPasswordHashAndSalt(credentials.Password);
 
-                sqlCmd.CommandText = "INSERT INTO [dbo].[Credentials] ([EmailAddressEncrypt] ,[PasswordHash] ,[PasswordSalt] ,[CredentialsCnnId]) VALUES (@EmailAddressEncrypt, @PasswordHash, @PasswordSalt, )";
+                sqlCmd.CommandText = "INSERT INTO [dbo].[Credentials] ([EmailAddressEncrypt] ,[PasswordHash] ,[PasswordSalt] ,[CredentialsCnnId]) VALUES (@EmailAddressEncrypt, @PasswordHash, @PasswordSalt, @CredentialsCnnId)";
                 sqlCmd.Parameters.AddWithValue("@EmailAddressEncrypt", emailAddressEncrypt);
                 sqlCmd.Parameters.AddWithValue("@PasswordHash", passwordHashSalt.Key);
                 sqlCmd.Parameters.AddWithValue("@PasswordSalt", passwordHashSalt.Value);

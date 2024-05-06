@@ -32,7 +32,7 @@ namespace BetaCycle4.Controllers
             credentialToPass.Password = customerRegister.Password;
             credentialToPass.CredentialsCnnId = customerRegister.CustomerId;
 
-            //customersNewToPass.CustomerId = customerRegister.CustomerId;
+            customersNewToPass.CustomerId = customerRegister.CustomerId;
             customersNewToPass.NameStyle = customerRegister.NameStyle;
             customersNewToPass.Title = customerRegister.Title;
             customersNewToPass.FirstName = customerRegister.FirstName;
@@ -46,10 +46,6 @@ namespace BetaCycle4.Controllers
             customersNewToPass.ModifiedDate = customerRegister.ModifiedDate;
             customersNewToPass.Role = customerRegister.Role;
 
-            //if (customersNewController.PostCustomerNew(customersNewToPass) == 200)
-            //{
-            //    credentialsController.PostCredentials(credentialToPass)
-            //}
 
             var result = customersNewController.PostCustomerNew(customersNewToPass);
             // Creazione del cliente avvenuta con successo
