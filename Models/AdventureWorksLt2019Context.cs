@@ -60,6 +60,7 @@ public partial class AdventureWorksLt2019Context : DbContext
     {
         modelBuilder.UseCollation("SQL_Latin1_General_CP1_CI_AS");
 
+
         modelBuilder.Entity<Address>(entity =>
         {
             entity.HasKey(e => e.AddressId).HasName("PK_Address_AddressID");
@@ -221,27 +222,15 @@ public partial class AdventureWorksLt2019Context : DbContext
 
         modelBuilder.Entity<CustomerNew>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("CustomerNew");
+            entity.ToTable("CustomerNew");
 
+            entity.HasKey(e => e.CustomerId).HasName("PK_CustomerNew_CustomerID");
             entity.Property(e => e.CompanyName).HasMaxLength(128);
             entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
             entity.Property(e => e.FirstName).HasMaxLength(50);
             entity.Property(e => e.LastName).HasMaxLength(50);
             entity.Property(e => e.MiddleName).HasMaxLength(50);
             entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
-<<<<<<< HEAD
-            entity.Property(e => e.PasswordHash)
-                .HasMaxLength(128)
-                .IsUnicode(false);
-            entity.Property(e => e.PasswordSalt)
-                .HasMaxLength(10)
-                .IsUnicode(false);
-=======
-
-
->>>>>>> a7114882871ec76d8dd19ce36097ef1d595ae3d8
             entity.Property(e => e.Phone).HasMaxLength(25);
             entity.Property(e => e.Rowguid).HasColumnName("rowguid");
             entity.Property(e => e.SalesPerson).HasMaxLength(256);
