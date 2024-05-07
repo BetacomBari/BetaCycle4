@@ -1,0 +1,11 @@
+namespace BetaCycle4.Models
+{
+    public class Credentials
+    {
+        public string EmailAddress { get; set; }
+        public string Password { get; set; }
+        public int CredentialsCnnId { get; set; }
+        public string? ResetPasswordToken { get; set; }
+        public DateTime? ResetPasswordExpiry { get; set; }
+    }
+}

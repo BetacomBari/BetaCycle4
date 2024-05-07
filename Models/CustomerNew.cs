@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace BetaCycle4.Models;
 
 public partial class CustomerNew
 {
+    [Key]
     public int CustomerId { get; set; }
 
     public bool NameStyle { get; set; }
@@ -23,17 +23,18 @@ public partial class CustomerNew
 
     public string? SalesPerson { get; set; }
 
-    public string? EmailAddress { get; set; }
-
     public string? Phone { get; set; }
-
-    public string PasswordHash { get; set; } = null!;
-
-    public string PasswordSalt { get; set; } = null!;
 
     public Guid Rowguid { get; set; }
 
-    public DateTime ModifieDate { get; set; }
+    public DateTime ModifiedDate { get; set; }
 
-    public bool? IsElseWhere { get; set; }
+    public int Role { get; set; }
+
+    public string Email { get; set; }
+
+    public string? ResetPasswordToken { get; set; }
+    public DateTime ResetPasswordExpiry {  get; set; }
+
+
 }
