@@ -1,4 +1,5 @@
 
+using BetaCycle4.Logger;
 using BetaCycle4.Logic;
 using BetaCycle4.Models;
 using Microsoft.AspNetCore.Authentication;
@@ -18,6 +19,12 @@ namespace BetaCycle4
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+
+            DbTracer tracer = new DbTracer();
+
+            //Imposto il tracer come singleton in modo tale da poterlo iniettare dove mi serve per usufruire
+            //dei suoi metodi ove ne ho bisogno -S
+            builder.Services.AddSingleton(tracer);
 
             builder.Services.AddControllers();
 

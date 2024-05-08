@@ -8,6 +8,13 @@ using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using BetaCycle4.Models;
 using System.ComponentModel;
+<<<<<<< HEAD
+using BetaCycle4.Logger;
+=======
+<<<<<<< HEAD
+>>>>>>> a7114882871ec76d8dd19ce36097ef1d595ae3d8
+using BetaCycle4.Logic;
+=======
 using BetaCycle4.Logic.Authentication.EncryptionWithSha256;
 using BetaCycle4.Logic;
 using System.Security.Cryptography;
@@ -31,14 +38,17 @@ namespace SqlManager.BLogic
             sqlCnn.ConnectionString = sqlConnectionString;
             try
             {
+                int x = 0;
+                Console.WriteLine(1 / x);
                 using SqlConnection sqlConnection = sqlCnn;
                 sqlConnection.Open(); //lo apro, se va tutto bene reinizializza la connessione 
                 sqlCnn = new SqlConnection(sqlConnection.ConnectionString);
                 IsDbStatusValid = true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                DbTracer error = new DbTracer();
+                error.InsertError(e.Message, e.HResult, e.StackTrace);
             }
             finally
             {

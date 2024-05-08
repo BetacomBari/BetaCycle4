@@ -28,6 +28,8 @@ public partial class CustomerNew
     public Guid Rowguid { get; set; }
 
     public DateTime ModifiedDate { get; set; }
+<<<<<<< HEAD
+=======
 
     public int Role { get; set; }
 
