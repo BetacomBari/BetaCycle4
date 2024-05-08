@@ -32,7 +32,7 @@ namespace BetaCycle4.Controllers
             credentialToPass.Password = customerRegister.Password;
             credentialToPass.CredentialsCnnId = customerRegister.CustomerId;
 
-            //customersNewToPass.CustomerId = customerRegister.CustomerId;
+            customersNewToPass.CustomerId = customerRegister.CustomerId;
             customersNewToPass.NameStyle = customerRegister.NameStyle;
             customersNewToPass.Title = customerRegister.Title;
             customersNewToPass.FirstName = customerRegister.FirstName;
@@ -44,11 +44,8 @@ namespace BetaCycle4.Controllers
             customersNewToPass.Phone = customerRegister.Phone;
             customersNewToPass.Rowguid = customerRegister.Rowguid;
             customersNewToPass.ModifiedDate = customerRegister.ModifiedDate;
+            customersNewToPass.Role = customerRegister.Role;
 
-            //if (customersNewController.PostCustomerNew(customersNewToPass) == 200)
-            //{
-            //    credentialsController.PostCredentials(credentialToPass)
-            //}
 
             var result = customersNewController.PostCustomerNew(customersNewToPass);
             if (result is CreatedAtActionResult)
@@ -60,32 +57,6 @@ namespace BetaCycle4.Controllers
                 }
             }
             return BadRequest();
-        }
-
-
-        //public Tuple<Credentials, CustomerNew> splitInfo(CustomerRegister customerRegister)
-        //{
-        //    Credentials credentialToPass = new();
-        //    CustomerNew customersNewToPass = new();
-
-        //    credentialToPass.EmailAddress = customerRegister.EmailAddress;
-        //    credentialToPass.Password = customerRegister.PasswordHash + "|" + customerRegister.PasswordSalt;
-        //    credentialToPass.CredentialsCnnId = customerRegister.CustomerId;
-
-        //    customersNewToPass.CustomerId = customerRegister.CustomerId;
-        //    customersNewToPass.NameStyle = customerRegister.NameStyle;
-        //    customersNewToPass.Title = customerRegister.Title;
-        //    customersNewToPass.FirstName = customerRegister.FirstName;
-        //    customersNewToPass.MiddleName = customerRegister.MiddleName;
-        //    customersNewToPass.LastName = customerRegister.LastName;
-        //    customersNewToPass.Suffix = customerRegister.Suffix;
-        //    customersNewToPass.CompanyName = customerRegister.CompanyName;
-        //    customersNewToPass.SalesPerson = customerRegister.SalesPerson;
-        //    customersNewToPass.Phone = customerRegister.Phone;
-        //    customersNewToPass.Rowguid = customerRegister.Rowguid;
-        //    customersNewToPass.ModifiedDate = customerRegister.ModifiedDate;
-
-        //    return Tuple.Create(credentialToPass, customersNewToPass);
-        //}      
+        }   
     }
 }
