@@ -26,14 +26,9 @@ namespace BetaCycle4.Models
 
         public DateTime ModifiedDate { get; set; }
 
+
         public int Role { get; set; }
 
 
-        //------------------------------------
-
-
-        public string EmailAddress { get; set; }
-        public string Password { get; set; }
-        public int CredentialsCnnId { get; set; }
     }
 }

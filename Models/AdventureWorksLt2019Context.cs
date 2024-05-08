@@ -231,6 +231,7 @@ public partial class AdventureWorksLt2019Context : DbContext
             entity.Property(e => e.LastName).HasMaxLength(50);
             entity.Property(e => e.MiddleName).HasMaxLength(50);
             entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
+            entity.Property(e => e.EmailAddress).HasMaxLength(50);
             entity.Property(e => e.Phone).HasMaxLength(25);
             entity.Property(e => e.Rowguid).HasColumnName("rowguid");
             entity.Property(e => e.SalesPerson).HasMaxLength(256);

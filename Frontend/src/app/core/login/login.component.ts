@@ -1,6 +1,6 @@
 import { HttpRequest, HttpStatusCode } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { HttprequestService } from '../../shared/services/httprequest.service';
+import { HttprequestService } from '../services/httprequest.service';
 import { Credientals } from '../../shared/models/credentials';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { UserCardComponent } from '../user-card/user-card.component';
 import { User } from '../../shared/models/user';
 import { NavbarComponent } from '../navbar/navbar.component';
+import { ResetPasswordService } from '../services/reset-password.service';
 declare var handleSignOut: any;
 
 @Component({
@@ -27,11 +28,13 @@ export class LoginComponent {
   logged_in: boolean = false;
   userProfile: any;
   user: User = new User();
+  resetPassword!: string;
+  isEmailForResetValid!: boolean;
 
 
   loginCredientals: Credientals = new Credientals()
 
-  constructor(private http: HttprequestService, private router: Router) { }
+  constructor(private http: HttprequestService, private router: Router, private resetService: ResetPasswordService) { }
 
   
 
@@ -107,5 +110,37 @@ export class LoginComponent {
     //   }
     // })
 
+  }
+
+  
+
+  checkValidEmailForReset(event: string){
+    const value = event;
+    //const pattern = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,3}$/;
+    let pattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/;
+    this.isEmailForResetValid = pattern.test(value);
+    console.log(this.isEmailForResetValid);
+    return this.isEmailForResetValid;
+  }
+
+  confirmToSend(){
+    if (this.checkValidEmailForReset(this.resetPassword)){
+      console.log(this.resetPassword);
+      this.resetPassword = "";
+      const buttonRef = document.getElementById("closeBtn");
+      buttonRef?.click();
+      // API call
+      this.resetService.sendResetPasswordLink(this.resetPassword)
+      .subscribe({
+        next: (res) => {
+          this.resetPassword = "";
+          const buttonRef = document.getElementById("closeBtn");
+          buttonRef?.click();
+        },
+        error:(err)=>{
+          console.log(err);
+        }
+      })
+    }
   }
 }
