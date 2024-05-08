@@ -10,6 +10,7 @@ using SqlManager.BLogic;
 using Microsoft.Identity.Client.Platforms.Features.DesktopOs.Kerberos;
 using System.Security.Cryptography;
 using BetaCycle4.Logic;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace BetaCycle4.Controllers
 {
@@ -112,6 +113,8 @@ namespace BetaCycle4.Controllers
             return _context.CustomerNews.Any(e => e.CustomerId == id);
         }
 
+        
+
         [HttpPost("send-reset-email/{email}")]
         public async Task<IActionResult> sendEmail(string email)
         {
@@ -138,8 +141,9 @@ namespace BetaCycle4.Controllers
             string from = _config["EmailSettings:From"];
             var emailModel = new EmailModel(email, "Reset Password", EmailBody.EmailStringBody(email, emailToken));
             _emailService.sendEmail(emailModel);
-            _context.Entry(credentialDB).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+            //_context.Entry(credentialDB).State = EntityState.Modified;
+            //await _context.SaveChangesAsync();
+            dbUtilityCredentials.writeInfoOnDb(credentialDB);
             return Ok(new
             {
                 StatusCode = 200,
@@ -176,38 +180,66 @@ namespace BetaCycle4.Controllers
         }
 
 
-        //[HttpPost("reset-password")]
-        //public async Task<IActionResult> resetPassword(ResetPassword resetPassword)
-        //{
 
-        //    var newToken = resetPassword.EmailToken.Replace(" ", "+");
-        //    var customer = await _context.CustomerNews.AsNoTracking().FirstOrDefaultAsync(a => a.Email == resetPassword.Email);
-        //    if (customer is null)
+
+
+
+
+
+
+
+
+        //var newToken = resetPassword.EmailToken.Replace(" ", "+");
+        //var customer = await _context.CustomerNews.AsNoTracking().FirstOrDefaultAsync(a => a.Email == resetPassword.Email);
+        //if (customer is null)
+        //{
+        //    return NotFound(new
         //    {
-        //        return NotFound(new
-        //        {
-        //            StatusCode = 404,
-        //            Message = "Customer does not exist"
-        //        });
-        //    }
-        //    var tokenCode = customer.ResetPasswordToken;
-        //    DateTime emailTokenExpiry = customer.ResetPasswordExpiry;
-        //    if (tokenCode != resetPassword.EmailToken || emailTokenExpiry< DateTime.Now)
-        //    {
-        //        return BadRequest(new
-        //        {
-        //            StatusCode = 400,
-        //            message = "Token expired"
-        //        });
-        //    }
-        //    // customer.Password = cript password
-        //    _context.Entry(customer).State = EntityState.Modified;  
-        //    await _context.SaveChangesAsync();
-        //    return Ok(new
-        //    {
-        //        StatusCode = 200,
-        //        Message = "Password reset successfully"
+        //        StatusCode = 404,
+        //        Message = "Customer does not exist"
         //    });
         //}
+
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> resetPassword(ResetPassword resetPassword)
+        {
+            DbUtility dbUtilityCredentials = new("Data Source=.\\SQLEXPRESS;Initial Catalog=CustomerCredentials;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
+            CredentialDB credentialDB = new CredentialDB();
+            
+            credentialDB = dbUtilityCredentials.credentialsFromEmail(resetPassword.Email);
+
+            if (credentialDB is null)
+            {
+                return NotFound(new
+                {
+                    statuscode = 404,
+                    message = "email does not exist"
+                });
+            }
+
+
+            
+
+            var tokenCode = credentialDB.ResetPasswordToken;           
+            DateTime emailTokenExpiry = (DateTime)credentialDB.ResetPasswordExpiry;
+            if (tokenCode != resetPassword.EmailToken || emailTokenExpiry < DateTime.Now)
+            {
+                return BadRequest(new
+                {
+                    StatusCode = 400,
+                    message = "Token expired"
+                });
+            }
+            // customer.Password = cript password
+            //_context.Entry(customer).State = EntityState.Modified;
+            //await _context.SaveChangesAsync();
+            dbUtilityCredentials.writeNewPasswordOnDb(resetPassword);
+            return Ok(new
+            {
+                StatusCode = 200,
+                Message = "Password reset successfully"
+            });
+        }
     }
 }

@@ -10,6 +10,11 @@ using BetaCycle4.Models;
 using System.ComponentModel;
 using BetaCycle4.Logic.Authentication.EncryptionWithSha256;
 using BetaCycle4.Logic;
+using System.Security.Cryptography;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using Microsoft.Identity.Client.Platforms.Features.DesktopOs.Kerberos;
+using System.Net;
 
 
 namespace SqlManager.BLogic
@@ -157,10 +162,13 @@ namespace SqlManager.BLogic
         #endregion
 
 
-        internal CredentialDB credentialsFromEmail (string email)
+        internal CredentialDB credentialsFromEmail(string email)
         {
             CredentialDB credentials = new CredentialDB();
-            
+            //var tokenBytes = RandomNumberGenerator.GetBytes(64);
+            //var emailToken = Convert.ToBase64String(tokenBytes);
+            //emailToken = emailToken.Replace(" ", "+");
+
             try
             {
                 checkDbOpen();
@@ -182,6 +190,7 @@ namespace SqlManager.BLogic
                             credentials.PasswordHash = sqlReader["PasswordHash"].ToString();
                             credentials.PasswordSalt = sqlReader["PasswordSalt"].ToString();
                             credentials.ResetPasswordToken = sqlReader["ResetPasswordToken"].ToString();
+                            //credentials.ResetPasswordToken = emailToken;
                             credentials.ResetPasswordExpiry = (sqlReader["ResetPasswordExpiry"]) as DateTime?;
                             if (credentials.ResetPasswordExpiry == null)
                             {
@@ -209,6 +218,76 @@ namespace SqlManager.BLogic
 
             return credentials;
         }
+
+        internal void writeInfoOnDb(CredentialDB credentialDBToInsert)
+        {
+            CredentialDB credentialDb = new CredentialDB();
+            try
+            {
+                checkDbOpen();
+
+                //string emailAddressEncrypt = EncryptionSHA256.sha256Encrypt(credentials.EmailAddress);
+
+                //KeyValuePair<string, string> passwordHashSalt = PasswordLogic.GetPasswordHashAndSalt(credentials.Password);
+
+                sqlCmd.CommandText = "UPDATE [dbo].[Credentials] SET PasswordHash=@PasswordHash ,PasswordSalt=@PasswordSalt ,CredentialsCnnId=@CredentialsCnnId, ResetPasswordToken=@ResetPasswordToken, ResetPasswordExpiry=@ResetPasswordExpiry WHERE EmailAddressEncrypt=@EmailAddressEncrypt";
+                sqlCmd.Parameters.AddWithValue("@EmailAddressEncrypt", credentialDBToInsert.EmailAddressEncrypt);
+                sqlCmd.Parameters.AddWithValue("@PasswordHash", credentialDBToInsert.PasswordHash);
+                sqlCmd.Parameters.AddWithValue("@PasswordSalt", credentialDBToInsert.PasswordSalt);
+                sqlCmd.Parameters.AddWithValue("@CredentialsCnnId", credentialDBToInsert. CredentialsCnnId);
+                sqlCmd.Parameters.AddWithValue("@ResetPasswordToken", credentialDBToInsert.ResetPasswordToken);
+                sqlCmd.Parameters.AddWithValue("@ResetPasswordExpiry", credentialDBToInsert.ResetPasswordExpiry);
+
+
+                sqlCmd.ExecuteNonQuery();
+                
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            { checkDbClose(); }
+
+            
+        }
+
+
+        internal void writeNewPasswordOnDb(BetaCycle4.Models.ResetPassword resetPassword)
+        {
+            string passwordHash;
+            string passwordSalt;
+            KeyValuePair<string, string> passwordHashSalt = PasswordLogic.GetPasswordHashAndSalt(resetPassword.NewPassword);
+            try
+            {
+                checkDbOpen();
+
+                string emailAddressEncrypt = EncryptionSHA256.sha256Encrypt(resetPassword.Email);
+
+                //KeyValuePair<string, string> passwordHashSalt = PasswordLogic.GetPasswordHashAndSalt(credentials.Password);
+
+                sqlCmd.CommandText = "UPDATE [dbo].[Credentials] SET PasswordHash=@PasswordHash ,PasswordSalt=@PasswordSalt WHERE EmailAddressEncrypt=@EmailAddressEncrypt";
+                sqlCmd.Parameters.AddWithValue("@EmailAddressEncrypt", emailAddressEncrypt);
+                sqlCmd.Parameters.AddWithValue("@PasswordHash", passwordHashSalt.Key);
+                sqlCmd.Parameters.AddWithValue("@PasswordSalt", passwordHashSalt.Value);
+
+
+
+                sqlCmd.ExecuteNonQuery();
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            { checkDbClose(); }
+
+
+        }
+
+
+
         #region GetPasswordHashEndSalt From DB CustomerCredentials
         internal KeyValuePair<string, string> GetPasswordHashAndSalt(string email)
         {
