@@ -1,16 +1,34 @@
-using BetaCycle4.Logic;
+﻿using BetaCycle4.Logic.Authentication.EncryptionWithSha256;
+using BetaCycle4.Migrations;
 using BetaCycle4.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SqlManager.BLogic;
+using System.Data.SqlTypes;
 
-namespace BetaCycle4.Controllers
+namespace BetaCycle4.Logic.Register
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class CredentialsController : ControllerBase
+    public class RegisterLogic
     {
-        [HttpPost]
+        private readonly AdventureWorksLt2019Context _context;
+
+        public RegisterLogic(AdventureWorksLt2019Context context)
+        {
+            _context = context;
+        }
+
+
+        #region PostCustomerNew
+        public async Task<CustomerNew> PostCustomerNew(CustomerNew customerNew)
+        {
+            _context.CustomerNews.Add(customerNew);
+            await _context.SaveChangesAsync();
+
+            return customerNew;
+        }
+        #endregion
+
+        #region PostCredentials
         public bool PostCredentials(Credentials credentials)
         {
 
@@ -19,7 +37,6 @@ namespace BetaCycle4.Controllers
 
 
             string inputEmail = credentials.EmailAddress;
-            string inputPassword = credentials.Password;
 
             bool emailExists = false;
             bool isElseWhere = false;
@@ -30,8 +47,6 @@ namespace BetaCycle4.Controllers
                 {
                     isElseWhere = dbUtilityLT2019.CheckIsElseWhere(inputEmail);
                 }
-
-                //CONTROLLO SE L'UTENTE È PRESENTE NELLA TABELLA VECCHIA E IN QUELLA NUOVA
                 if (isElseWhere == true && emailExists == true)
                 {
                     return false;
@@ -44,8 +59,10 @@ namespace BetaCycle4.Controllers
                     }
                     else
                     {
-                        dbUtilityCredentials.InsertCredentials(credentials);
-                        return true;
+                        if (dbUtilityCredentials.InsertCredentials(credentials) == 1)
+                        {
+                            return true;
+                        }
                     }
                 }
                 else if (emailExists == false)
@@ -56,13 +73,12 @@ namespace BetaCycle4.Controllers
                     }
                     else
                     {
-                        if ( dbUtilityCredentials.InsertCredentials(credentials) == 1)
+                        if (dbUtilityCredentials.InsertCredentials(credentials) == 1)
                         {
                             return true;
-                        }                       
+                        }
                     }
                 }
-
             }
             catch (Exception ex)
             {
@@ -70,7 +86,8 @@ namespace BetaCycle4.Controllers
             }
             return false;
         }
+        #endregion
+
+       
     }
-
 }
-

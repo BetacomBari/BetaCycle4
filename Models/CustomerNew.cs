@@ -23,6 +23,8 @@ public partial class CustomerNew
 
     public string? SalesPerson { get; set; }
 
+    public string? EmailAddress { get; set; }
+
     public string? Phone { get; set; }
 
     public Guid Rowguid { get; set; }
@@ -31,10 +33,8 @@ public partial class CustomerNew
 
     public int Role { get; set; }
 
-    public string Email { get; set; }
 
-    public string? ResetPasswordToken { get; set; }
-    public DateTime ResetPasswordExpiry {  get; set; }
+
 
 
 }

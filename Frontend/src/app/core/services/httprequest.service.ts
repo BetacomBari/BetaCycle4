@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Credientals } from '../models/credentials';
-import { User } from '../models/user';
+import { Credientals } from '../../shared/models/credentials';
+import { User } from '../../shared/models/user';
 
 
 @Injectable({

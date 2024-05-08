@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ResetPassword } from '../models/reset-password';
+import { ResetPassword } from '../../shared/models/reset-password';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ResetPasswordService {
-  private baseUrl = "https://localhost:7165/api/CustomerNews/"
+  private baseUrl = "https://localhost:7165/api/CustomersNew"
 
   constructor(private http: HttpClient) { }
 

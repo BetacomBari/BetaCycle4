@@ -32,7 +32,7 @@ namespace BetaCycle4.Logic
             {
                 try
                 {
-                    client.Connect(_config["EmailSettings:SmtpServer"], 465, true);
+                    client.Connect(_config["EmailSettings:SmtpService"], 465, true);
                     client.Authenticate(_config["EmailSettings:From"], _config["EmailSettings:Password"]);
                     client.Send(emailMessage);
                 }
