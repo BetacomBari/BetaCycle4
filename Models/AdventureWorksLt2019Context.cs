@@ -231,17 +231,10 @@ public partial class AdventureWorksLt2019Context : DbContext
             entity.Property(e => e.LastName).HasMaxLength(50);
             entity.Property(e => e.MiddleName).HasMaxLength(50);
             entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
-<<<<<<< HEAD
-            entity.Property(e => e.PasswordHash)
-                .HasMaxLength(128)
-                .IsUnicode(false);
-            entity.Property(e => e.PasswordSalt)
-                .HasMaxLength(10)
-                .IsUnicode(false);
-=======
 
 
->>>>>>> a7114882871ec76d8dd19ce36097ef1d595ae3d8
+
+
             entity.Property(e => e.Phone).HasMaxLength(25);
             entity.Property(e => e.Rowguid).HasColumnName("rowguid");
             entity.Property(e => e.SalesPerson).HasMaxLength(256);

@@ -8,15 +8,13 @@ using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using BetaCycle4.Models;
 using System.ComponentModel;
-<<<<<<< HEAD
+
 using BetaCycle4.Logger;
-=======
-<<<<<<< HEAD
->>>>>>> a7114882871ec76d8dd19ce36097ef1d595ae3d8
+
 using BetaCycle4.Logic;
-=======
+
 using BetaCycle4.Logic.Authentication.EncryptionWithSha256;
-using BetaCycle4.Logic;
+
 using System.Security.Cryptography;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
@@ -244,13 +242,13 @@ namespace SqlManager.BLogic
                 sqlCmd.Parameters.AddWithValue("@EmailAddressEncrypt", credentialDBToInsert.EmailAddressEncrypt);
                 sqlCmd.Parameters.AddWithValue("@PasswordHash", credentialDBToInsert.PasswordHash);
                 sqlCmd.Parameters.AddWithValue("@PasswordSalt", credentialDBToInsert.PasswordSalt);
-                sqlCmd.Parameters.AddWithValue("@CredentialsCnnId", credentialDBToInsert. CredentialsCnnId);
+                sqlCmd.Parameters.AddWithValue("@CredentialsCnnId", credentialDBToInsert.CredentialsCnnId);
                 sqlCmd.Parameters.AddWithValue("@ResetPasswordToken", credentialDBToInsert.ResetPasswordToken);
                 sqlCmd.Parameters.AddWithValue("@ResetPasswordExpiry", credentialDBToInsert.ResetPasswordExpiry);
 
 
                 sqlCmd.ExecuteNonQuery();
-                
+
             }
             catch (Exception ex)
             {
@@ -259,7 +257,7 @@ namespace SqlManager.BLogic
             finally
             { checkDbClose(); }
 
-            
+
         }
 
 
@@ -399,24 +397,24 @@ namespace SqlManager.BLogic
             return update;
         }
 
-            #region CHECK OPEN/CLOSE DB
-            void checkDbOpen()
+        #region CHECK OPEN/CLOSE DB
+        void checkDbOpen()
+        {
+            if (sqlCnn.State == System.Data.ConnectionState.Closed)
             {
-                if (sqlCnn.State == System.Data.ConnectionState.Closed)
-                {
-                    sqlCnn.Open();
-                }
+                sqlCnn.Open();
             }
+        }
 
-            void checkDbClose()
+        void checkDbClose()
+        {
+            if (sqlCnn.State == System.Data.ConnectionState.Closed)
             {
-                if (sqlCnn.State == System.Data.ConnectionState.Closed)
-                {
-                    sqlCnn.Close();
-                }
-                sqlCmd.Parameters.Clear();
+                sqlCnn.Close();
             }
-            #endregion
+            sqlCmd.Parameters.Clear();
         }
         #endregion
     }
+    #endregion
+}
