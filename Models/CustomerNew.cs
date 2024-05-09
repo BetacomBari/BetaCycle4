@@ -31,5 +31,9 @@ public partial class CustomerNew
 
     public int Role { get; set; }
 
+    public string Email { get; set; }
+
+
+
 
 }
