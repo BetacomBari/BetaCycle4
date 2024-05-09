@@ -63,6 +63,10 @@ namespace BetaCycle4.Controllers
                     {
                         int customerId = dbUtilityLT2019.SelectIdCCustomerNew(customersNewToPass.EmailAddress);
                         dbUtilityCredentials.UpdateCredentialId(customersNewToPass, customerId);
+
+                        customersNewToPass.CustomerId = customerId;
+                        customersNewToPass.EmailAddress = null;
+                        registerLogic.SetEmailNull(customerId,customersNewToPass);
                         return Ok();
                     }
                     else

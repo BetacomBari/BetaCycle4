@@ -34,6 +34,41 @@ namespace BetaCycle4.Logic.Register
         }
         #endregion
 
+        #region SetEmailNull in customerNew
+        private bool CustomerNewExists(int id)
+        {
+            return _context.CustomerNews.Any(e => e.CustomerId == id);
+        }
+
+        public bool SetEmailNull(int id, CustomerNew customerNew)
+        {
+            if (id != customerNew.CustomerId)
+            {
+                return false;
+            }
+
+            _context.Entry(customerNew).State = EntityState.Modified;
+
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CustomerNewExists(id))
+                {
+                    return false;
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return true;
+        }
+        #endregion
+
         #region PostCustomerNew
         public bool PostCustomerNew(CustomerNew customerNew)
         {
