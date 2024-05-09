@@ -32,10 +32,12 @@ namespace SqlManager.BLogic
             sqlCnn.ConnectionString = sqlConnectionString;
             try
             {
-                using SqlConnection sqlConnection = sqlCnn;
-                sqlConnection.Open(); //lo apro, se va tutto bene reinizializza la connessione 
-                sqlCnn = new SqlConnection(sqlConnection.ConnectionString);
-                IsDbStatusValid = true;
+                using (SqlConnection sqlConnection = sqlCnn)
+                {
+                    checkDbOpen(); //lo apro, se va tutto bene reinizializza la connessione 
+                    sqlCnn = new SqlConnection(sqlConnection.ConnectionString);
+                    IsDbStatusValid = true;
+                }
             }
             catch (Exception)
             {
@@ -163,7 +165,7 @@ namespace SqlManager.BLogic
             try
             {
                 checkDbOpen();
-
+                sqlCmd.Connection = sqlCnn;
                 sqlCmd.CommandText = "UPDATE [dbo].[Credentials] SET [CredentialsCnnId] = @CredentialsCnnId WHERE EmailAddressEncrypt = @EmailAddressEncrypt";
                 sqlCmd.Parameters.AddWithValue("@EmailAddressEncrypt", customerNew.EmailAddress);
                 sqlCmd.Parameters.AddWithValue("@CredentialsCnnId", customerId);
@@ -222,7 +224,6 @@ namespace SqlManager.BLogic
             return emailExists;
         }
         #endregion
-
 
         internal CredentialDB credentialsFromEmail(string email)
         {
@@ -296,13 +297,13 @@ namespace SqlManager.BLogic
                 sqlCmd.Parameters.AddWithValue("@EmailAddressEncrypt", credentialDBToInsert.EmailAddressEncrypt);
                 sqlCmd.Parameters.AddWithValue("@PasswordHash", credentialDBToInsert.PasswordHash);
                 sqlCmd.Parameters.AddWithValue("@PasswordSalt", credentialDBToInsert.PasswordSalt);
-                sqlCmd.Parameters.AddWithValue("@CredentialsCnnId", credentialDBToInsert. CredentialsCnnId);
+                sqlCmd.Parameters.AddWithValue("@CredentialsCnnId", credentialDBToInsert.CredentialsCnnId);
                 sqlCmd.Parameters.AddWithValue("@ResetPasswordToken", credentialDBToInsert.ResetPasswordToken);
                 sqlCmd.Parameters.AddWithValue("@ResetPasswordExpiry", credentialDBToInsert.ResetPasswordExpiry);
 
 
                 sqlCmd.ExecuteNonQuery();
-                
+
             }
             catch (Exception ex)
             {
@@ -311,7 +312,7 @@ namespace SqlManager.BLogic
             finally
             { checkDbClose(); }
 
-            
+
         }
 
 
@@ -450,25 +451,25 @@ namespace SqlManager.BLogic
 
             return update;
         }
+        #endregion
 
-            #region CHECK OPEN/CLOSE DB
-            void checkDbOpen()
+        #region CHECK OPEN/CLOSE DB
+        void checkDbOpen()
+        {
+            if (sqlCnn.State == System.Data.ConnectionState.Closed)
             {
-                if (sqlCnn.State == System.Data.ConnectionState.Closed)
-                {
-                    sqlCnn.Open();
-                }
+                sqlCnn.Open();
             }
+        }
 
-            void checkDbClose()
+        void checkDbClose()
+        {
+            if (sqlCnn.State == System.Data.ConnectionState.Closed)
             {
-                if (sqlCnn.State == System.Data.ConnectionState.Closed)
-                {
-                    sqlCnn.Close();
-                }
-                sqlCmd.Parameters.Clear();
+                sqlCnn.Close();
             }
-            #endregion
+            sqlCmd.Parameters.Clear();
         }
         #endregion
     }
+}

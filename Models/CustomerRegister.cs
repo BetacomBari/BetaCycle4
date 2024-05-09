@@ -19,8 +19,10 @@ namespace BetaCycle4.Models
         public string? CompanyName { get; set; }
 
         public string? SalesPerson { get; set; }
+        public string? EmailAddress { get; set; }
 
         public string? Phone { get; set; }
+        public string Password { get; set; } = null!;
 
         public Guid Rowguid { get; set; }
 

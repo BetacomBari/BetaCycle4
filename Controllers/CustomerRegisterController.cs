@@ -35,7 +35,6 @@ namespace BetaCycle4.Controllers
 
             credentialToPass.EmailAddress = customerRegister.EmailAddress;
             credentialToPass.Password = customerRegister.Password;
-            //credentialToPass.CredentialsCnnId = dbUtilityLT2019.SelectIdCCustomerNew(customerRegister.EmailAddress);
 
             customersNewToPass.NameStyle = customerRegister.NameStyle;
             customersNewToPass.Title = customerRegister.Title;
@@ -55,11 +54,11 @@ namespace BetaCycle4.Controllers
 
 
 
-            registerLogic.PostCustomerNew(customersNewToPass);
             if (registerLogic.PostCredentials(credentialToPass))
             {
-                int customerId = dbUtilityLT2019.SelectIdCCustomerNew(customersNewToPass.EmailAddress);
+                registerLogic.PostCustomerNew(customersNewToPass);
 
+                int customerId = dbUtilityLT2019.SelectIdCCustomerNew(customersNewToPass.EmailAddress);
                 dbUtilityCredentials.UpdateCredentialId(customersNewToPass, customerId);
                 return Ok();
             }
