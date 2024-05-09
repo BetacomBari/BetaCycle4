@@ -1,7 +1,8 @@
-﻿using BetaCycle4.Logic.Authentication.EncryptionWithSha256;
+using BetaCycle4.Logic.Authentication.EncryptionWithSha256;
 using BetaCycle4.Migrations;
 using BetaCycle4.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using SqlManager.BLogic;
 using System.Data.SqlTypes;
@@ -17,14 +18,37 @@ namespace BetaCycle4.Logic.Register
             _context = context;
         }
 
+        #region DeleteCustomerNew
+        public bool DeleteCustomerNew(int id)
+        {
+            var customerNew = _context.CustomerNews.Find(id);
+            if (customerNew == null)
+            {
+                return false;
+            }
+
+            _context.CustomerNews.Remove(customerNew);
+            _context.SaveChanges();
+
+            return true;
+        }
+        #endregion
 
         #region PostCustomerNew
-        public async Task<CustomerNew> PostCustomerNew(CustomerNew customerNew)
+        public bool PostCustomerNew(CustomerNew customerNew)
         {
-            _context.CustomerNews.Add(customerNew);
-            await _context.SaveChangesAsync();
-
-            return customerNew;
+            try
+            {
+                _context.CustomerNews.Add(customerNew);
+                _context.SaveChanges();
+                return true; // Il salvataggio è andato a buon fine
+            }
+            catch (Exception ex)
+            {
+                // Gestisci eventuali eccezioni che potrebbero essere sollevate durante il salvataggio
+                Console.WriteLine($"Si è verificato un errore durante il salvataggio nel database: {ex.Message}");
+                return false; // Il salvataggio non è riuscito
+            }
         }
         #endregion
 
@@ -87,7 +111,5 @@ namespace BetaCycle4.Logic.Register
             return false;
         }
         #endregion
-
-       
     }
 }

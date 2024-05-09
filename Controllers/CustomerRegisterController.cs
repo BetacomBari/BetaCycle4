@@ -28,43 +28,59 @@ namespace BetaCycle4.Controllers
         [HttpPost]
         public IActionResult Register(CustomerRegister customerRegister)
         {
-            CustomersNewController customersNewController = new CustomersNewController(_context, _config, _emailService);
-
-            Credentials credentialToPass = new();
-            CustomerNew customersNewToPass = new();
-
-            credentialToPass.EmailAddress = customerRegister.EmailAddress;
-            credentialToPass.Password = customerRegister.Password;
-
-            customersNewToPass.NameStyle = customerRegister.NameStyle;
-            customersNewToPass.Title = customerRegister.Title;
-            customersNewToPass.FirstName = customerRegister.FirstName;
-            customersNewToPass.MiddleName = customerRegister.MiddleName;
-            customersNewToPass.LastName = customerRegister.LastName;
-            customersNewToPass.Suffix = customerRegister.Suffix;
-            customersNewToPass.CompanyName = customerRegister.CompanyName;
-            customersNewToPass.SalesPerson = customerRegister.SalesPerson;
-            customersNewToPass.EmailAddress = EncryptionSHA256.sha256Encrypt(customerRegister.EmailAddress);
-            customersNewToPass.Phone = customerRegister.Phone;
-            customersNewToPass.Rowguid = customerRegister.Rowguid;
-            customersNewToPass.ModifiedDate = customerRegister.ModifiedDate;
-            customersNewToPass.Role = customerRegister.Role;
-
-            RegisterLogic registerLogic = new RegisterLogic(_context);
-
-
-
-            if (registerLogic.PostCredentials(credentialToPass))
+            try
             {
-                registerLogic.PostCustomerNew(customersNewToPass);
+                CustomersNewController customersNewController = new CustomersNewController(_context, _config, _emailService);
 
-                int customerId = dbUtilityLT2019.SelectIdCCustomerNew(customersNewToPass.EmailAddress);
-                dbUtilityCredentials.UpdateCredentialId(customersNewToPass, customerId);
-                return Ok();
+                Credentials credentialToPass = new();
+                CustomerNew customersNewToPass = new();
+
+                credentialToPass.EmailAddress = customerRegister.EmailAddress;
+                credentialToPass.Password = customerRegister.Password;
+
+                customersNewToPass.NameStyle = customerRegister.NameStyle;
+                customersNewToPass.Title = customerRegister.Title;
+                customersNewToPass.FirstName = customerRegister.FirstName;
+                customersNewToPass.MiddleName = customerRegister.MiddleName;
+                customersNewToPass.LastName = customerRegister.LastName;
+                customersNewToPass.Suffix = customerRegister.Suffix;
+                customersNewToPass.CompanyName = customerRegister.CompanyName;
+                customersNewToPass.SalesPerson = customerRegister.SalesPerson;
+                customersNewToPass.EmailAddress = EncryptionSHA256.sha256Encrypt(customerRegister.EmailAddress);
+                customersNewToPass.Phone = customerRegister.Phone;
+                customersNewToPass.Rowguid = customerRegister.Rowguid;
+                customersNewToPass.ModifiedDate = customerRegister.ModifiedDate;
+                customersNewToPass.Role = customerRegister.Role;
+
+                RegisterLogic registerLogic = new RegisterLogic(_context);
+
+
+
+                if (registerLogic.PostCredentials(credentialToPass))
+                {
+
+                    if (registerLogic.PostCustomerNew(customersNewToPass))
+                    {
+                        int customerId = dbUtilityLT2019.SelectIdCCustomerNew(customersNewToPass.EmailAddress);
+                        dbUtilityCredentials.UpdateCredentialId(customersNewToPass, customerId);
+                        return Ok();
+                    }
+                    else
+                    {
+                        dbUtilityCredentials.DeleteCredentials(0);
+                        return BadRequest();
+                    }
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
+                throw;
+                
             }
         }
     }
