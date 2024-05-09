@@ -11,9 +11,9 @@ export class ResetPasswordService {
   constructor(private http: HttpClient) { }
 
   sendResetPasswordLink(email: string){
-    return this.http.post<any>(`${this.baseUrl}/send-reset-email/${email}`,{});
+    return this.http.post<any>(`https://localhost:7165/api/CustomersNew/send-reset-email/${email}`,{});
   }
-
+  
   resetPassword(resetPasswordObj: ResetPassword)
   {
     return this.http.post<any>(`${this.baseUrl}/reset-password`, resetPasswordObj);
