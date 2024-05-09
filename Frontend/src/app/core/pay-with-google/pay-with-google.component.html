@@ -1,0 +1,25 @@
+
+<p>pay-with-google works!</p>
+
+
+<div class="wrapper">
+    <google-pay-button
+        environmenr="TEST"
+        buttonColor="white"
+        buttonType="buy"
+        [paymentRequest]="paymentRequest" [style.width.px]="buttonWidth"
+        (loadpaymentdata)="onLoadPaymentData($event)">
+    </google-pay-button> 
+
+    <div class="wrapper">
+      <google-pay-button
+        environment="TEST"
+        buttonColor="black"
+        buttonType="buy"
+        [paymentRequest]="paymentRequest"
+        [style.width.px]="buttonWidth"
+        (loadpaymentdata)="onLoadPaymentData($event)">
+      </google-pay-button>
+    </div>
+    
+</div> 
