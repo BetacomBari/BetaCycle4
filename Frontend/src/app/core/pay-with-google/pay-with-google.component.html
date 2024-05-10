@@ -1,8 +1,31 @@
-<!-- environment="TEST" Set to "PRODUCTION" for live environment
-  buttonType="buy"  Choose from "book", "buy", "checkout", "donate", "order", "pay", "plain", "subscribe"
-  buttonColor="black" Optional: "default", "black", or "white" -->
-  
-  <google-pay-button
+<!-- 
+<p>pay-with-google works!</p>
+
+
+<div class="wrapper">
+    <google-pay-button
+        environmenr="TEST"
+        buttonColor="white"
+        buttonType="buy"
+        [paymentRequest]="paymentRequest" [style.width.px]="buttonWidth"
+        (loadpaymentdata)="onLoadPaymentData($event)">
+    </google-pay-button> 
+
+    <div class="wrapper">
+      <google-pay-button
+        environment="TEST"
+        buttonColor="black"
+        buttonType="buy"
+        [paymentRequest]="paymentRequest"
+        [style.width.px]="buttonWidth"
+        (loadpaymentdata)="onLoadPaymentData($event)">
+      </google-pay-button>
+    </div>
+    
+</div>  -->
+
+
+<google-pay-button
   environment="TEST"
   buttonType="buy"
   buttonColor="black"
