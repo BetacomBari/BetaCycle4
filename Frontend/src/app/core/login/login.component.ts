@@ -28,13 +28,14 @@ export class LoginComponent {
   logged_in: boolean = false;
   userProfile: any;
   user: User = new User();
-  resetPassword!: string;
+  resetPasswordEmail!: string;
   isEmailForResetValid!: boolean;
 
 
   loginCredientals: Credientals = new Credientals()
 
-  constructor(private http: HttprequestService, private router: Router, private resetService: ResetPasswordService) { }
+  constructor(private http: HttprequestService, 
+    private router: Router, private resetService: ResetPasswordService) { }
 
   
 
@@ -124,23 +125,22 @@ export class LoginComponent {
   }
 
   confirmToSend(){
-    if (this.checkValidEmailForReset(this.resetPassword)){
-      console.log(this.resetPassword);
-      this.resetPassword = "";
-      const buttonRef = document.getElementById("closeBtn");
-      buttonRef?.click();
+    if (this.checkValidEmailForReset(this.resetPasswordEmail)){
+      console.log(this.resetPasswordEmail);
+      
       console.log("here without error");
 
       // API call
-      this.resetService.sendResetPasswordLink(this.resetPassword)
+      this.resetService.sendResetPasswordLink(this.resetPasswordEmail)
       .subscribe({
-        next: (res) => {
+        next:(res) => {
           console.log("tt appo");
-          this.resetPassword="";
+          this.resetPasswordEmail="";
           const buttonRef = document.getElementById("closeBtn");
           buttonRef?.click();
         },
         error:(err)=>{
+          console.log("Email not sent");
           console.log(err);
         }
       })
