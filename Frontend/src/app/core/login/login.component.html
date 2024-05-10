@@ -94,9 +94,9 @@
 
           <div class="modal-body">
               <div class="form-group pt-3">
-                  <div class="input-field"> <span class="fa fa-user p-2"></span> <input [(ngModel)]="resetPassword" (ngModelChange)="checkValidEmailForReset($event)" type="text" placeholder="Email"> </div>
-              <small *ngIf="!resetPassword" class="text-danger">*Email is required*</small>
-              <small *ngIf="!isEmailForResetValid && resetPassword " class="text-danger">*Email is invalid*</small>
+                  <div class="input-field"> <span class="fa fa-user p-2"></span> <input [(ngModel)]="resetPasswordEmail" (ngModelChange)="checkValidEmailForReset($event)" type="text" placeholder="Email"> </div>
+              <small *ngIf="!resetPasswordEmail" class="text-danger">*Email is required*</small>
+              <small *ngIf="!isEmailForResetValid && resetPasswordEmail " class="text-danger">*Email is invalid*</small>
           </div>
           <div class="modal-footer">
               <button id="closeBtn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

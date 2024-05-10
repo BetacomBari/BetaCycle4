@@ -126,8 +126,7 @@ export class LoginComponent {
 
   confirmToSend(){
     if (this.checkValidEmailForReset(this.resetPasswordEmail)){
-      console.log(this.resetPasswordEmail);
-      
+      console.log(this.resetPasswordEmail);     
       console.log("here without error");
 
       // API call
