@@ -129,11 +129,14 @@ export class LoginComponent {
       this.resetPassword = "";
       const buttonRef = document.getElementById("closeBtn");
       buttonRef?.click();
+      console.log("here without error");
+
       // API call
       this.resetService.sendResetPasswordLink(this.resetPassword)
       .subscribe({
         next: (res) => {
-          this.resetPassword = "";
+          console.log("tt appo");
+          this.resetPassword="";
           const buttonRef = document.getElementById("closeBtn");
           buttonRef?.click();
         },
