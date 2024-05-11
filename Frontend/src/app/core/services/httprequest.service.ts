@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Credientals } from '../../shared/models/credentials';
 import { User } from '../../shared/models/user';
+import { AuthService } from './auth.service.service';
 
 
 @Injectable({
@@ -10,9 +11,9 @@ import { User } from '../../shared/models/user';
 })
 export class HttprequestService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private auth: AuthService) { }
 
-  loginPost(credentials: Credientals): Observable<any>
+  loginPostJwt(credentials: Credientals): Observable<any>
   {
     return this.http.post(`https://localhost:7165/Login`, credentials, {observe: 'response'})
   }
@@ -22,7 +23,7 @@ export class HttprequestService {
   }
 
   getCustomer(): Observable<any> {
-    return this.http.get(`https://localhost:7165/api/Customers`)
+    return this.http.get(`https://localhost:7165/api/Customers`, {headers: this.auth.authJwtHeader})
   }
 
   getCustomerByID(id:number): Observable<any> {
