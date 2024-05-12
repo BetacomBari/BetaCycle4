@@ -33,8 +33,4 @@ public partial class CustomerNew
 
     public string Email { get; set; }
 
-    public string? ResetPasswordToken { get; set; }
-    public DateTime ResetPasswordExpiry {  get; set; }
-
-
 }

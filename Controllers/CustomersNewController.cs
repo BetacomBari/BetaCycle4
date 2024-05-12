@@ -155,9 +155,10 @@ namespace BetaCycle4.Controllers
                     Message = "Customer does not exist"
                 });
             }
-            var tokenCode = customer.ResetPasswordToken;
-            DateTime emailTokenExpiry = customer.ResetPasswordExpiry;
-            if (tokenCode != resetPassword.EmailToken || emailTokenExpiry< DateTime.Now)
+
+            var tokenCode = credentialDB.ResetPasswordToken;           
+            DateTime emailTokenExpiry = (DateTime)credentialDB.ResetPasswordExpiry;
+            if (tokenCode != resetPassword.EmailToken || emailTokenExpiry < DateTime.Now)
             {
                 return BadRequest(new
                 {
@@ -166,13 +167,15 @@ namespace BetaCycle4.Controllers
                 });
             }
             // customer.Password = cript password
-            _context.Entry(customer).State = EntityState.Modified;  
-            await _context.SaveChangesAsync();
+            //_context.Entry(customer).State = EntityState.Modified;
+            //await _context.SaveChangesAsync();
+            dbUtilityCredentials.writeNewPasswordOnDb(resetPassword);
             return Ok(new
             {
                 StatusCode = 200,
                 Message = "Password reset successfully"
             });
+            await _context.PostAsJsonAsync();
         }
     }
 }
