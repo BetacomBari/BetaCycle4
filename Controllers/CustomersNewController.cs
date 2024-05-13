@@ -83,9 +83,10 @@ namespace BetaCycle4.Controllers
 
         // POST: api/CustomerNews
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
+        [HttpPost] 
         public async Task<ActionResult<CustomerNew>> PostCustomerNew(CustomerNew customerNew)
         {
+            
             _context.CustomerNews.Add(customerNew);
             await _context.SaveChangesAsync();
 
