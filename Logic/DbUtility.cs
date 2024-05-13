@@ -37,21 +37,14 @@ namespace SqlManager.BLogic
             sqlCnn.ConnectionString = sqlConnectionString;
             try
             {
-<<<<<<< HEAD
-                int x = 0;
-                Console.WriteLine(1 / x);
-                using SqlConnection sqlConnection = sqlCnn;
-                sqlConnection.Open(); //lo apro, se va tutto bene reinizializza la connessione 
-                sqlCnn = new SqlConnection(sqlConnection.ConnectionString);
-                IsDbStatusValid = true;
-=======
+
                 using (SqlConnection sqlConnection = sqlCnn)
                 {
                     checkDbOpen(); //lo apro, se va tutto bene reinizializza la connessione 
                     sqlCnn = new SqlConnection(sqlConnection.ConnectionString);
                     IsDbStatusValid = true;
                 }
->>>>>>> JWT
+
             }
             catch (Exception e)
             {
@@ -510,8 +503,4 @@ namespace SqlManager.BLogic
         }
         #endregion
     }
-<<<<<<< HEAD
-    #endregion
-=======
->>>>>>> JWT
 }
