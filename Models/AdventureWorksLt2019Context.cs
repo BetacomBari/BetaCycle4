@@ -343,6 +343,8 @@ public partial class AdventureWorksLt2019Context : DbContext
             entity.Property(e => e.Weight)
                 .HasComment("Product weight.")
                 .HasColumnType("decimal(8, 2)");
+            entity.Property(e => e.LargeImage);
+
 
             entity.HasOne(d => d.ProductCategory).WithMany(p => p.Products).HasForeignKey(d => d.ProductCategoryId);
 
