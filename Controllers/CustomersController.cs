@@ -23,8 +23,8 @@ namespace BetaCycle4.Controllers
         }
 
         // GET: api/Customers
-        [HttpGet]
         [Authorize]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
         {
             return await _context.Customers.ToListAsync();

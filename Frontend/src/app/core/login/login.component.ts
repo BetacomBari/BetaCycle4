@@ -10,7 +10,7 @@ import { UserCardComponent } from '../user-card/user-card.component';
 import { User } from '../../shared/models/user';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { ResetPasswordService } from '../services/reset-password.service';
-import { AuthService } from '../services/auth.service.service';
+import { AuthService } from '../services/auth.service';
 declare var handleSignOut: any;
 
 @Component({
@@ -54,8 +54,7 @@ export class LoginComponent {
           this.logged_in = true;
           this.email_toShow = email.value;
           this.jwtToken = resp.body.token;
-          
-          this.authStatus.setJwtLoginStatus(true, this.jwtToken)
+          localStorage.setItem('jwtToken', this.jwtToken)
         }else{
           console.log("Status: " + resp.status);      
         }
@@ -79,6 +78,7 @@ export class LoginComponent {
 
   handleSignOut() {
     handleSignOut();
+    localStorage.removeItem("jwtToken")
     sessionStorage.removeItem("loggedInUser");
     this.router.navigate(["/login"]).then( ()=>{
       window.location.reload();

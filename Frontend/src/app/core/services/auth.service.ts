@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
+import { LoginComponent } from '../login/login.component';
 
 
 @Injectable({
@@ -8,25 +9,22 @@ import { HttpHeaders } from '@angular/common/http';
 
 export class AuthService {
   private isLogged: boolean = false;
-  authBasicHeader = new HttpHeaders({
-    contentType: 'application/json',
-    responseType: 'text'
-  });
 
   authJwtHeader = new HttpHeaders({
     contentType: 'application/json',
     responseType: 'text'
   });
 
-  setJwtLoginStatus(logValue: boolean, jwtToken: string='') {
+  setJwtLoginStatus(logValue: boolean, jwtToken: string) {
     this.isLogged = logValue;
     if (logValue) {
+      localStorage.removeItem("jwtToken");
       localStorage.setItem('jwtToken', jwtToken);
       this.authJwtHeader = this.authJwtHeader.set(
         'Authorization',
         'Bearer ' + jwtToken
       );
-      console.log(this.authJwtHeader)
+
     } else {
       localStorage.removeItem('jwtToken');
       this.authJwtHeader= new HttpHeaders({
@@ -39,6 +37,4 @@ export class AuthService {
   getLoginStatus() {
     return this.isLogged;
   }
-
-
 }
