@@ -221,20 +221,16 @@ public partial class AdventureWorksLt2019Context : DbContext
 
         modelBuilder.Entity<CustomerNew>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("CustomerNew");
+            entity.ToTable("CustomerNew");
 
+            entity.HasKey(e => e.CustomerId).HasName("PK_CustomerNew_CustomerID");
             entity.Property(e => e.CompanyName).HasMaxLength(128);
             entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
             entity.Property(e => e.FirstName).HasMaxLength(50);
             entity.Property(e => e.LastName).HasMaxLength(50);
             entity.Property(e => e.MiddleName).HasMaxLength(50);
             entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
-
-
-
-
+            entity.Property(e => e.EmailAddress).HasMaxLength(128);
             entity.Property(e => e.Phone).HasMaxLength(25);
             entity.Property(e => e.Rowguid).HasColumnName("rowguid");
             entity.Property(e => e.SalesPerson).HasMaxLength(256);
@@ -343,6 +339,8 @@ public partial class AdventureWorksLt2019Context : DbContext
             entity.Property(e => e.Weight)
                 .HasComment("Product weight.")
                 .HasColumnType("decimal(8, 2)");
+            entity.Property(e => e.LargeImage);
+
 
             entity.HasOne(d => d.ProductCategory).WithMany(p => p.Products).HasForeignKey(d => d.ProductCategoryId);
 

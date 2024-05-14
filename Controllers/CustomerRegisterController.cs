@@ -1,4 +1,6 @@
 using BetaCycle4.Logic;
+using BetaCycle4.Logic.Authentication.EncryptionWithSha256;
+using BetaCycle4.Logic.Register;
 using BetaCycle4.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +13,8 @@ namespace BetaCycle4.Controllers
     [ApiController]
     public class CustomerRegisterController : ControllerBase
     {
+        DbUtility dbUtilityLT2019 = new("Data Source=.\\SQLEXPRESS;Initial Catalog=AdventureWorksLT2019;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
+        DbUtility dbUtilityCredentials = new("Data Source=.\\SQLEXPRESS;Initial Catalog=CustomerCredentials;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
 
         private readonly AdventureWorksLt2019Context _context;
         private readonly IConfiguration _config;
@@ -24,76 +28,64 @@ namespace BetaCycle4.Controllers
         [HttpPost]
         public IActionResult Register(CustomerRegister customerRegister)
         {
-            CredentialsController credentialsController = new CredentialsController();
-            CustomersNewController customersNewController = new CustomersNewController(_context, _config, _emailService);
-
-            Credentials credentialToPass = new();
-            CustomerNew customersNewToPass = new();
-
-            credentialToPass.EmailAddress = customerRegister.EmailAddress;
-            credentialToPass.Password = customerRegister.Password;
-            credentialToPass.CredentialsCnnId = customerRegister.CustomerId;
-
-            customersNewToPass.CustomerId = customerRegister.CustomerId;
-            customersNewToPass.NameStyle = customerRegister.NameStyle;
-            customersNewToPass.Title = customerRegister.Title;
-            customersNewToPass.FirstName = customerRegister.FirstName;
-            customersNewToPass.MiddleName = customerRegister.MiddleName;
-            customersNewToPass.LastName = customerRegister.LastName;
-            customersNewToPass.Suffix = customerRegister.Suffix;
-            customersNewToPass.CompanyName = customerRegister.CompanyName;
-            customersNewToPass.SalesPerson = customerRegister.SalesPerson;
-            customersNewToPass.Phone = customerRegister.Phone;
-            customersNewToPass.Rowguid = customerRegister.Rowguid;
-            customersNewToPass.ModifiedDate = customerRegister.ModifiedDate;
-            customersNewToPass.Role = customerRegister.Role;
-
-
-            var result = customersNewController.PostCustomerNew(customersNewToPass);
-            // Creazione del cliente avvenuta con successo
-            if (credentialsController.PostCredentials(credentialToPass))
+            try
             {
-                return Ok();
+                CustomersNewController customersNewController = new CustomersNewController(_context, _config, _emailService);
+
+                Credentials credentialToPass = new();
+                CustomerNew customersNewToPass = new();
+
+                credentialToPass.EmailAddress = customerRegister.EmailAddress;
+                credentialToPass.Password = customerRegister.Password;
+
+                customersNewToPass.NameStyle = customerRegister.NameStyle;
+                customersNewToPass.Title = customerRegister.Title;
+                customersNewToPass.FirstName = customerRegister.FirstName;
+                customersNewToPass.MiddleName = customerRegister.MiddleName;
+                customersNewToPass.LastName = customerRegister.LastName;
+                customersNewToPass.Suffix = customerRegister.Suffix;
+                customersNewToPass.CompanyName = customerRegister.CompanyName;
+                customersNewToPass.SalesPerson = customerRegister.SalesPerson;
+                customersNewToPass.EmailAddress = EncryptionSHA256.sha256Encrypt(customerRegister.EmailAddress);
+                customersNewToPass.Phone = customerRegister.Phone;
+                customersNewToPass.Rowguid = customerRegister.Rowguid;
+                customersNewToPass.ModifiedDate = customerRegister.ModifiedDate;
+                customersNewToPass.Role = customerRegister.Role;
+
+                RegisterLogic registerLogic = new RegisterLogic(_context);
+
+
+
+                if (registerLogic.PostCredentials(credentialToPass))
+                {
+
+                    if (registerLogic.PostCustomerNew(customersNewToPass))
+                    {
+                        int customerId = dbUtilityLT2019.SelectIdCCustomerNew(customersNewToPass.EmailAddress);
+                        dbUtilityCredentials.UpdateCredentialId(customersNewToPass, customerId);
+
+                        customersNewToPass.CustomerId = customerId;
+                        customersNewToPass.EmailAddress = null;
+                        registerLogic.SetEmailNull(customerId,customersNewToPass);
+                        return Ok();
+                    }
+                    else
+                    {
+                        dbUtilityCredentials.DeleteCredentials(0);
+                        return BadRequest();
+                    }
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            //if (result is CreatedAtActionResult)
-            //{
-            //    // Creazione del cliente avvenuta con successo
-            //    if (credentialsController.PostCredentials(credentialToPass))
-            //    {
-            //        return Ok();
-            //    }
-            //}
-            else
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
+                throw;
+                
             }
-            
         }
-
-
-        //public Tuple<Credentials, CustomerNew> splitInfo(CustomerRegister customerRegister)
-        //{
-        //    Credentials credentialToPass = new();
-        //    CustomerNew customersNewToPass = new();
-
-        //    credentialToPass.EmailAddress = customerRegister.EmailAddress;
-        //    credentialToPass.Password = customerRegister.PasswordHash + "|" + customerRegister.PasswordSalt;
-        //    credentialToPass.CredentialsCnnId = customerRegister.CustomerId;
-
-        //    customersNewToPass.CustomerId = customerRegister.CustomerId;
-        //    customersNewToPass.NameStyle = customerRegister.NameStyle;
-        //    customersNewToPass.Title = customerRegister.Title;
-        //    customersNewToPass.FirstName = customerRegister.FirstName;
-        //    customersNewToPass.MiddleName = customerRegister.MiddleName;
-        //    customersNewToPass.LastName = customerRegister.LastName;
-        //    customersNewToPass.Suffix = customerRegister.Suffix;
-        //    customersNewToPass.CompanyName = customerRegister.CompanyName;
-        //    customersNewToPass.SalesPerson = customerRegister.SalesPerson;
-        //    customersNewToPass.Phone = customerRegister.Phone;
-        //    customersNewToPass.Rowguid = customerRegister.Rowguid;
-        //    customersNewToPass.ModifiedDate = customerRegister.ModifiedDate;
-
-        //    return Tuple.Create(credentialToPass, customersNewToPass);
-        //}      
     }
 }

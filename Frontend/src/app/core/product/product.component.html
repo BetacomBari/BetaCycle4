@@ -1,7 +1,6 @@
 <app-navbar></app-navbar>
 <router-outlet></router-outlet>
 
-
 <!--! get 1 -->
 <div class="container border border-2 rounded border-danger my-5">
     <div class="row">
@@ -15,13 +14,11 @@
             <div class="card cardStyle" style="width: 300px; height: 130px;">
                 <div class="card-body">
                     <h6 class="card-subtitle mb-2 text-body-secondary text-warning">ID: {{p.productId}}</h6>
+                    <img [src]="getDecodedImage(p.largeImage)" alt="" width="300px">
 
                     <h5 class="card-title text-danger">NOME COMPLETO: </h5>
-                    <h5 class="card-title text-danger">{{p.name}}   PREZZO:  {{p.listPrice}}</h5>
-                    
-                    
+                    <h5 class="card-title text-danger">{{p.name}} PREZZO: {{p.listPrice}}</h5>
 
-                    
                     <p class="card-text"></p>
                 </div>
             </div>
@@ -36,8 +33,7 @@
             <h1 class="title text-center mt-4">VISUALIZZA PRODUCT BY ID</h1>
         </div>
         <div class="col-12 d-flex justify-content-center my-4">
-            <input class="form-control border-2 border-danger w-25" placeholder="Inserisci l'id" type="number"
-            #id>
+            <input class="form-control border-2 border-danger w-25" placeholder="Inserisci l'id" type="number" #id>
             <button class="btn btn-warning bgYellow me-4 text-danger" (click)="getProductById(id)">Mostra</button>
         </div>
         <div *ngIf="productById" class="col-4 d-flex justify-content-center my-3">
@@ -47,7 +43,7 @@
 
                     <h5 class="card-title text-danger">NOME COMPLETO: </h5>
                     <h5 class="card-title text-danger">{{productById.name}} PREZZO: {{productById.listPrice}}</h5>
-                  
+
                     <p class="card-text"></p>
                 </div>
             </div>

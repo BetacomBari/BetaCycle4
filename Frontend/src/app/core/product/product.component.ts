@@ -16,8 +16,10 @@ export class ProductComponent {
   product: any = {};
   productById: Product = new Product();
   constructor(private mainhttp: HttprequestService){}
-
-
+  
+  getDecodedImage(thumbNailPhoto: string){
+    return 'data:image/gif;base64,' + thumbNailPhoto;
+  }
   getProduct(){
     this.mainhttp.getProduct().subscribe({
       next: (Data: any) => {
