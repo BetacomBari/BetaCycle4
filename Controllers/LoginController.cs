@@ -1,3 +1,4 @@
+using BetaCycle4.Logger;
 using BetaCycle4.Logic;
 using BetaCycle4.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -16,11 +17,11 @@ namespace BetaCycle4.Controllers
 
     public class LoginController : ControllerBase
     {
-
+        private readonly DbTracer _dbTracer;
         private JwtSettings _jwtSettings;
-
-        public LoginController(JwtSettings jwtSettings)
+        public LoginController(DbTracer dbTracer, JwtSettings jwtSettings)
         {
+            _dbTracer = dbTracer;
             _jwtSettings = jwtSettings;
         }
 
@@ -102,6 +103,7 @@ namespace BetaCycle4.Controllers
             }
             catch (Exception ex)
             {
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
                 return BadRequest();
             }
             return BadRequest();
