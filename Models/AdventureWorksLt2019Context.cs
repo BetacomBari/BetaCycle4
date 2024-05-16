@@ -219,6 +219,7 @@ public partial class AdventureWorksLt2019Context : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
+
         modelBuilder.Entity<CustomerNew>(entity =>
         {
             entity.ToTable("CustomerNew");
