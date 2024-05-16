@@ -51,7 +51,7 @@ public partial class AdventureWorksLt2019Context : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 
-        => optionsBuilder.UseSqlServer("Data Source=.\\SQLEXPRESS;Initial Catalog=AdventureWorksLT2019;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=True;");
+        => optionsBuilder.UseSqlServer("Data Source=.\\SQLEXPRESS;Initial Catalog=AdventureWorksLT2019;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
 
 
 
@@ -59,7 +59,6 @@ public partial class AdventureWorksLt2019Context : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.UseCollation("SQL_Latin1_General_CP1_CI_AS");
-
 
         modelBuilder.Entity<Address>(entity =>
         {
@@ -340,6 +339,8 @@ public partial class AdventureWorksLt2019Context : DbContext
             entity.Property(e => e.Weight)
                 .HasComment("Product weight.")
                 .HasColumnType("decimal(8, 2)");
+            entity.Property(e => e.LargeImage);
+
 
             entity.HasOne(d => d.ProductCategory).WithMany(p => p.Products).HasForeignKey(d => d.ProductCategoryId);
 

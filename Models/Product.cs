@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace BetaCycle4.Models;
@@ -77,6 +77,8 @@ public partial class Product
     /// Small image of the product.
     /// </summary>
     public byte[]? ThumbNailPhoto { get; set; }
+    public byte[]? LargeImage { get; set; }
+    
 
     /// <summary>
     /// Small image file name.
