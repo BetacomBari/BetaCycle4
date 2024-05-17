@@ -1,49 +1,49 @@
 {
-  "hash": "6971f910",
+  "hash": "674fffbd",
   "configHash": "b1bb7e1f",
-  "lockfileHash": "9dc2a335",
-  "browserHash": "52edd92e",
+  "lockfileHash": "90f7aecc",
+  "browserHash": "8cee2257",
   "optimized": {
     "@angular/common": {
       "src": "../../../../../node_modules/@angular/common/fesm2022/common.mjs",
       "file": "@angular_common.js",
-      "fileHash": "112455fa",
+      "fileHash": "bd1f342f",
       "needsInterop": false
     },
     "@angular/common/http": {
       "src": "../../../../../node_modules/@angular/common/fesm2022/http.mjs",
       "file": "@angular_common_http.js",
-      "fileHash": "de0a918a",
+      "fileHash": "4bb372c5",
       "needsInterop": false
     },
     "@angular/core": {
       "src": "../../../../../node_modules/@angular/core/fesm2022/core.mjs",
       "file": "@angular_core.js",
-      "fileHash": "a7dcdef5",
+      "fileHash": "080ed183",
       "needsInterop": false
     },
     "@angular/forms": {
       "src": "../../../../../node_modules/@angular/forms/fesm2022/forms.mjs",
       "file": "@angular_forms.js",
-      "fileHash": "95c6d82e",
+      "fileHash": "6b70398d",
       "needsInterop": false
     },
     "@angular/platform-browser": {
       "src": "../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
       "file": "@angular_platform-browser.js",
-      "fileHash": "70776faf",
+      "fileHash": "04ea44fb",
       "needsInterop": false
     },
     "@angular/router": {
       "src": "../../../../../node_modules/@angular/router/fesm2022/router.mjs",
       "file": "@angular_router.js",
-      "fileHash": "d37d13a3",
+      "fileHash": "a71aa6e1",
       "needsInterop": false
     },
     "@google-pay/button-angular": {
       "src": "../../../../../../../../node_modules/@google-pay/button-angular/fesm2020/google-pay-button-angular.mjs",
       "file": "@google-pay_button-angular.js",
-      "fileHash": "84bef007",
+      "fileHash": "10809069",
       "needsInterop": false
     }
   },
