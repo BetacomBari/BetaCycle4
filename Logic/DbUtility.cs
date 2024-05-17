@@ -368,7 +368,7 @@ namespace SqlManager.BLogic
             try
             {
                 checkDbOpen();
-                sqlCmd.CommandText = "SELECT EmailAddress, IsElseWhere FROM SalesLT.Customer WHERE SalesLT.Customer.EmailAddress = @email";
+                sqlCmd.CommandText = "SELECT CustomerId, IsElseWhere FROM SalesLT.Customer WHERE SalesLT.Customer.CustomerId = @email";
                 sqlCmd.Parameters.AddWithValue("@email", email);
                 sqlCmd.Connection = sqlCnn;
 
@@ -404,7 +404,7 @@ namespace SqlManager.BLogic
             try
             {
                 checkDbOpen();
-                sqlCmd.CommandText = "SELECT EmailAddress FROM SalesLT.Customer WHERE SalesLT.Customer.EmailAddress = @email";
+                sqlCmd.CommandText = "SELECT CustomerId FROM SalesLT.Customer WHERE SalesLT.Customer.CustomerId = @email";
                 sqlCmd.Parameters.AddWithValue("@email", email);
                 sqlCmd.Connection = sqlCnn;
 
@@ -435,7 +435,7 @@ namespace SqlManager.BLogic
         #endregion
 
         #region SelectID By curtomerNew
-        internal int SelectIdCCustomerNew(string EmailAddress)
+        internal int SelectIdCustomerNew(string EmailAddress)
         {
             int id = 0;
             try
@@ -452,6 +452,41 @@ namespace SqlManager.BLogic
                         while (sqlReader.Read())
                         {
                             id = Convert.ToInt16(sqlReader["CustomerId"]);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            finally
+            {
+                checkDbClose();
+            }
+
+            return id;
+        }
+        #endregion
+
+        #region SelectIDaddress
+        internal int SelectAddressId(int CustomerId)
+        {
+            int id = 0;
+            try
+            {
+                checkDbOpen();
+                sqlCmd.CommandText = "SELECT AddressId FROM AddressNew WHERE CustomerId = @CustomerId";
+                sqlCmd.Parameters.AddWithValue("@CustomerId", CustomerId);
+                sqlCmd.Connection = sqlCnn;
+
+                using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
+                {
+                    if (sqlReader.HasRows)
+                    {
+                        while (sqlReader.Read())
+                        {
+                            id = Convert.ToInt16(sqlReader["AddressId"]);
                         }
                     }
                 }
@@ -502,7 +537,8 @@ namespace SqlManager.BLogic
             {
                 checkDbOpen();
 
-                sqlCmd.CommandText = "INSERT INTO [dbo].[AddressNew] ([AddressLine1],[AddressLine2],[City],[StateProvince],[CountryRegion],[PostalCode],[ModifiedDate]) VALUES (@AddressLine1,@AddressLine2,@City,@StateProvince,@CountryRegion,@PostalCode,@ModifiedDate)";
+                sqlCmd.CommandText = "INSERT INTO [dbo].[AddressNew] ([CustomerID],[AddressLine1],[AddressLine2],[City],[StateProvince],[CountryRegion],[PostalCode],[ModifiedDate]) VALUES (@CustomerID,@AddressLine1,@AddressLine2,@City,@StateProvince,@CountryRegion,@PostalCode,@ModifiedDate)";
+                sqlCmd.Parameters.AddWithValue("@CustomerID", address.CustomerId);
                 sqlCmd.Parameters.AddWithValue("@AddressLine1", address.AddressLine1);
                 sqlCmd.Parameters.AddWithValue("@AddressLine2", address.AddressLine2);
                 sqlCmd.Parameters.AddWithValue("@City", address.City);
