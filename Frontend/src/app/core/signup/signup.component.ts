@@ -28,8 +28,8 @@ export class SignupComponent {
     this.customer.firstName = firstName.value;
     this.customer.middleName = middleName.value;
     this.customer.lastName = lastName.value;
-    this.customer.email = email.value;
-    this.customer.password = password.value;
+    // this.customer.email = email.value;
+    // this.customer.password = password.value;
   }
 
 }
