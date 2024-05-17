@@ -33,8 +33,40 @@ namespace BetaCycle4.Controllers
 
             try
             {
-
                 CustomersNewController customersNewController = new CustomersNewController(_context, _config, _emailService);
+
+                #region VERIFICHE CAMPI
+                //VERIFY CUSTOMER NEW
+                if (!LogicVerify.IsValidEmail(customerRegister.EmailAddress))
+                {
+                    return BadRequest("EMAIL ERROR");
+                }             
+                if (LogicVerify.VerifyLength(customerRegister.FirstName, 50))
+                {
+                    return BadRequest("FirstName ERROR");
+                }
+
+                if (LogicVerify.VerifyLength(customerRegister.MiddleName, 50))
+                {
+                    return BadRequest("MiddleName ERROR");
+                }
+
+                if (LogicVerify.VerifyLength(customerRegister.LastName, 50))
+                {
+                    return BadRequest("LastName ERROR");
+                }
+
+                if (LogicVerify.VerifyLength(customerRegister.Phone, 25))
+                {
+                    return BadRequest("Phone ERROR");
+                }
+
+                //VERIFY PASSWORD          
+                if (!LogicVerify.IsValidPassword(customerRegister.Password))
+                {
+                    return BadRequest("Password ERROR");
+                }
+                #endregion
 
                 Credentials credentialToPass = new();
                 CustomerNew customersNewToPass = new();
@@ -52,7 +84,7 @@ namespace BetaCycle4.Controllers
                 customersNewToPass.LastName = customerRegister.LastName;
                 customersNewToPass.EmailAddress = EncryptionSHA256.sha256Encrypt(customerRegister.EmailAddress);
                 customersNewToPass.Phone = customerRegister.Phone;
-                customersNewToPass.ModifiedDate = customerRegister.ModifiedDate.AddHours(2);
+                customersNewToPass.ModifiedDate = DateTime.Now;
                 //
 
                 //ADDRESS
@@ -62,12 +94,12 @@ namespace BetaCycle4.Controllers
                 addressToPass.StateProvince = customerRegister.StateProvince;
                 addressToPass.CountryRegion = customerRegister.CountryRegion;
                 addressToPass.PostalCode = customerRegister.PostalCode;
-                addressToPass.ModifiedDate = customerRegister.ModifiedDate.AddHours(2);
+                addressToPass.ModifiedDate = DateTime.Now;
                 //
 
                 //CUSTOMER ADDRESS           
                 customerAddressToPass.AddressType = customerRegister.AddressType;
-                customerAddressToPass.ModifiedDate = customerRegister.ModifiedDate.AddHours(2);
+                customerAddressToPass.ModifiedDate = DateTime.Now;
                 //
 
 

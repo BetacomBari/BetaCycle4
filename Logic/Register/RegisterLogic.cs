@@ -4,8 +4,11 @@ using BetaCycle4.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using SqlManager.BLogic;
 using System.Data.SqlTypes;
+using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace BetaCycle4.Logic.Register
 {
