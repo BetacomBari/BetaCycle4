@@ -351,11 +351,37 @@ namespace SqlManager.BLogic
             catch (Exception ex)
             {
                 Console.WriteLine($"ERRORE: {ex.Message}");
+                return update = 0;
             }
             finally
             { checkDbClose(); }
 
             return update;
+        }
+        #endregion
+
+        #region DeleteCredentials
+        public int DeleteCredentials(int CredentialsCnnId)
+        {
+            int delete = 0;
+
+            try
+            {
+                checkDbOpen();
+                sqlCmd.Connection = sqlCnn;
+                sqlCmd.CommandText = "DELETE FROM [dbo].[Credentials] WHERE CredentialsCnnId = @CredentialsCnnId";
+                sqlCmd.Parameters.AddWithValue("@CredentialsCnnId", CredentialsCnnId);
+
+                delete = sqlCmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"ERRORE: {ex.Message}");
+            }
+            finally
+            { checkDbClose(); }
+
+            return delete;
         }
         #endregion
 
@@ -368,7 +394,7 @@ namespace SqlManager.BLogic
             try
             {
                 checkDbOpen();
-                sqlCmd.CommandText = "SELECT EmailAddress, IsElseWhere FROM SalesLT.Customer WHERE SalesLT.Customer.EmailAddress = @email";
+                sqlCmd.CommandText = "SELECT CustomerId, IsElseWhere FROM SalesLT.Customer WHERE SalesLT.Customer.CustomerId = @email";
                 sqlCmd.Parameters.AddWithValue("@email", email);
                 sqlCmd.Connection = sqlCnn;
 
@@ -404,7 +430,7 @@ namespace SqlManager.BLogic
             try
             {
                 checkDbOpen();
-                sqlCmd.CommandText = "SELECT EmailAddress FROM SalesLT.Customer WHERE SalesLT.Customer.EmailAddress = @email";
+                sqlCmd.CommandText = "SELECT CustomerId FROM SalesLT.Customer WHERE SalesLT.Customer.CustomerId = @email";
                 sqlCmd.Parameters.AddWithValue("@email", email);
                 sqlCmd.Connection = sqlCnn;
 
@@ -435,7 +461,7 @@ namespace SqlManager.BLogic
         #endregion
 
         #region SelectID By curtomerNew
-        internal int SelectIdCCustomerNew(string EmailAddress)
+        internal int SelectIdCustomerNew(string EmailAddress)
         {
             int id = 0;
             try
@@ -469,28 +495,38 @@ namespace SqlManager.BLogic
         }
         #endregion
 
-        #region DeleteCustomerNew
-        public int DeleteCredentials(int CredentialsCnnId)
+        #region SelectIDaddress
+        internal int SelectAddressId(int CustomerId)
         {
-            int delete = 0;
-
+            int id = 0;
             try
             {
                 checkDbOpen();
+                sqlCmd.CommandText = "SELECT AddressId FROM AddressNew WHERE CustomerId = @CustomerId";
+                sqlCmd.Parameters.AddWithValue("@CustomerId", CustomerId);
                 sqlCmd.Connection = sqlCnn;
-                sqlCmd.CommandText = "DELETE FROM [dbo].[Credentials] WHERE CredentialsCnnId = @CredentialsCnnId";
-                sqlCmd.Parameters.AddWithValue("@CredentialsCnnId", CredentialsCnnId);
 
-                delete = sqlCmd.ExecuteNonQuery();
+                using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
+                {
+                    if (sqlReader.HasRows)
+                    {
+                        while (sqlReader.Read())
+                        {
+                            id = Convert.ToInt16(sqlReader["AddressId"]);
+                        }
+                    }
+                }
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                Console.WriteLine($"ERRORE: {ex.Message}");
+                throw;
             }
             finally
-            { checkDbClose(); }
+            {
+                checkDbClose();
+            }
 
-            return delete;
+            return id;
         }
         #endregion
 
@@ -502,7 +538,8 @@ namespace SqlManager.BLogic
             {
                 checkDbOpen();
 
-                sqlCmd.CommandText = "INSERT INTO [dbo].[AddressNew] ([AddressLine1],[AddressLine2],[City],[StateProvince],[CountryRegion],[PostalCode],[ModifiedDate]) VALUES (@AddressLine1,@AddressLine2,@City,@StateProvince,@CountryRegion,@PostalCode,@ModifiedDate)";
+                sqlCmd.CommandText = "INSERT INTO [dbo].[AddressNew] ([CustomerID],[AddressLine1],[AddressLine2],[City],[StateProvince],[CountryRegion],[PostalCode],[ModifiedDate]) VALUES (@CustomerID,@AddressLine1,@AddressLine2,@City,@StateProvince,@CountryRegion,@PostalCode,@ModifiedDate)";
+                sqlCmd.Parameters.AddWithValue("@CustomerID", address.CustomerId);
                 sqlCmd.Parameters.AddWithValue("@AddressLine1", address.AddressLine1);
                 sqlCmd.Parameters.AddWithValue("@AddressLine2", address.AddressLine2);
                 sqlCmd.Parameters.AddWithValue("@City", address.City);
@@ -516,6 +553,7 @@ namespace SqlManager.BLogic
             }
             catch (Exception ex)
             {
+                return addressInsert = 0;
                 throw;
             }
             finally
@@ -551,6 +589,32 @@ namespace SqlManager.BLogic
             { checkDbClose(); }
 
             return CustomerAddressInsert;
+        }
+        #endregion
+
+        #region DeleteCredentials
+        public int DeleteAddressNew(int addressId)
+        {
+            int delete = 0;
+
+            try
+            {
+                checkDbOpen();
+                sqlCmd.Connection = sqlCnn;
+                sqlCmd.CommandText = "DELETE FROM [dbo].[AddressNew] WHERE AddressID = @AddressID";
+                sqlCmd.Parameters.AddWithValue("@AddressID", addressId);
+
+                delete = sqlCmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"ERRORE: {ex.Message}");
+                return delete = 0;
+            }
+            finally
+            { checkDbClose(); }
+
+            return delete;
         }
         #endregion
 
