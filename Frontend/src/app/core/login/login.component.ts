@@ -126,9 +126,8 @@ export class LoginComponent {
   confirmToSend(){
     if (this.checkValidEmailForReset(this.resetPassword)){
       console.log(this.resetPassword);
-      this.resetPassword = "";
-      const buttonRef = document.getElementById("closeBtn");
-      buttonRef?.click();
+      
+
       // API call
       this.resetService.sendResetPasswordLink(this.resetPassword)
       .subscribe({
@@ -136,6 +135,7 @@ export class LoginComponent {
           this.resetPassword = "";
           const buttonRef = document.getElementById("closeBtn");
           buttonRef?.click();
+          console.log("Email inviata correttamente")
         },
         error:(err)=>{
           console.log(err);
