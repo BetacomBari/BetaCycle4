@@ -28,8 +28,12 @@ namespace BetaCycle4.Controllers
         [HttpPost]
         public IActionResult Register(CustomerRegister customerRegister)
         {
+            RegisterLogic registerLogic = new RegisterLogic(_context);
+            int customerId = 0;
+
             try
             {
+
                 CustomersNewController customersNewController = new CustomersNewController(_context, _config, _emailService);
 
                 Credentials credentialToPass = new();
@@ -66,7 +70,6 @@ namespace BetaCycle4.Controllers
                 customerAddressToPass.ModifiedDate = customerRegister.ModifiedDate.AddHours(2);
                 //
 
-                RegisterLogic registerLogic = new RegisterLogic(_context);
 
                 //INSERT CREDENTIALS
                 if (registerLogic.PostCredentials(credentialToPass))
@@ -74,13 +77,13 @@ namespace BetaCycle4.Controllers
                     //INSERT CUSTOMER NEW
                     if (registerLogic.PostCustomerNew(customersNewToPass))
                     {
-                        int customerId = dbUtilityLT2019.SelectIdCustomerNew(customersNewToPass.EmailAddress);
+                        customerId = dbUtilityLT2019.SelectIdCustomerNew(customersNewToPass.EmailAddress);
                         dbUtilityCredentials.UpdateCredentialId(customersNewToPass, customerId);
 
                         //set email customerNew null
                         customersNewToPass.CustomerId = customerId;
                         customersNewToPass.EmailAddress = null;
-                        registerLogic.SetEmailNull(customerId,customersNewToPass);
+                        registerLogic.SetEmailNull(customerId, customersNewToPass);
                         //
 
                         //CUSTOMER ID in ADDRESS
@@ -104,17 +107,22 @@ namespace BetaCycle4.Controllers
                             }
                             else
                             {
+                                dbUtilityCredentials.DeleteCredentials(customerId);
+                                registerLogic.DeleteCustomerNew(customerId);
+                                //registerLogic.DeleteAddressNew(addressId,customerId);
                                 return BadRequest("Errore in post customerAddress");
                             }
                         }
                         else
-                        {                      
+                        {
+                            dbUtilityCredentials.DeleteCredentials(customerId);
+                            registerLogic.DeleteCustomerNew(customerId);
                             return BadRequest("PostAddress NON è andata a buon fine");
                         }
                     }
                     else
                     {
-                        dbUtilityCredentials.DeleteCredentials(0);
+                        dbUtilityCredentials.DeleteCredentials(customerId);
                         return BadRequest("ERROR IN CustomerNew");
                     }
                 }
@@ -127,7 +135,6 @@ namespace BetaCycle4.Controllers
             {
                 return BadRequest(ex.Message);
                 throw;
-                
             }
         }
     }

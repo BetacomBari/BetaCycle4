@@ -359,6 +359,31 @@ namespace SqlManager.BLogic
         }
         #endregion
 
+        #region DeleteCredentials
+        public int DeleteCredentials(int CredentialsCnnId)
+        {
+            int delete = 0;
+
+            try
+            {
+                checkDbOpen();
+                sqlCmd.Connection = sqlCnn;
+                sqlCmd.CommandText = "DELETE FROM [dbo].[Credentials] WHERE CredentialsCnnId = @CredentialsCnnId";
+                sqlCmd.Parameters.AddWithValue("@CredentialsCnnId", CredentialsCnnId);
+
+                delete = sqlCmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"ERRORE: {ex.Message}");
+            }
+            finally
+            { checkDbClose(); }
+
+            return delete;
+        }
+        #endregion
+
 
         //DB UTILITY ADLT2019
         #region CheckIsElseWhere
@@ -504,31 +529,6 @@ namespace SqlManager.BLogic
         }
         #endregion
 
-        #region DeleteCustomerNew
-        public int DeleteCredentials(int CredentialsCnnId)
-        {
-            int delete = 0;
-
-            try
-            {
-                checkDbOpen();
-                sqlCmd.Connection = sqlCnn;
-                sqlCmd.CommandText = "DELETE FROM [dbo].[Credentials] WHERE CredentialsCnnId = @CredentialsCnnId";
-                sqlCmd.Parameters.AddWithValue("@CredentialsCnnId", CredentialsCnnId);
-
-                delete = sqlCmd.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"ERRORE: {ex.Message}");
-            }
-            finally
-            { checkDbClose(); }
-
-            return delete;
-        }
-        #endregion
-
         #region PostAddress
         internal int PostAddressNew(Address address)
         {
@@ -552,6 +552,7 @@ namespace SqlManager.BLogic
             }
             catch (Exception ex)
             {
+                return addressInsert = 0;
                 throw;
             }
             finally
