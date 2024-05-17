@@ -351,6 +351,7 @@ namespace SqlManager.BLogic
             catch (Exception ex)
             {
                 Console.WriteLine($"ERRORE: {ex.Message}");
+                return update = 0;
             }
             finally
             { checkDbClose(); }
@@ -588,6 +589,32 @@ namespace SqlManager.BLogic
             { checkDbClose(); }
 
             return CustomerAddressInsert;
+        }
+        #endregion
+
+        #region DeleteCredentials
+        public int DeleteAddressNew(int addressId)
+        {
+            int delete = 0;
+
+            try
+            {
+                checkDbOpen();
+                sqlCmd.Connection = sqlCnn;
+                sqlCmd.CommandText = "DELETE FROM [dbo].[AddressNew] WHERE AddressID = @AddressID";
+                sqlCmd.Parameters.AddWithValue("@AddressID", addressId);
+
+                delete = sqlCmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"ERRORE: {ex.Message}");
+                return delete = 0;
+            }
+            finally
+            { checkDbClose(); }
+
+            return delete;
         }
         #endregion
 

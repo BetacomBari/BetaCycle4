@@ -103,13 +103,13 @@ namespace BetaCycle4.Controllers
                             //INSERT CUSTOMER ADDRESS
                             if (dbUtilityLT2019.PostCustomerAddressNew(customerAddressToPass) == 1)
                             {
-                                return Ok();
+                                return Ok("registrazione completa");
                             }
                             else
                             {
                                 dbUtilityCredentials.DeleteCredentials(customerId);
                                 registerLogic.DeleteCustomerNew(customerId);
-                                //registerLogic.DeleteAddressNew(addressId,customerId);
+                                dbUtilityLT2019.DeleteAddressNew(addressId);
                                 return BadRequest("Errore in post customerAddress");
                             }
                         }
