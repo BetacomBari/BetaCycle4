@@ -22,8 +22,7 @@ export class CustomerComponent {
     this.mainhttp.getCustomer().subscribe({
       next: (Data: any) => {
         this.customers = Data
-        console.log(this.customers);
-        
+        console.log(this.customers);     
       },
       error: (error: any) => {
         console.log(error);

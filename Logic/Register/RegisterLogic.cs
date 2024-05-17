@@ -18,6 +18,7 @@ namespace BetaCycle4.Logic.Register
             _context = context;
         }
 
+        // UTILITY DB ADLT2019
         #region DeleteCustomerNew
         public bool DeleteCustomerNew(int id)
         {
@@ -87,6 +88,8 @@ namespace BetaCycle4.Logic.Register
         }
         #endregion
 
+
+        // UTILITY DB CREDENTIALS
         #region PostCredentials
         public bool PostCredentials(Credentials credentials)
         {
@@ -146,5 +149,6 @@ namespace BetaCycle4.Logic.Register
             return false;
         }
         #endregion
+
     }
 }

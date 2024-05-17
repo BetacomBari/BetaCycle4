@@ -8,8 +8,13 @@ using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using BetaCycle4.Models;
 using System.ComponentModel;
-using BetaCycle4.Logic.Authentication.EncryptionWithSha256;
+
+using BetaCycle4.Logger;
+
 using BetaCycle4.Logic;
+
+using BetaCycle4.Logic.Authentication.EncryptionWithSha256;
+
 using System.Security.Cryptography;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
@@ -26,18 +31,260 @@ namespace SqlManager.BLogic
         SqlCommand sqlCmd = new();
         public bool IsDbStatusValid = false;
 
+        //COSTRUTTORE
         #region COSTRUTTORE SqlConnectionString DB
         public DbUtility(string sqlConnectionString)
         {
             sqlCnn.ConnectionString = sqlConnectionString;
             try
             {
+
                 using (SqlConnection sqlConnection = sqlCnn)
                 {
                     checkDbOpen(); //lo apro, se va tutto bene reinizializza la connessione 
                     sqlCnn = new SqlConnection(sqlConnection.ConnectionString);
                     IsDbStatusValid = true;
                 }
+
+            }
+            catch (Exception e)
+            {
+                DbTracer error = new DbTracer();
+                error.InsertError(e.Message, e.HResult, e.StackTrace);
+            }
+            finally
+            {
+                checkDbClose();
+            }
+        }
+        #endregion
+
+
+        //UTILITY DB  CREDENTIALS
+        #region update CredentialId 
+        internal int UpdateCredentialId(CustomerNew customerNew, int customerId)
+        {
+            int credentialsUpdate = 0;
+            try
+            {
+                checkDbOpen();
+                sqlCmd.Connection = sqlCnn;
+                sqlCmd.CommandText = "UPDATE [dbo].[Credentials] SET [CredentialsCnnId] = @CredentialsCnnId WHERE EmailAddressEncrypt = @EmailAddressEncrypt";
+                sqlCmd.Parameters.AddWithValue("@EmailAddressEncrypt", customerNew.EmailAddress);
+                sqlCmd.Parameters.AddWithValue("@CredentialsCnnId", customerId);
+
+
+                credentialsUpdate = sqlCmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            { checkDbClose(); }
+
+            return credentialsUpdate;
+        }
+        #endregion
+
+        #region CheckEmailDbCustomerCredentials
+        internal bool CheckEmailDbCustomerCredentials(string email)
+        {
+            bool emailExists = false;
+            try
+            {
+                checkDbOpen();
+
+                //Criptazione della mail dato che nel db è criptata
+                email = EncryptionSHA256.sha256Encrypt(email);
+
+
+                sqlCmd.CommandText = "SELECT EmailAddressEncrypt FROM [dbo].[Credentials] WHERE [dbo].[Credentials].EmailAddressEncrypt = @email";
+                sqlCmd.Parameters.AddWithValue("@email", email);
+                sqlCmd.Connection = sqlCnn;
+
+                using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
+                {
+                    if (sqlReader.HasRows)
+                    {
+                        emailExists = true;
+                    }
+                    else
+                    {
+                        emailExists = false;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            finally
+            {
+                checkDbClose();
+            }
+
+            return emailExists;
+        }
+        #endregion
+
+        #region credentialsFromEmail
+        internal CredentialDB credentialsFromEmail(string email)
+        {
+            CredentialDB credentials = new CredentialDB();
+            //var tokenBytes = RandomNumberGenerator.GetBytes(64);
+            //var emailToken = Convert.ToBase64String(tokenBytes);
+            //emailToken = emailToken.Replace(" ", "+");
+
+            try
+            {
+                checkDbOpen();
+
+                //Criptazione della mail dato che nel db è criptata
+                string emailEncrypt = EncryptionSHA256.sha256Encrypt(email);
+
+                sqlCmd.CommandText = "SELECT * FROM [dbo].[Credentials] WHERE [dbo].[Credentials].EmailAddressEncrypt = @email";
+                sqlCmd.Parameters.AddWithValue("@email", emailEncrypt);
+                sqlCmd.Connection = sqlCnn;
+
+                using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
+                {
+                    if (sqlReader.HasRows)
+                    {
+                        while (sqlReader.Read())
+                        {
+                            credentials.EmailAddressEncrypt = sqlReader["EmailAddressEncrypt"].ToString();
+                            credentials.PasswordHash = sqlReader["PasswordHash"].ToString();
+                            credentials.PasswordSalt = sqlReader["PasswordSalt"].ToString();
+                            credentials.ResetPasswordToken = sqlReader["ResetPasswordToken"].ToString();
+                            //credentials.ResetPasswordToken = emailToken;
+                            credentials.ResetPasswordExpiry = (sqlReader["ResetPasswordExpiry"]) as DateTime?;
+                            if (credentials.ResetPasswordExpiry == null)
+                            {
+                                // Set default value here
+                                credentials.ResetPasswordExpiry = DateTime.Now; // Example default (reset in 30 days)
+                            }
+                            credentials.CredentialsCnnId = Convert.ToInt16(sqlReader["CredentialsCnnId"]);
+                        }
+
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            finally
+            {
+                checkDbClose();
+            }
+
+            return credentials;
+        }
+        #endregion
+
+        #region writeInfoOnDb
+        internal void writeInfoOnDb(CredentialDB credentialDBToInsert)
+        {
+            CredentialDB credentialDb = new CredentialDB();
+            try
+            {
+                checkDbOpen();
+
+                //string emailAddressEncrypt = EncryptionSHA256.sha256Encrypt(credentials.EmailAddress);
+
+                //KeyValuePair<string, string> passwordHashSalt = PasswordLogic.GetPasswordHashAndSalt(credentials.Password);
+
+                sqlCmd.CommandText = "UPDATE [dbo].[Credentials] SET PasswordHash=@PasswordHash ,PasswordSalt=@PasswordSalt ,CredentialsCnnId=@CredentialsCnnId, ResetPasswordToken=@ResetPasswordToken, ResetPasswordExpiry=@ResetPasswordExpiry WHERE EmailAddressEncrypt=@EmailAddressEncrypt";
+                sqlCmd.Parameters.AddWithValue("@EmailAddressEncrypt", credentialDBToInsert.EmailAddressEncrypt);
+                sqlCmd.Parameters.AddWithValue("@PasswordHash", credentialDBToInsert.PasswordHash);
+                sqlCmd.Parameters.AddWithValue("@PasswordSalt", credentialDBToInsert.PasswordSalt);
+                sqlCmd.Parameters.AddWithValue("@CredentialsCnnId", credentialDBToInsert.CredentialsCnnId);
+                sqlCmd.Parameters.AddWithValue("@ResetPasswordToken", credentialDBToInsert.ResetPasswordToken);
+                sqlCmd.Parameters.AddWithValue("@ResetPasswordExpiry", credentialDBToInsert.ResetPasswordExpiry);
+
+
+                sqlCmd.ExecuteNonQuery();
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            { checkDbClose(); }
+
+
+        }
+        #endregion
+
+        #region writeNewPasswordOnDb
+        internal void writeNewPasswordOnDb(BetaCycle4.Models.ResetPassword resetPassword)
+        {
+            string passwordHash;
+            string passwordSalt;
+            KeyValuePair<string, string> passwordHashSalt = PasswordLogic.GetPasswordHashAndSalt(resetPassword.NewPassword);
+            try
+            {
+                checkDbOpen();
+
+                string emailAddressEncrypt = EncryptionSHA256.sha256Encrypt(resetPassword.Email);
+
+                //KeyValuePair<string, string> passwordHashSalt = PasswordLogic.GetPasswordHashAndSalt(credentials.Password);
+
+                sqlCmd.CommandText = "UPDATE [dbo].[Credentials] SET PasswordHash=@PasswordHash ,PasswordSalt=@PasswordSalt WHERE EmailAddressEncrypt=@EmailAddressEncrypt";
+                sqlCmd.Parameters.AddWithValue("@EmailAddressEncrypt", emailAddressEncrypt);
+                sqlCmd.Parameters.AddWithValue("@PasswordHash", passwordHashSalt.Key);
+                sqlCmd.Parameters.AddWithValue("@PasswordSalt", passwordHashSalt.Value);
+
+
+
+                sqlCmd.ExecuteNonQuery();
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            { checkDbClose(); }
+
+
+        }
+        #endregion
+
+        #region GetPasswordHashEndSalt From DB CustomerCredentials
+        internal KeyValuePair<string, string> GetPasswordHashAndSalt(string email)
+        {
+            string? pwrHash = string.Empty;
+            string? pwrSalt = string.Empty;
+            try
+            {
+                checkDbOpen();
+
+                //Criptazione della mail dato che nel db è criptata
+                email = EncryptionSHA256.sha256Encrypt(email);
+
+                sqlCmd.CommandText = "SELECT PasswordHash, PasswordSalt from [dbo].[Credentials] WHERE [dbo].[Credentials].EmailAddressEncrypt = @email";
+                sqlCmd.Parameters.AddWithValue("@email", email);
+                sqlCmd.Connection = sqlCnn;
+
+                using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
+                {
+                    if (sqlReader.HasRows)
+                    {
+                        while (sqlReader.Read())
+                        {
+                            pwrHash = sqlReader["PasswordHash"].ToString();
+                            pwrSalt = sqlReader["PasswordSalt"].ToString();
+                        }
+                    }
+                }
+                checkDbClose();
             }
             catch (Exception)
             {
@@ -47,9 +294,73 @@ namespace SqlManager.BLogic
             {
                 checkDbClose();
             }
+
+            return new KeyValuePair<string, string>(pwrHash, pwrSalt);
         }
         #endregion
 
+        #region Insert Ccredentials
+        internal int InsertCredentials(Credentials credentials)
+        {
+            int credentialsInsert = 0;
+            try
+            {
+                checkDbOpen();
+
+                string emailAddressEncrypt = EncryptionSHA256.sha256Encrypt(credentials.EmailAddress);
+
+                KeyValuePair<string, string> passwordHashSalt = PasswordLogic.GetPasswordHashAndSalt(credentials.Password);
+
+                sqlCmd.CommandText = "INSERT INTO [dbo].[Credentials] ([EmailAddressEncrypt] ,[PasswordHash] ,[PasswordSalt] ,[CredentialsCnnId]) VALUES (@EmailAddressEncrypt, @PasswordHash, @PasswordSalt, @CredentialsCnnId)";
+                sqlCmd.Parameters.AddWithValue("@EmailAddressEncrypt", emailAddressEncrypt);
+                sqlCmd.Parameters.AddWithValue("@PasswordHash", passwordHashSalt.Key);
+                sqlCmd.Parameters.AddWithValue("@PasswordSalt", passwordHashSalt.Value);
+                sqlCmd.Parameters.AddWithValue("@CredentialsCnnId", credentials.CredentialsCnnId);
+
+
+                credentialsInsert = sqlCmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            { checkDbClose(); }
+
+            return credentialsInsert;
+        }
+        #endregion
+
+        #region Update token Ccredentials
+        internal int UpdateTokenCredentials(string EmailAddressEncrypt, string ResetPasswordToken, DateTime ResetPasswordExpiry)
+        {
+            int update = 0;
+
+            try
+            {
+                checkDbOpen();
+                sqlCmd.Connection = sqlCnn;
+                sqlCmd.CommandText = "UPDATE [dbo].[Credentials] SET [ResetPasswordToken] = @ResetPasswordToken ,[ResetPasswordExpiry] = @ResetPasswordExpiry WHERE [EmailAddressEncrypt] = @EmailAddressEncrypt";
+                sqlCmd.Parameters.AddWithValue("@EmailAddressEncrypt", EmailAddressEncrypt);
+                sqlCmd.Parameters.AddWithValue("@ResetPasswordToken", ResetPasswordToken);
+                sqlCmd.Parameters.AddWithValue("@ResetPasswordExpiry", ResetPasswordExpiry);
+
+
+                update = sqlCmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"ERRORE: {ex.Message}");
+            }
+            finally
+            { checkDbClose(); }
+
+            return update;
+        }
+        #endregion
+
+
+        //DB UTILITY ADLT2019
         #region CheckIsElseWhere
         internal bool CheckIsElseWhere(string email)
         {
@@ -158,197 +469,6 @@ namespace SqlManager.BLogic
         }
         #endregion
 
-        #region update CredentialId 
-        internal int UpdateCredentialId(CustomerNew customerNew, int customerId)
-        {
-            int credentialsUpdate = 0;
-            try
-            {
-                checkDbOpen();
-                sqlCmd.Connection = sqlCnn;
-                sqlCmd.CommandText = "UPDATE [dbo].[Credentials] SET [CredentialsCnnId] = @CredentialsCnnId WHERE EmailAddressEncrypt = @EmailAddressEncrypt";
-                sqlCmd.Parameters.AddWithValue("@EmailAddressEncrypt", customerNew.EmailAddress);
-                sqlCmd.Parameters.AddWithValue("@CredentialsCnnId", customerId);
-
-
-                credentialsUpdate = sqlCmd.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            finally
-            { checkDbClose(); }
-
-            return credentialsUpdate;
-        }
-        #endregion
-
-        #region CheckEmailDbCustomerCredentials
-        internal bool CheckEmailDbCustomerCredentials(string email)
-        {
-            bool emailExists = false;
-            try
-            {
-                checkDbOpen();
-
-                //Criptazione della mail dato che nel db è criptata
-                email = EncryptionSHA256.sha256Encrypt(email);
-
-
-                sqlCmd.CommandText = "SELECT EmailAddressEncrypt FROM [dbo].[Credentials] WHERE [dbo].[Credentials].EmailAddressEncrypt = @email";
-                sqlCmd.Parameters.AddWithValue("@email", email);
-                sqlCmd.Connection = sqlCnn;
-
-                using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
-                {
-                    if (sqlReader.HasRows)
-                    {
-                        emailExists = true;
-                    }
-                    else
-                    {
-                        emailExists = false;
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
-            finally
-            {
-                checkDbClose();
-            }
-
-            return emailExists;
-        }
-        #endregion
-
-        internal CredentialDB credentialsFromEmail(string email)
-        {
-            CredentialDB credentials = new CredentialDB();
-            //var tokenBytes = RandomNumberGenerator.GetBytes(64);
-            //var emailToken = Convert.ToBase64String(tokenBytes);
-            //emailToken = emailToken.Replace(" ", "+");
-
-            try
-            {
-                checkDbOpen();
-
-                //Criptazione della mail dato che nel db è criptata
-                string emailEncrypt = EncryptionSHA256.sha256Encrypt(email);
-
-                sqlCmd.CommandText = "SELECT * FROM [dbo].[Credentials] WHERE [dbo].[Credentials].EmailAddressEncrypt = @email";
-                sqlCmd.Parameters.AddWithValue("@email", emailEncrypt);
-                sqlCmd.Connection = sqlCnn;
-
-                using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
-                {
-                    if (sqlReader.HasRows)
-                    {
-                        while (sqlReader.Read())
-                        {
-                            credentials.EmailAddressEncrypt = sqlReader["EmailAddressEncrypt"].ToString();
-                            credentials.PasswordHash = sqlReader["PasswordHash"].ToString();
-                            credentials.PasswordSalt = sqlReader["PasswordSalt"].ToString();
-                            credentials.ResetPasswordToken = sqlReader["ResetPasswordToken"].ToString();
-                            //credentials.ResetPasswordToken = emailToken;
-                            credentials.ResetPasswordExpiry = (sqlReader["ResetPasswordExpiry"]) as DateTime?;
-                            if (credentials.ResetPasswordExpiry == null)
-                            {
-                                // Set default value here
-                                credentials.ResetPasswordExpiry = DateTime.Now; // Example default (reset in 30 days)
-                            }
-                            credentials.CredentialsCnnId = Convert.ToInt16(sqlReader["CredentialsCnnId"]);
-                        }
-
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
-            finally
-            {
-                checkDbClose();
-            }
-
-            return credentials;
-        }
-
-        internal void writeInfoOnDb(CredentialDB credentialDBToInsert)
-        {
-            CredentialDB credentialDb = new CredentialDB();
-            try
-            {
-                checkDbOpen();
-
-                //string emailAddressEncrypt = EncryptionSHA256.sha256Encrypt(credentials.EmailAddress);
-
-                //KeyValuePair<string, string> passwordHashSalt = PasswordLogic.GetPasswordHashAndSalt(credentials.Password);
-
-                sqlCmd.CommandText = "UPDATE [dbo].[Credentials] SET PasswordHash=@PasswordHash ,PasswordSalt=@PasswordSalt ,CredentialsCnnId=@CredentialsCnnId, ResetPasswordToken=@ResetPasswordToken, ResetPasswordExpiry=@ResetPasswordExpiry WHERE EmailAddressEncrypt=@EmailAddressEncrypt";
-                sqlCmd.Parameters.AddWithValue("@EmailAddressEncrypt", credentialDBToInsert.EmailAddressEncrypt);
-                sqlCmd.Parameters.AddWithValue("@PasswordHash", credentialDBToInsert.PasswordHash);
-                sqlCmd.Parameters.AddWithValue("@PasswordSalt", credentialDBToInsert.PasswordSalt);
-                sqlCmd.Parameters.AddWithValue("@CredentialsCnnId", credentialDBToInsert.CredentialsCnnId);
-                sqlCmd.Parameters.AddWithValue("@ResetPasswordToken", credentialDBToInsert.ResetPasswordToken);
-                sqlCmd.Parameters.AddWithValue("@ResetPasswordExpiry", credentialDBToInsert.ResetPasswordExpiry);
-
-
-                sqlCmd.ExecuteNonQuery();
-
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            finally
-            { checkDbClose(); }
-
-
-        }
-
-
-        internal void writeNewPasswordOnDb(BetaCycle4.Models.ResetPassword resetPassword)
-        {
-            string passwordHash;
-            string passwordSalt;
-            KeyValuePair<string, string> passwordHashSalt = PasswordLogic.GetPasswordHashAndSalt(resetPassword.NewPassword);
-            try
-            {
-                checkDbOpen();
-
-                string emailAddressEncrypt = EncryptionSHA256.sha256Encrypt(resetPassword.Email);
-
-                //KeyValuePair<string, string> passwordHashSalt = PasswordLogic.GetPasswordHashAndSalt(credentials.Password);
-
-                sqlCmd.CommandText = "UPDATE [dbo].[Credentials] SET PasswordHash=@PasswordHash ,PasswordSalt=@PasswordSalt WHERE EmailAddressEncrypt=@EmailAddressEncrypt";
-                sqlCmd.Parameters.AddWithValue("@EmailAddressEncrypt", emailAddressEncrypt);
-                sqlCmd.Parameters.AddWithValue("@PasswordHash", passwordHashSalt.Key);
-                sqlCmd.Parameters.AddWithValue("@PasswordSalt", passwordHashSalt.Value);
-
-
-
-                sqlCmd.ExecuteNonQuery();
-
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            finally
-            { checkDbClose(); }
-
-
-        }
-
         #region DeleteCustomerNew
         public int DeleteCredentials(int CredentialsCnnId)
         {
@@ -374,68 +494,25 @@ namespace SqlManager.BLogic
         }
         #endregion
 
-        #region GetPasswordHashEndSalt From DB CustomerCredentials
-        internal KeyValuePair<string, string> GetPasswordHashAndSalt(string email)
+        #region PostAddress
+        internal int PostAddressNew(Address address)
         {
-            string? pwrHash = string.Empty;
-            string? pwrSalt = string.Empty;
+            int addressInsert = 0;
             try
             {
                 checkDbOpen();
 
-                //Criptazione della mail dato che nel db è criptata
-                email = EncryptionSHA256.sha256Encrypt(email);
-
-                sqlCmd.CommandText = "SELECT PasswordHash, PasswordSalt from [dbo].[Credentials] WHERE [dbo].[Credentials].EmailAddressEncrypt = @email";
-                sqlCmd.Parameters.AddWithValue("@email", email);
-                sqlCmd.Connection = sqlCnn;
-
-                using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
-                {
-                    if (sqlReader.HasRows)
-                    {
-                        while (sqlReader.Read())
-                        {
-                            pwrHash = sqlReader["PasswordHash"].ToString();
-                            pwrSalt = sqlReader["PasswordSalt"].ToString();
-                        }
-                    }
-                }
-                checkDbClose();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                checkDbClose();
-            }
-
-            return new KeyValuePair<string, string>(pwrHash, pwrSalt);
-        }
-        #endregion
-
-        #region Insert Ccredentials
-        internal int InsertCredentials(Credentials credentials)
-        {
-            int credentialsInsert = 0;
-            try
-            {
-                checkDbOpen();
-
-                string emailAddressEncrypt = EncryptionSHA256.sha256Encrypt(credentials.EmailAddress);
-
-                KeyValuePair<string, string> passwordHashSalt = PasswordLogic.GetPasswordHashAndSalt(credentials.Password);
-
-                sqlCmd.CommandText = "INSERT INTO [dbo].[Credentials] ([EmailAddressEncrypt] ,[PasswordHash] ,[PasswordSalt] ,[CredentialsCnnId]) VALUES (@EmailAddressEncrypt, @PasswordHash, @PasswordSalt, @CredentialsCnnId)";
-                sqlCmd.Parameters.AddWithValue("@EmailAddressEncrypt", emailAddressEncrypt);
-                sqlCmd.Parameters.AddWithValue("@PasswordHash", passwordHashSalt.Key);
-                sqlCmd.Parameters.AddWithValue("@PasswordSalt", passwordHashSalt.Value);
-                sqlCmd.Parameters.AddWithValue("@CredentialsCnnId", credentials.CredentialsCnnId);
+                sqlCmd.CommandText = "INSERT INTO [dbo].[AddressNew] ([AddressLine1],[AddressLine2],[City],[StateProvince],[CountryRegion],[PostalCode],[ModifiedDate]) VALUES (@AddressLine1,@AddressLine2,@City,@StateProvince,@CountryRegion,@PostalCode,@ModifiedDate)";
+                sqlCmd.Parameters.AddWithValue("@AddressLine1", address.AddressLine1);
+                sqlCmd.Parameters.AddWithValue("@AddressLine2", address.AddressLine2);
+                sqlCmd.Parameters.AddWithValue("@City", address.City);
+                sqlCmd.Parameters.AddWithValue("@StateProvince", address.StateProvince);
+                sqlCmd.Parameters.AddWithValue("@CountryRegion", address.CountryRegion);
+                sqlCmd.Parameters.AddWithValue("@PostalCode", address.PostalCode);
+                sqlCmd.Parameters.AddWithValue("@ModifiedDate", address.ModifiedDate);
 
 
-                credentialsInsert = sqlCmd.ExecuteNonQuery();
+                addressInsert = sqlCmd.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
@@ -444,38 +521,42 @@ namespace SqlManager.BLogic
             finally
             { checkDbClose(); }
 
-            return credentialsInsert;
+            return addressInsert;
         }
         #endregion
 
-        #region Update token Ccredentials
-        internal int UpdateTokenCredentials(string EmailAddressEncrypt, string ResetPasswordToken, DateTime ResetPasswordExpiry)
+        #region PostCustomerAddressNew
+        internal int PostCustomerAddressNew(CustomerAddress customerAddress)
         {
-            int update = 0;
-
+            int CustomerAddressInsert = 0;
             try
             {
                 checkDbOpen();
-                sqlCmd.Connection = sqlCnn;
-                sqlCmd.CommandText = "UPDATE [dbo].[Credentials] SET [ResetPasswordToken] = @ResetPasswordToken ,[ResetPasswordExpiry] = @ResetPasswordExpiry WHERE [EmailAddressEncrypt] = @EmailAddressEncrypt";
-                sqlCmd.Parameters.AddWithValue("@EmailAddressEncrypt", EmailAddressEncrypt);
-                sqlCmd.Parameters.AddWithValue("@ResetPasswordToken", ResetPasswordToken);
-                sqlCmd.Parameters.AddWithValue("@ResetPasswordExpiry", ResetPasswordExpiry);
+
+                sqlCmd.CommandText = "INSERT INTO [dbo].[CustomerAddressNew] ([CustomerID],[AddressID],[AddressType],[ModifiedDate]) VALUES (@CustomerID,@AddressID,@AddressType,@ModifiedDate)";
+                sqlCmd.Parameters.AddWithValue("@CustomerID", customerAddress.CustomerId);
+                sqlCmd.Parameters.AddWithValue("@AddressID", customerAddress.AddressId);
+                sqlCmd.Parameters.AddWithValue("@AddressType", customerAddress.AddressType);
+                sqlCmd.Parameters.AddWithValue("@ModifiedDate", customerAddress.ModifiedDate);
 
 
-                update = sqlCmd.ExecuteNonQuery();
+
+                CustomerAddressInsert = sqlCmd.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"ERRORE: {ex.Message}");
+                throw;
             }
             finally
             { checkDbClose(); }
 
-            return update;
+            return CustomerAddressInsert;
         }
         #endregion
 
+
+
+        //CHECK DB
         #region CHECK OPEN/CLOSE DB
         void checkDbOpen()
         {
