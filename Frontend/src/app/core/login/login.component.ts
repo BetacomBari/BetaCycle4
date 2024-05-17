@@ -10,6 +10,7 @@ import { UserCardComponent } from '../user-card/user-card.component';
 import { User } from '../../shared/models/user';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { ResetPasswordService } from '../services/reset-password.service';
+import { AuthService } from '../services/auth.service';
 declare var handleSignOut: any;
 
 @Component({
@@ -30,11 +31,11 @@ export class LoginComponent {
   user: User = new User();
   resetPassword!: string;
   isEmailForResetValid!: boolean;
-
+  jwtToken: string = "";
 
   loginCredientals: Credientals = new Credientals()
 
-  constructor(private http: HttprequestService, private router: Router, private resetService: ResetPasswordService) { }
+  constructor(private http: HttprequestService, private router: Router, private resetService: ResetPasswordService, private authStatus: AuthService) { }
 
   
 
@@ -42,22 +43,18 @@ export class LoginComponent {
     console.log("sono entrato nella funzione");
     this.loginCredientals.EmailAddress = email.value
     this.loginCredientals.Password = password.value
-    console.log(email.value);
-    console.log(password.value);
 
     if (email.value != "" && password.value != "") { 
       this.loginCredientals.EmailAddress = email.value
       this.loginCredientals.Password = password.value
 
-      this.http.loginPost(this.loginCredientals).subscribe(resp =>{    
+      this.http.loginPostJwt(this.loginCredientals).subscribe(resp =>{    
         if (resp.status == 200) {
           console.log("LOGIN OK!");
           this.logged_in = true;
           this.email_toShow = email.value;
-          console.log(resp);
-          localStorage.setItem('loggedInUser', JSON.stringify(resp.body.token));
-          console.log(resp.body.token);
-
+          this.jwtToken = resp.body.token;
+          localStorage.setItem('jwtToken', this.jwtToken)
         }else{
           console.log("Status: " + resp.status);      
         }
@@ -81,6 +78,7 @@ export class LoginComponent {
 
   handleSignOut() {
     handleSignOut();
+    localStorage.removeItem("jwtToken")
     sessionStorage.removeItem("loggedInUser");
     this.router.navigate(["/login"]).then( ()=>{
       window.location.reload();
@@ -115,7 +113,7 @@ export class LoginComponent {
   
 
   checkValidEmailForReset(event: string){
-    const value = event;
+    const value = event; 
     //const pattern = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,3}$/;
     let pattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/;
     this.isEmailForResetValid = pattern.test(value);

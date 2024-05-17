@@ -28,63 +28,113 @@ namespace BetaCycle4.Controllers
         [HttpPost]
         public IActionResult Register(CustomerRegister customerRegister)
         {
+            RegisterLogic registerLogic = new RegisterLogic(_context);
+            int customerId = 0;
+
             try
             {
+
                 CustomersNewController customersNewController = new CustomersNewController(_context, _config, _emailService);
 
                 Credentials credentialToPass = new();
                 CustomerNew customersNewToPass = new();
+                CustomerAddress customerAddressToPass = new();
+                Address addressToPass = new();
 
+                //CREDENTIALS
                 credentialToPass.EmailAddress = customerRegister.EmailAddress;
                 credentialToPass.Password = customerRegister.Password;
+                //
 
-                customersNewToPass.NameStyle = customerRegister.NameStyle;
-                customersNewToPass.Title = customerRegister.Title;
+                //CUSTOMER NEW
                 customersNewToPass.FirstName = customerRegister.FirstName;
                 customersNewToPass.MiddleName = customerRegister.MiddleName;
                 customersNewToPass.LastName = customerRegister.LastName;
-                customersNewToPass.Suffix = customerRegister.Suffix;
-                customersNewToPass.CompanyName = customerRegister.CompanyName;
-                customersNewToPass.SalesPerson = customerRegister.SalesPerson;
                 customersNewToPass.EmailAddress = EncryptionSHA256.sha256Encrypt(customerRegister.EmailAddress);
                 customersNewToPass.Phone = customerRegister.Phone;
-                customersNewToPass.Rowguid = customerRegister.Rowguid;
-                customersNewToPass.ModifiedDate = customerRegister.ModifiedDate;
-                customersNewToPass.Role = customerRegister.Role;
+                customersNewToPass.ModifiedDate = customerRegister.ModifiedDate.AddHours(2);
+                //
 
-                RegisterLogic registerLogic = new RegisterLogic(_context);
+                //ADDRESS
+                addressToPass.AddressLine1 = customerRegister.AddressLine1;
+                addressToPass.AddressLine2 = customerRegister.AddressLine2;
+                addressToPass.City = customerRegister.City;
+                addressToPass.StateProvince = customerRegister.StateProvince;
+                addressToPass.CountryRegion = customerRegister.CountryRegion;
+                addressToPass.PostalCode = customerRegister.PostalCode;
+                addressToPass.ModifiedDate = customerRegister.ModifiedDate.AddHours(2);
+                //
+
+                //CUSTOMER ADDRESS           
+                customerAddressToPass.AddressType = customerRegister.AddressType;
+                customerAddressToPass.ModifiedDate = customerRegister.ModifiedDate.AddHours(2);
+                //
 
 
-
+                //INSERT CREDENTIALS
                 if (registerLogic.PostCredentials(credentialToPass))
                 {
-
+                    //INSERT CUSTOMER NEW
                     if (registerLogic.PostCustomerNew(customersNewToPass))
                     {
-                        int customerId = dbUtilityLT2019.SelectIdCCustomerNew(customersNewToPass.EmailAddress);
+                        customerId = dbUtilityLT2019.SelectIdCustomerNew(customersNewToPass.EmailAddress);
                         dbUtilityCredentials.UpdateCredentialId(customersNewToPass, customerId);
 
+                        //set email customerNew null
                         customersNewToPass.CustomerId = customerId;
                         customersNewToPass.EmailAddress = null;
-                        registerLogic.SetEmailNull(customerId,customersNewToPass);
-                        return Ok();
+                        registerLogic.SetEmailNull(customerId, customersNewToPass);
+                        //
+
+                        //CUSTOMER ID in ADDRESS
+                        addressToPass.CustomerId = customerId;
+                        //
+
+                        //INSERT ADDRESS NEW 
+                        if (dbUtilityLT2019.PostAddressNew(addressToPass) == 1)
+                        {
+                            int addressId = dbUtilityLT2019.SelectAddressId(customerId);
+
+                            //CUSTOMER ADDRESS
+                            customerAddressToPass.CustomerId = customerId;
+                            customerAddressToPass.AddressId = addressId;
+                            //
+
+                            //INSERT CUSTOMER ADDRESS
+                            if (dbUtilityLT2019.PostCustomerAddressNew(customerAddressToPass) == 1)
+                            {
+                                return Ok("registrazione completa");
+                            }
+                            else
+                            {
+                                dbUtilityCredentials.DeleteCredentials(customerId);
+                                registerLogic.DeleteCustomerNew(customerId);
+                                dbUtilityLT2019.DeleteAddressNew(addressId);
+                                return BadRequest("Errore in post customerAddress");
+                            }
+                        }
+                        else
+                        {
+                            dbUtilityCredentials.DeleteCredentials(customerId);
+                            registerLogic.DeleteCustomerNew(customerId);
+                            return BadRequest("PostAddress NON è andata a buon fine");
+                        }
                     }
                     else
                     {
-                        dbUtilityCredentials.DeleteCredentials(0);
-                        return BadRequest();
+                        dbUtilityCredentials.DeleteCredentials(customerId);
+                        return BadRequest("ERROR IN CustomerNew");
                     }
                 }
                 else
                 {
-                    return BadRequest();
+                    return BadRequest("ERROR IN Credentials");
                 }
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
                 throw;
-                
             }
         }
     }
