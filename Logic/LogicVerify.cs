@@ -25,20 +25,28 @@ namespace BetaCycle4.Logic
         //
 
         // Funzione per verificare se una stringa ha più di tot caratteri
-        public static bool VerifyLength(string input, int maxLength)
+        public static bool VerifyLength(string input, int maxLength, bool canBeEmpty)
         {
-            if (string.IsNullOrEmpty(input))
+            if (!canBeEmpty)
             {
-                return false;
+                if (string.IsNullOrEmpty(input))
+                {
+                    return false;
+                }
+            }
+
+            if (input == null)
+            {
+                return true;
             }
 
             if (input.Length > maxLength)
             {
-                return true;
+                return false;
             }
             else
             {
-                return false;
+                return true;
             }
         }
 

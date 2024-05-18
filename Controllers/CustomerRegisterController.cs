@@ -41,22 +41,22 @@ namespace BetaCycle4.Controllers
                 {
                     return BadRequest("EMAIL ERROR");
                 }             
-                if (LogicVerify.VerifyLength(customerRegister.FirstName, 50))
+                if (!LogicVerify.VerifyLength(customerRegister.FirstName, 50, false))
                 {
                     return BadRequest("FirstName ERROR");
                 }
 
-                if (LogicVerify.VerifyLength(customerRegister.MiddleName, 50))
+                if (!LogicVerify.VerifyLength(customerRegister.MiddleName, 50, false))
                 {
                     return BadRequest("MiddleName ERROR");
                 }
 
-                if (LogicVerify.VerifyLength(customerRegister.LastName, 50))
+                if (!LogicVerify.VerifyLength(customerRegister.LastName, 50, false))
                 {
                     return BadRequest("LastName ERROR");
                 }
 
-                if (LogicVerify.VerifyLength(customerRegister.Phone, 25))
+                if (!LogicVerify.VerifyLength(customerRegister.Phone, 25, false))
                 {
                     return BadRequest("Phone ERROR");
                 }
@@ -65,6 +65,47 @@ namespace BetaCycle4.Controllers
                 if (!LogicVerify.IsValidPassword(customerRegister.Password))
                 {
                     return BadRequest("Password ERROR");
+                }
+
+                //VERIFY ADDRESS NEW          
+                if (!LogicVerify.VerifyLength(customerRegister.AddressLine1, 60, false))
+                {
+                    return BadRequest("AddressLine1 ERROR");
+                }
+
+                if (!LogicVerify.VerifyLength(customerRegister.AddressLine2, 60, true))
+                {
+                    return BadRequest("AddressLine2 ERROR");
+                }
+                else
+                {
+                    customerRegister.AddressLine2 = "";
+                }
+
+                if (!LogicVerify.VerifyLength(customerRegister.City, 30, false))
+                {
+                    return BadRequest("City ERROR");
+                }
+
+                if (!LogicVerify.VerifyLength(customerRegister.StateProvince, 50, false))
+                {
+                    return BadRequest("StateProvince ERROR");
+                }
+
+                if (!LogicVerify.VerifyLength(customerRegister.CountryRegion, 50, false))
+                {
+                    return BadRequest("CountryRegion ERROR");
+                }
+
+                if (!LogicVerify.VerifyLength(customerRegister.PostalCode, 15, false))
+                {
+                    return BadRequest("PostalCode ERROR");
+                }
+
+                //VERIFY CUSTOMER ADDRESS
+                if (!LogicVerify.VerifyLength(customerRegister.AddressType, 50, false))
+                {
+                    return BadRequest("AddressType ERROR");
                 }
                 #endregion
 
