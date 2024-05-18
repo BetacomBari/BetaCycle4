@@ -9,7 +9,7 @@ using SqlManager.BLogic;
 
 namespace BetaCycle4.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("Register")]
     [ApiController]
     public class CustomerRegisterController : ControllerBase
     {

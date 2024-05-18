@@ -18,35 +18,100 @@
                             <div class="form-group pt-3">
                                 <div class="input-field">
                                     <span class="fa fa-user p-2"></span>
-                                    <input type="text" placeholder="First Name" #firstName>
+                                    <input type="text" placeholder="First Name" #FirstName>
                                 </div>
                             </div>
                             <!-- Middle Name -->
                             <div class="form-group pt-3">
                                 <div class="input-field">
                                     <span class="fa fa-user p-2"></span>
-                                    <input type="text" placeholder="Middle Name" #middleName>
+                                    <input type="text" placeholder="Middle Name" #MiddleName>
                                 </div>
                             </div>
                             <!-- Last Name -->
                             <div class="form-group pt-3">
                                 <div class="input-field">
                                     <span class="fa fa-user p-2"></span>
-                                    <input type="text" placeholder="Last Name" #lastName>
+                                    <input type="text" placeholder="Last Name" #LastName>
                                 </div>
                             </div>
+                            <!-- Phone -->
+                            <div class="form-group pt-3">
+                                <div class="input-field">
+                                    <span class="fa fa-user p-2"></span>
+                                    <input type="text" placeholder="Phone" #Phone>
+                                </div>
+                            </div>
+
+                            <!-- AddressType -->
+                            <div class="form-group pt-3">
+                                <div class="input-field">
+                                    <span class="fa fa-user p-2"></span>
+                                    <input type="text" placeholder="AddressType" #AddressType>
+                                </div>
+                            </div>
+
+                            <!-- AddressLine1 -->
+                            <div class="form-group pt-3">
+                                <div class="input-field">
+                                    <span class="fa fa-user p-2"></span>
+                                    <input type="text" placeholder="AddressLine1" #AddressLine1>
+                                </div>
+                            </div>
+
+                            <!-- AddressLine2 -->
+                            <div class="form-group pt-3">
+                                <div class="input-field">
+                                    <span class="fa fa-user p-2"></span>
+                                    <input type="text" placeholder="AddressLine2" #AddressLine2>
+                                </div>
+                            </div>
+
+                            <!-- City -->
+                            <div class="form-group pt-3">
+                                <div class="input-field">
+                                    <span class="fa fa-user p-2"></span>
+                                    <input type="text" placeholder="City" #City>
+                                </div>
+                            </div>
+
+
+                            <!-- StateProvince -->
+                            <div class="form-group pt-3">
+                                <div class="input-field">
+                                    <span class="fa fa-user p-2"></span>
+                                    <input type="text" placeholder="StateProvince" #StateProvince>
+                                </div>
+                            </div>
+
+                            <!-- CountryRegion -->
+                            <div class="form-group pt-3">
+                                <div class="input-field">
+                                    <span class="fa fa-user p-2"></span>
+                                    <input type="text" placeholder="CountryRegion" #CountryRegion>
+                                </div>
+                            </div>
+
+                            <!-- PostalCode -->
+                            <div class="form-group pt-3">
+                                <div class="input-field">
+                                    <span class="fa fa-user p-2"></span>
+                                    <input type="text" placeholder="PostalCode" #PostalCode>
+                                </div>
+                            </div>
+
                             <!-- Email -->
                             <div class="form-group pt-3">
                                 <div class="input-field">
                                     <span class="fa fa-user p-2"></span>
-                                    <input type="text" placeholder="Email" #email>
+                                    <input type="text" placeholder="Email" #EmailAddress>
                                 </div>
                             </div>
                             <!-- Password -->
                             <div class="form-group pt-3">
                                 <div class="input-field">
                                     <span class="fa-solid fa-lock"></span>
-                                    <input [type]=type placeholder="Password" #password>
+                                    <input [type]=type placeholder="Password" #Password>
                                     <span (click)="hideShowPassword()" class="fa {{eyeIcon}}"></span>
                                 </div>
                             </div>
@@ -62,9 +127,8 @@
                                 <a id="forget" class="font-weight-bold">Forget password?</a>
                             </div>
 
-                            <button type="submit" class="btn btn-primary btn-block mt-4 w-100" (click)="createCustomer(firstName, middleName, lastName, email, password)">Sign Up</button>
-                            <div class="text-center pt-4 text-muted">Aleady have account? <a id="forget"
-                                    routerLink="/login">Login</a></div>
+                            <button type="submit" class="btn btn-primary btn-block mt-4 w-100" (click)="register(FirstName, MiddleName, LastName, Phone, AddressType, EmailAddress,Password,  AddressLine1, AddressLine2, City, StateProvince, CountryRegion, PostalCode)">Sign Up</button>
+                            <div class="text-center pt-4 text-muted">Aleady have account? <a id="forget" routerLink="/login">Login</a></div>
                         </form>
                     </div>
 

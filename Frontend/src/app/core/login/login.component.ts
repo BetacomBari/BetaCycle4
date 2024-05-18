@@ -1,7 +1,7 @@
 import { HttpRequest, HttpStatusCode } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { HttprequestService } from '../services/httprequest.service';
-import { Credientals } from '../../shared/models/credentials';
+import { Credentials } from '../../shared/models/Credentials';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -33,7 +33,7 @@ export class LoginComponent {
   isEmailForResetValid!: boolean;
   jwtToken: string = "";
 
-  loginCredientals: Credientals = new Credientals()
+  loginCredentials: Credentials = new Credentials()
 
   constructor(private http: HttprequestService, private router: Router, private resetService: ResetPasswordService, private authStatus: AuthService) { }
 
@@ -41,14 +41,14 @@ export class LoginComponent {
 
   login(email: HTMLInputElement, password: HTMLInputElement) {
     console.log("sono entrato nella funzione");
-    this.loginCredientals.EmailAddress = email.value
-    this.loginCredientals.Password = password.value
+    this.loginCredentials.EmailAddress = email.value
+    this.loginCredentials.Password = password.value
 
     if (email.value != "" && password.value != "") { 
-      this.loginCredientals.EmailAddress = email.value
-      this.loginCredientals.Password = password.value
+      this.loginCredentials.EmailAddress = email.value
+      this.loginCredentials.Password = password.value
 
-      this.http.loginPostJwt(this.loginCredientals).subscribe(resp =>{    
+      this.http.loginPostJwt(this.loginCredentials).subscribe(resp =>{    
         if (resp.status == 200) {
           console.log("LOGIN OK!");
           this.logged_in = true;

@@ -2,9 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
-import { Credientals } from '../../shared/models/credentials';
+
 import { User } from '../../shared/models/user';
 import { AuthService } from './auth.service';
+import { Credentials } from '../../shared/models/Credentials';
+import { CustomerRegister } from '../../shared/models/CustomerRegister';
 
 
 @Injectable({
@@ -15,9 +17,14 @@ export class HttprequestService {
 
   constructor(private http: HttpClient, private auth: AuthService) {}
 
-  loginPostJwt(credentials: Credientals): Observable<any>
+  loginPostJwt(credentials: Credentials): Observable<any>
   {
     return this.http.post(`https://localhost:7165/Login`, credentials, {observe: 'response'})
+  }
+
+  register(CustomerRegister: CustomerRegister): Observable<any>
+  {
+    return this.http.post(`https://localhost:7165/Register`, CustomerRegister,  {observe: 'response'})
   }
 
   postUser(user: User): Observable<any> {
