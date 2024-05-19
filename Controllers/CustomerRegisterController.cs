@@ -40,13 +40,14 @@ namespace BetaCycle4.Controllers
                 if (!LogicVerify.IsValidEmail(customerRegister.EmailAddress))
                 {
                     return BadRequest("EMAIL ERROR");
-                }             
+                }
+                
                 if (!LogicVerify.VerifyLength(customerRegister.FirstName, 50, false))
                 {
                     return BadRequest("FirstName ERROR");
                 }
 
-                if (!LogicVerify.VerifyLength(customerRegister.MiddleName, 50, false))
+                if (!LogicVerify.VerifyLength(customerRegister.MiddleName, 50, true))
                 {
                     return BadRequest("MiddleName ERROR");
                 }
@@ -176,7 +177,7 @@ namespace BetaCycle4.Controllers
                             //INSERT CUSTOMER ADDRESS
                             if (dbUtilityLT2019.PostCustomerAddressNew(customerAddressToPass) == 1)
                             {
-                                return Ok("registrazione completa");
+                                return Ok(new { message = "registrazione completa" });
                             }
                             else
                             {
@@ -201,7 +202,7 @@ namespace BetaCycle4.Controllers
                 }
                 else
                 {
-                    return BadRequest("ERROR IN Credentials");
+                    return BadRequest(new { message = "emailExist" });
                 }
             }
             catch (Exception ex)

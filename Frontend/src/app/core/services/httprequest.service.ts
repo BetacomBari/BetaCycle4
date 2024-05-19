@@ -27,10 +27,6 @@ export class HttprequestService {
     return this.http.post(`https://localhost:7165/Register`, CustomerRegister,  {observe: 'response'})
   }
 
-  postUser(user: User): Observable<any> {
-    return this.http.post(`https://localhost:7165/api/Customers`, user)
-  }
-
   getCustomer(): Observable<any> {  
     this.token = String(localStorage.getItem('jwtToken'));
     this.auth.setJwtLoginStatus(true, this.token)

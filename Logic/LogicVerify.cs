@@ -77,7 +77,7 @@ namespace BetaCycle4.Logic
             }
 
             // Verifica che la password contenga almeno un carattere speciale
-            if (!Regex.IsMatch(password, @"[!@#$%&?{}|<>]"))
+            if (!Regex.IsMatch(password, @"[!@#$%&?{}|<>.]"))
             {
                 return false;
             }

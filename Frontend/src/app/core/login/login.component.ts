@@ -11,6 +11,7 @@ import { User } from '../../shared/models/user';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { ResetPasswordService } from '../services/reset-password.service';
 import { AuthService } from '../services/auth.service';
+import { CustomerRegister } from '../../shared/models/CustomerRegister';
 declare var handleSignOut: any;
 
 @Component({
@@ -28,7 +29,7 @@ export class LoginComponent {
   email_toShow:string="";
   logged_in: boolean = false;
   userProfile: any;
-  user: User = new User();
+  customerRegister: CustomerRegister = new CustomerRegister();
   resetPassword!: string;
   isEmailForResetValid!: boolean;
   jwtToken: string = "";
@@ -40,7 +41,6 @@ export class LoginComponent {
   
 
   login(email: HTMLInputElement, password: HTMLInputElement) {
-    console.log("sono entrato nella funzione");
     this.loginCredentials.EmailAddress = email.value
     this.loginCredentials.Password = password.value
 
@@ -91,22 +91,20 @@ export class LoginComponent {
   }
 
   writeInDb(){
-    this.user.EmailAddress = this.userProfile.email;
-    this.user.FirstName = this.userProfile.given_name;
-    this.user.LastName = this.userProfile.family_name;
-    this.user.PasswordHash = "passwordFromGoogle";
-    this.user.PasswordSalt = "passwordFromGoogle";
-    console.log(this.user);
+    this.customerRegister.EmailAddress = this.userProfile.email;
+    this.customerRegister.FirstName = this.userProfile.given_name;
+    this.customerRegister.LastName = this.userProfile.family_name;
+    this.customerRegister.Password = "passwordFromGoogle";
 
-    // this.http.postUser(this.user).subscribe({
-    //   next: (data: any) => {
-    //     this.user = data;
-    //     console.log(this.user)
-    //   },
-    //   error: (err: any) => {
-    //     console.log(err);
-    //   }
-    // })
+    this.http.register(this.customerRegister).subscribe({
+      next: (data: any) => {
+        this.customerRegister = data;
+        console.log(this.customerRegister)
+      },
+      error: (err: any) => {
+        console.log(err);
+      }
+    })
 
   }
 
