@@ -1,8 +1,8 @@
 export class Customer{   
-    firstName: string = ''; 
-    middleName: string = ''; 
-    lastName: string = ''; 
-    phone: string = ''; 
+    FirstName: string = ''; 
+    MiddleName: string = ''; 
+    LastName: string = ''; 
+    Phone: string = ''; 
 }
 
 

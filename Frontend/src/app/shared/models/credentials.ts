@@ -1,4 +1,4 @@
-export class Credientals{
+export class Credentials{
     EmailAddress: string = ''
     Password: string = ''
 }
