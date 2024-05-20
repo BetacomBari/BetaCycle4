@@ -119,23 +119,13 @@
                             <div class="form-group pt-3">
                                 <div class="input-field">
                                     <span class="fa-solid fa-lock"></span>
-<<<<<<< HEAD
-                                    <input [type]=type placeholder="Conferma Password">
-=======
                                     <input [type]=type placeholder="Conferma Password" #PasswordConfirm>
->>>>>>> Register
                                     <span (click)="hideShowPassword()" class="fa {{eyeIcon}}"></span>
                                 </div>
                             </div>
 
-<<<<<<< HEAD
-                            <button type="submit" class="btn btn-primary btn-block mt-4 w-100" (click)="createCustomer(firstName, middleName, lastName, email, password)">Register</button>
-                            <div class="text-center pt-4 text-muted">Aleady have account? <a id="forget"
-                                    routerLink="/login">Login</a></div>
-=======
                             <button type="submit" class="btn btn-primary btn-block mt-4 w-100" (click)="register(FirstName, MiddleName, LastName, Phone, AddressType, EmailAddress,Password,  AddressLine1, AddressLine2, City, StateProvince, CountryRegion, PostalCode, PasswordConfirm)">Sign Up</button>
                             <div class="text-center pt-4 text-muted">Aleady have account? <a id="forget" routerLink="/login">Login</a></div>
->>>>>>> Register
                         </form>
                     </div>
 
