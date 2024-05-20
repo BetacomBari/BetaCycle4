@@ -178,7 +178,7 @@ namespace BetaCycle4.Controllers
                             if (dbUtilityLT2019.PostCustomerAddressNew(customerAddressToPass) == 1)
                             {
                                 emailExistInDbADLT2019 = dbUtilityLT2019.CheckEmailDbAWLT2019(customerRegister.EmailAddress);
-                                if (emailExistInDbADLT2019 && dbUtilityLT2019.CheckIsElseWhere(customerRegister.EmailAddress))
+                                if (emailExistInDbADLT2019 && !dbUtilityLT2019.CheckIsElseWhere(customerRegister.EmailAddress))
                                 {
                                     dbUtilityLT2019.SetIsElseWhereTrue(customerRegister.EmailAddress);
                                 }
