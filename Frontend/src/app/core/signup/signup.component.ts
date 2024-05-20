@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
-import { Customer } from '../../shared/models/customer';
-import { HttprequestService } from '../../shared/services/httprequest.service';
-
+import { CustomerRegister } from '../../shared/models/CustomerRegister';
+import { Address } from '../../shared/models/Address';
+import { CustomerAddress } from '../../shared/models/CustomerAddress';
+import { Credentials } from '../../shared/models/Credentials';
+import { HttprequestService } from '../services/httprequest.service';
 
 @Component({
   selector: 'app-signup',
@@ -20,66 +22,129 @@ export class SignupComponent {
   isRegistered: boolean = false;
   customerRegister: CustomerRegister = new CustomerRegister();
 
-  constructor(private mainhttp: HttprequestService) { }
+  constructor(private http: HttprequestService){}
 
-  customer: Customer = new Customer();
+
+
 
   hideShowPassword(){
     this.isText = !this.isText;
     this.isText ? this.eyeIcon = "fa-eye" : this.eyeIcon = "fa-eye-slash";
     this.isText ? this.type="text" : this.type = "password"
   }
+  
+  onSubmit(event: Event) {
+    event.preventDefault(); // Previene il comportamento predefinito di submit del form
+  }
 
-  createCustomer(firstName: HTMLInputElement, middleName: HTMLInputElement, lastName: HTMLInputElement, email: HTMLInputElement, password: HTMLInputElement )
+  //! VERIFY
+  isValidEmail(email: string): boolean {
+    if (!email || email.trim() === '') {
+      return false;
+    }
+
+    try {
+      const emailRegex = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+      return emailRegex.test(email);
+    } catch (e) {
+      return false;
+    }
+  }
+
+  verifyLength(input: string | null, maxLength: number, canBeEmpty: boolean): boolean {
+    // Se l'input non pu√≤ essere vuoto e l'input √® null o vuoto, restituisce false
+    if (!canBeEmpty && (!input || input.trim() === '')) {
+      return false;
+    }
+
+    // Se l'input √® null, significa che √® accettabile (specialmente se pu√≤ essere vuoto)
+    if (input == null) {
+      return true;
+    }
+
+    // Restituisce true se la lunghezza dell'input √® minore o uguale a maxLength, altrimenti false
+    return input.length <= maxLength;
+  }
+
+  isValidPassword(password: string): boolean {
+    if (!password) {
+      return false;
+    }
+
+    // Verifica che la password abbia almeno 8 caratteri
+    if (password.length < 8) {
+      return false;
+    }
+
+    // Verifica che la password contenga almeno un numero
+    if (!/\d/.test(password)) {
+      return false;
+    }
+
+    // Verifica che la password contenga almeno una lettera maiuscola
+    if (!/[A-Z]/.test(password)) {
+      return false;
+    }
+
+    // Verifica che la password contenga almeno un carattere speciale
+    if (!/[!@#$%&?{}|<>.]/.test(password)) {
+      return false;
+    }
+
+    return true;
+  }
+  //! END VERIFY
+
+
+  register(FirstName: HTMLInputElement, MiddleName: HTMLInputElement, LastName: HTMLInputElement, Phone: HTMLInputElement, AddressType: HTMLInputElement, EmailAddress: HTMLInputElement, Password: HTMLInputElement, AddressLine1: HTMLInputElement, AddressLine2: HTMLInputElement, City: HTMLInputElement, StateProvince: HTMLInputElement, CountryRegion: HTMLInputElement, PostalCode: HTMLInputElement, PasswordConfirm:HTMLInputElement):boolean
   {
-    this.customer.firstName = firstName.value;
-    this.customer.middleName = middleName.value;
-    this.customer.lastName = lastName.value;
-    this.customer.email = email.value;
-    this.customer.password = password.value;
+   this.errorMessage = [] 
+    if (!this.verifyLength(FirstName.value, 50, false)) {      
+      this.errorMessage.push("Il nome √® obbligatorio e non pu√≤ avere pi√π di 50 caratteri.")
+    }
 
     if (!this.verifyLength(MiddleName.value, 50, true)) {   
-      this.errorMessage.push("Il secondo nome non puÚ avere pi˘ di 50 caratteri.")
+      this.errorMessage.push("Il secondo nome non pu√≤ avere pi√π di 50 caratteri.")
     }
 
     if (!this.verifyLength(LastName.value, 50, false)) {
-      this.errorMessage.push("Il cognome Ë obbligatorio e non puÚ avere pi˘ di 50 caratteri.")    
+      this.errorMessage.push("Il cognome √® obbligatorio e non pu√≤ avere pi√π di 50 caratteri.")    
     }
 
     if (!this.verifyLength(Phone.value, 25, false)) {
-      this.errorMessage.push("Il numero di telefono Ë obbligatorio e non puÚ avere pi˘ di 25 caratteri.")    
+      this.errorMessage.push("Il numero di telefono √® obbligatorio e non pu√≤ avere pi√π di 25 caratteri.")    
     }
 
     if (!this.verifyLength(AddressType.value, 50, false)) {
-      this.errorMessage.push("Il tipo di indirizzo Ë obbligatorio e non puÚ avere pi˘ di 50 caratteri.")     
+      this.errorMessage.push("Il tipo di indirizzo √® obbligatorio e non pu√≤ avere pi√π di 50 caratteri.")     
     }
 
     if (!this.isValidEmail(EmailAddress.value)) {
-      this.errorMessage.push("L'email Ë obbligatoria e deve essere simile al formato indicato: 'example@example.com'")     
+      this.errorMessage.push("L'email √® obbligatoria e deve essere simile al formato indicato: 'example@example.com'")     
     }
 
     if (!this.verifyLength(AddressLine1.value, 60, false)) {
-      this.errorMessage.push("L'indirizzo Ë obbligatorio e non puÚ avere pi˘ di 60 caratteri.")
+      this.errorMessage.push("L'indirizzo √® obbligatorio e non pu√≤ avere pi√π di 60 caratteri.")
     }
     
     if (!this.verifyLength(AddressLine2.value, 60, true)) {
-      this.errorMessage.push("Il secondo indirizzo non puÚ avere pi˘ di 60 caratteri.")     
+      this.errorMessage.push("Il secondo indirizzo non pu√≤ avere pi√π di 60 caratteri.")     
     }
     
     if (!this.verifyLength(City.value, 30, false)) {
-      this.errorMessage.push("La citt‡ Ë obbligatoria e non puÚ avere pi˘ di 30 caratteri.")    
+      this.errorMessage.push("La citt√† √® obbligatoria e non pu√≤ avere pi√π di 30 caratteri.")    
     }
     
     if (!this.verifyLength(StateProvince.value, 50, false)) {
-      this.errorMessage.push("La provincia Ë obbligatoria e non puÚ avere pi˘ di 50 caratteri.")     
+      this.errorMessage.push("La provincia √® obbligatoria e non pu√≤ avere pi√π di 50 caratteri.")     
     }
     
     if (!this.verifyLength(CountryRegion.value, 50, false)) {
-      this.errorMessage.push("La regione Ë obbligatoria e non puÚ avere pi˘ di 50 caratteri.")     
+      this.errorMessage.push("La regione √® obbligatoria e non pu√≤ avere pi√π di 50 caratteri.")     
     }
     
     if (!this.verifyLength(PostalCode.value, 15, false)) {
-      this.errorMessage.push("Il CAP Ë obbligatorio e non puÚ avere pi˘ di 15 caratteri.")  
+      this.errorMessage.push("Il CAP √® obbligatorio e non pu√≤ avere pi√π di 15 caratteri.")  
     }
     
     if (!this.isValidPassword(Password.value)) {
@@ -117,18 +182,9 @@ export class SignupComponent {
         next: (customerRegister: CustomerRegister) => {
           console.log("Register ok");
           return this.isRegistered == true
-<<<<<<< HEAD
-        }else if (response.status == 400 || response.error.message == "emailExist"){
-          console.log("Questa Email Ë gi‡ utilizzata.");
-          return this.isRegistered == false  
-        }else{
-          return this.isRegistered == false
-
-=======
         },
         error: (error: any) => {
           console.log(error.error.message);
->>>>>>> cafced8e75b1d21d0b58da5508d3af8683d014e2
         }
       })
         // if (response.status == 200) {
