@@ -430,7 +430,7 @@ namespace SqlManager.BLogic
             try
             {
                 checkDbOpen();
-                sqlCmd.CommandText = "SELECT CustomerId FROM SalesLT.Customer WHERE SalesLT.Customer.CustomerId = @email";
+                sqlCmd.CommandText = "SELECT EmailAddress FROM SalesLT.Customer WHERE SalesLT.Customer.EmailAddress = @email";
                 sqlCmd.Parameters.AddWithValue("@email", email);
                 sqlCmd.Connection = sqlCnn;
 

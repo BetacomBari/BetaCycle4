@@ -181,6 +181,7 @@ export class SignupComponent {
           return this.isRegistered == true
         },
         error: (error: any) => {
+          this.errorMessage = []
           if (error.error.message == "emailExist") {
             this.errorMessage.push("L'email inserita è già in uso.")
           }
@@ -192,6 +193,7 @@ export class SignupComponent {
 
 
     }else{
+      this.errorMessage = []
       this.errorMessage.forEach(element => {
         console.log(element);     
       });
