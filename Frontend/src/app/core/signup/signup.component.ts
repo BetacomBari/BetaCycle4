@@ -6,7 +6,7 @@ import { Address } from '../../shared/models/Address';
 import { CustomerAddress } from '../../shared/models/CustomerAddress';
 import { Credentials } from '../../shared/models/Credentials';
 import { HttprequestService } from '../services/httprequest.service';
-
+// KANEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
 @Component({
   selector: 'app-signup',
   standalone: true,
