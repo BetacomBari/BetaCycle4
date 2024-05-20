@@ -2,78 +2,47 @@ namespace BetaCycle4.Models
 {
     public class CustomerRegister
     {
-        /// <summary>
-        /// Primary key for Customer records.
-        /// </summary>
-        public int CustomerId { get; set; }
 
-        /// <summary>
-        /// 0 = The data in FirstName and LastName are stored in western style (first name, last name) order.  1 = Eastern style (last name, first name) order.
-        /// </summary>
-        public bool NameStyle { get; set; }
+        public bool NameStyle { get; set; } = false;
 
-        /// <summary>
-        /// A courtesy title. For example, Mr. or Ms.
-        /// </summary>
-        public string? Title { get; set; }
+        public string? Title { get; set; } = "***";
 
-        /// <summary>
-        /// First name of the person.
-        /// </summary>
-        public string FirstName { get; set; } = null!;
+        public string FirstName { get; set; }
 
-        /// <summary>
-        /// Middle name or middle initial of the person.
-        /// </summary>
-        public string? MiddleName { get; set; }
+        public string? MiddleName { get; set; } = null;
 
-        /// <summary>
-        /// Last name of the person.
-        /// </summary>
-        public string LastName { get; set; } = null!;
+        public string LastName { get; set; } 
 
-        /// <summary>
-        /// Surname suffix. For example, Sr. or Jr.
-        /// </summary>
         public string? Suffix { get; set; }
 
-        /// <summary>
-        /// The customer&apos;s organization.
-        /// </summary>
-        public string? CompanyName { get; set; }
+        public string? CompanyName { get; set; } = null;
 
-        /// <summary>
-        /// The customer&apos;s sales person, an employee of AdventureWorks Cycles.
-        /// </summary>
-        public string? SalesPerson { get; set; }
-
-        /// <summary>
-        /// E-mail address for the person.
-        /// </summary>
+        public string? SalesPerson { get; set; } = null;
         public string? EmailAddress { get; set; }
 
-        /// <summary>
-        /// Phone number associated with the person.
-        /// </summary>
         public string? Phone { get; set; }
+        public string Password { get; set; } 
 
-        /// <summary>
-        /// Random value concatenated with the password string before the password is hashed.
-        /// </summary>
-        public string Password { get; set; } = null!;
-
-        /// <summary>
-        /// ROWGUIDCOL number uniquely identifying the record. Used to support a merge replication sample.
-        /// </summary>
         public Guid Rowguid { get; set; }
 
-        /// <summary>
-        /// Date and time the record was last updated.
-        /// </summary>
-        public DateTime ModifiedDate { get; set; }
+        //AddressType
+        public string AddressLine1 { get; set; } = null!;
+
+        public string? AddressLine2 { get; set; }
+
+        public string City { get; set; } = null!;
+
+        public string StateProvince { get; set; } = null!;
+
+        public string CountryRegion { get; set; } = null!;
+
+        public string PostalCode { get; set; } = null!;
 
 
-        public int Role { get; set; }
+        //CustomerAddress
+        public string AddressType { get; set; } = null!;
+
+
 
 
     }

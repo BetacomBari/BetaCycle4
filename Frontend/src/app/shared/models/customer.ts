@@ -1,12 +1,8 @@
 export class Customer{   
-    
-    firstName: string = ''; 
-    middleName: string = ''; 
-    lastName: string = ''; 
-    email:string = '';
-    password: string = '';
-
-    
+    FirstName: string = ''; 
+    MiddleName: string = ''; 
+    LastName: string = ''; 
+    Phone: string = ''; 
 }
 
 

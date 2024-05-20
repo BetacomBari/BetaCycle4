@@ -51,7 +51,7 @@ public partial class AdventureWorksLt2019Context : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 
-        => optionsBuilder.UseSqlServer("Data Source=.\\SQLEXPRESS;Initial Catalog=AdventureWorksLT2019;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=True;");
+        => optionsBuilder.UseSqlServer("Data Source=.\\SQLEXPRESS;Initial Catalog=AdventureWorksLT2019;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
 
 
 
@@ -59,7 +59,6 @@ public partial class AdventureWorksLt2019Context : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.UseCollation("SQL_Latin1_General_CP1_CI_AS");
-
 
         modelBuilder.Entity<Address>(entity =>
         {
@@ -101,6 +100,47 @@ public partial class AdventureWorksLt2019Context : DbContext
                 .HasMaxLength(50)
                 .HasComment("Name of state or province.");
         });
+        modelBuilder.Entity<Address>(entity =>
+        {
+            entity.HasKey(e => e.AddressId).HasName("PK_Address_AddressID");
+
+            entity.ToTable("Address", "SalesLT", tb => tb.HasComment("Street address information for customers."));
+
+            entity.HasIndex(e => e.Rowguid, "AK_Address_rowguid").IsUnique();
+
+            entity.HasIndex(e => new { e.AddressLine1, e.AddressLine2, e.City, e.StateProvince, e.PostalCode, e.CountryRegion }, "IX_Address_AddressLine1_AddressLine2_City_StateProvince_PostalCode_CountryRegion");
+
+            entity.HasIndex(e => e.StateProvince, "IX_Address_StateProvince");
+
+            entity.Property(e => e.AddressId)
+                .HasComment("Primary key for Address records.")
+                .HasColumnName("AddressID");
+            entity.Property(e => e.AddressLine1)
+                .HasMaxLength(60)
+                .HasComment("First street address line.");
+            entity.Property(e => e.AddressLine2)
+                .HasMaxLength(60)
+                .HasComment("Second street address line.");
+            entity.Property(e => e.City)
+                .HasMaxLength(30)
+                .HasComment("Name of the city.");
+            entity.Property(e => e.CountryRegion).HasMaxLength(50);
+            entity.Property(e => e.ModifiedDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("Date and time the record was last updated.")
+                .HasColumnType("datetime");
+            entity.Property(e => e.PostalCode)
+                .HasMaxLength(15)
+                .HasComment("Postal code for the street address.");
+            entity.Property(e => e.Rowguid)
+                .HasDefaultValueSql("(newid())")
+                .HasComment("ROWGUIDCOL number uniquely identifying the record. Used to support a merge replication sample.")
+                .HasColumnName("rowguid");
+            entity.Property(e => e.StateProvince)
+                .HasMaxLength(50)
+                .HasComment("Name of state or province.");
+        });
+
 
         modelBuilder.Entity<BuildVersion>(entity =>
         {
@@ -220,6 +260,7 @@ public partial class AdventureWorksLt2019Context : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
+
         modelBuilder.Entity<CustomerNew>(entity =>
         {
             entity.ToTable("CustomerNew");
@@ -231,6 +272,7 @@ public partial class AdventureWorksLt2019Context : DbContext
             entity.Property(e => e.LastName).HasMaxLength(50);
             entity.Property(e => e.MiddleName).HasMaxLength(50);
             entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
+            entity.Property(e => e.EmailAddress).HasMaxLength(128);
             entity.Property(e => e.Phone).HasMaxLength(25);
             entity.Property(e => e.Rowguid).HasColumnName("rowguid");
             entity.Property(e => e.SalesPerson).HasMaxLength(256);
@@ -339,6 +381,8 @@ public partial class AdventureWorksLt2019Context : DbContext
             entity.Property(e => e.Weight)
                 .HasComment("Product weight.")
                 .HasColumnType("decimal(8, 2)");
+            entity.Property(e => e.LargeImage);
+
 
             entity.HasOne(d => d.ProductCategory).WithMany(p => p.Products).HasForeignKey(d => d.ProductCategoryId);
 

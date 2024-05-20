@@ -1,7 +1,7 @@
 import { HttpRequest, HttpStatusCode } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { HttprequestService } from '../../shared/services/httprequest.service';
-import { Credientals } from '../../shared/models/credentials';
+import { HttprequestService } from '../services/httprequest.service';
+import { Credentials } from '../../shared/models/Credentials';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -9,6 +9,9 @@ import { FormsModule } from '@angular/forms';
 import { UserCardComponent } from '../user-card/user-card.component';
 import { User } from '../../shared/models/user';
 import { NavbarComponent } from '../navbar/navbar.component';
+import { ResetPasswordService } from '../services/reset-password.service';
+import { AuthService } from '../services/auth.service';
+import { CustomerRegister } from '../../shared/models/CustomerRegister';
 declare var handleSignOut: any;
 
 @Component({
@@ -26,37 +29,32 @@ export class LoginComponent {
   email_toShow:string="";
   logged_in: boolean = false;
   userProfile: any;
-  user: User = new User();
+  customerRegister: CustomerRegister = new CustomerRegister();
   resetPassword!: string;
   isEmailForResetValid!: boolean;
+  jwtToken: string = "";
 
+  loginCredentials: Credentials = new Credentials()
 
-  loginCredientals: Credientals = new Credientals()
-
-  constructor(private http: HttprequestService, private router: Router) { }
+  constructor(private http: HttprequestService, private router: Router, private resetService: ResetPasswordService, private authStatus: AuthService) { }
 
   
 
   login(email: HTMLInputElement, password: HTMLInputElement) {
-    console.log("sono entrato nella funzione");
-    this.loginCredientals.EmailAddress = email.value
-    this.loginCredientals.Password = password.value
-    console.log(email.value);
-    console.log(password.value);
+    this.loginCredentials.EmailAddress = email.value
+    this.loginCredentials.Password = password.value
 
     if (email.value != "" && password.value != "") { 
-      this.loginCredientals.EmailAddress = email.value
-      this.loginCredientals.Password = password.value
+      this.loginCredentials.EmailAddress = email.value
+      this.loginCredentials.Password = password.value
 
-      this.http.loginPost(this.loginCredientals).subscribe(resp =>{    
+      this.http.loginPostJwt(this.loginCredentials).subscribe(resp =>{    
         if (resp.status == 200) {
           console.log("LOGIN OK!");
           this.logged_in = true;
           this.email_toShow = email.value;
-          console.log(resp);
-          localStorage.setItem('loggedInUser', JSON.stringify(resp.body.token));
-          console.log(resp.body.token);
-
+          this.jwtToken = resp.body.token;
+          localStorage.setItem('jwtToken', this.jwtToken)
         }else{
           console.log("Status: " + resp.status);      
         }
@@ -80,6 +78,7 @@ export class LoginComponent {
 
   handleSignOut() {
     handleSignOut();
+    localStorage.removeItem("jwtToken")
     sessionStorage.removeItem("loggedInUser");
     this.router.navigate(["/login"]).then( ()=>{
       window.location.reload();
@@ -92,29 +91,27 @@ export class LoginComponent {
   }
 
   writeInDb(){
-    this.user.EmailAddress = this.userProfile.email;
-    this.user.FirstName = this.userProfile.given_name;
-    this.user.LastName = this.userProfile.family_name;
-    this.user.PasswordHash = "passwordFromGoogle";
-    this.user.PasswordSalt = "passwordFromGoogle";
-    console.log(this.user);
+    this.customerRegister.EmailAddress = this.userProfile.email;
+    this.customerRegister.FirstName = this.userProfile.given_name;
+    this.customerRegister.LastName = this.userProfile.family_name;
+    this.customerRegister.Password = "passwordFromGoogle";
 
-    // this.http.postUser(this.user).subscribe({
-    //   next: (data: any) => {
-    //     this.user = data;
-    //     console.log(this.user)
-    //   },
-    //   error: (err: any) => {
-    //     console.log(err);
-    //   }
-    // })
+    this.http.register(this.customerRegister).subscribe({
+      next: (data: any) => {
+        this.customerRegister = data;
+        console.log(this.customerRegister)
+      },
+      error: (err: any) => {
+        console.log(err);
+      }
+    })
 
   }
 
   
 
   checkValidEmailForReset(event: string){
-    const value = event;
+    const value = event; 
     //const pattern = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,3}$/;
     let pattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/;
     this.isEmailForResetValid = pattern.test(value);
@@ -129,6 +126,17 @@ export class LoginComponent {
       const buttonRef = document.getElementById("closeBtn");
       buttonRef?.click();
       // API call
+      this.resetService.sendResetPasswordLink(this.resetPassword)
+      .subscribe({
+        next: (res) => {
+          this.resetPassword = "";
+          const buttonRef = document.getElementById("closeBtn");
+          buttonRef?.click();
+        },
+        error:(err)=>{
+          console.log(err);
+        }
+      })
     }
   }
 }

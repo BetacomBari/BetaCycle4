@@ -5,11 +5,16 @@ import { NgModule } from '@angular/core';
 import { LoginComponent } from './core/login/login.component';
 import { CustomerComponent } from './features/admin/customer/customer.component';
 import { HomeComponent } from './features/home/home.component';
+import { ResetComponent } from './core/reset/reset.component';
+import { ProductComponent } from './core/product/product.component';
 
 export const routes: Routes = [
     {path:"", component:HomeComponent},
     {path:"logout", component:LogoutComponent},
     {path:"signup", component:SignupComponent},
     {path:"login", component:LoginComponent},
-    {path:"customer", component:CustomerComponent}
+    {path:"customer", component:CustomerComponent},
+    {path:"reset", component: ResetComponent},
+    {path:"product", component: ProductComponent}
+
 ];
