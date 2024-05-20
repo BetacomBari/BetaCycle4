@@ -17,7 +17,7 @@ import { HttprequestService } from '../services/httprequest.service';
 export class SignupComponent {
   type: string = "password";
   isText: boolean = false;
-  eyeIcon:string = "fa-eye-slash"
+  eyeIcon:string = "fca-eye-slash"
   errorMessage: string[] = []
   isRegistered: boolean = false;
   customerRegister: CustomerRegister = new CustomerRegister();
@@ -179,21 +179,22 @@ export class SignupComponent {
       this.customerRegister.Password = Password.value;
       
       this.http.register(this.customerRegister).subscribe(response =>{     
-        console.log("ddddd");
-        
+        console.log("ciao");
+                
         if (response.status == 200) {
           console.log("Register ok");
-          console.log(response);
           return this.isRegistered == true
         }else if (response.status == 400 || response.error.message == "emailExist"){
           console.log("Questa Email è già utilizzata.");
           return this.isRegistered == false  
         }else{
-          return this.isRegistered == false 
+          return this.isRegistered == false
+
         }
       })
 
     }else{
+      console.log("ciao");
       this.errorMessage.forEach(element => {
         console.log(element); 
         
