@@ -24,9 +24,6 @@ export class SignupComponent {
 
   constructor(private http: HttprequestService){}
 
-
-
-
   hideShowPassword(){
     this.isText = !this.isText;
     this.isText ? this.eyeIcon = "fa-eye" : this.eyeIcon = "fa-eye-slash";
@@ -184,26 +181,19 @@ export class SignupComponent {
           return this.isRegistered == true
         },
         error: (error: any) => {
-          console.log(error.error.message);
+          if (error.error.message == "emailExist") {
+            this.errorMessage.push("L'email inserita è già in uso.")
+          }
+          this.errorMessage.forEach(element => {
+            console.log(element);     
+          });
         }
       })
-        // if (response.status == 200) {
-        //   console.log("Register ok");
-        //   return this.isRegistered == true
-        // }else if (response.status == 400 || response.error.message == "emailExist"){
-        //   console.log("Questa Email è già utilizzata.");
-        //   return this.isRegistered == false  
-        // }else{
-        //   return this.isRegistered == false
-
-        // }
 
 
     }else{
-      console.log("ciao");
       this.errorMessage.forEach(element => {
-        console.log(element); 
-        
+        console.log(element);     
       });
       return this.isRegistered == false  
     }
