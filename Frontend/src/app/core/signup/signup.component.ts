@@ -178,20 +178,26 @@ export class SignupComponent {
       this.customerRegister.EmailAddress = EmailAddress.value;
       this.customerRegister.Password = Password.value;
       
-      this.http.register(this.customerRegister).subscribe(response =>{     
-        console.log("ciao");
-                
-        if (response.status == 200) {
+      this.http.register(this.customerRegister).subscribe({
+        next: (customerRegister: CustomerRegister) => {
           console.log("Register ok");
           return this.isRegistered == true
-        }else if (response.status == 400 || response.error.message == "emailExist"){
-          console.log("Questa Email è già utilizzata.");
-          return this.isRegistered == false  
-        }else{
-          return this.isRegistered == false
-
+        },
+        error: (error: any) => {
+          console.log(error.error.message);
         }
       })
+        // if (response.status == 200) {
+        //   console.log("Register ok");
+        //   return this.isRegistered == true
+        // }else if (response.status == 400 || response.error.message == "emailExist"){
+        //   console.log("Questa Email è già utilizzata.");
+        //   return this.isRegistered == false  
+        // }else{
+        //   return this.isRegistered == false
+
+        // }
+
 
     }else{
       console.log("ciao");
