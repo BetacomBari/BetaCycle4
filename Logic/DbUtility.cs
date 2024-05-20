@@ -31,6 +31,7 @@ namespace SqlManager.BLogic
         SqlCommand sqlCmd = new();
         public bool IsDbStatusValid = false;
 
+        //COSTRUTTORE
         #region COSTRUTTORE SqlConnectionString DB
         public DbUtility(string sqlConnectionString)
         {
@@ -58,114 +59,8 @@ namespace SqlManager.BLogic
         }
         #endregion
 
-        #region CheckIsElseWhere
-        internal bool CheckIsElseWhere(string email)
-        {
-            bool emailFlag = false;
-            try
-            {
-                checkDbOpen();
-                sqlCmd.CommandText = "SELECT EmailAddress, IsElseWhere FROM SalesLT.Customer WHERE SalesLT.Customer.EmailAddress = @email";
-                sqlCmd.Parameters.AddWithValue("@email", email);
-                sqlCmd.Connection = sqlCnn;
 
-                using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
-                {
-                    if (sqlReader.HasRows)
-                    {
-                        while (sqlReader.Read())
-                        {
-                            if (Convert.ToBoolean(sqlReader["iselsewhere"]) == true)
-                                emailFlag = true;
-                        }
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
-            finally
-            {
-                checkDbClose();
-            }
-
-            return emailFlag;
-        }
-        #endregion
-
-        #region CheckEmailDbAWLT2019
-        internal bool CheckEmailDbAWLT2019(string email)
-        {
-            bool emailExists = false;
-            try
-            {
-                checkDbOpen();
-                sqlCmd.CommandText = "SELECT EmailAddress FROM SalesLT.Customer WHERE SalesLT.Customer.EmailAddress = @email";
-                sqlCmd.Parameters.AddWithValue("@email", email);
-                sqlCmd.Connection = sqlCnn;
-
-                using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
-                {
-                    if (sqlReader.HasRows)
-                    {
-                        emailExists = true;
-                    }
-                    else
-                    {
-                        emailExists = false;
-                    }
-                }
-
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
-            finally
-            {
-                checkDbClose();
-            }
-
-            return emailExists;
-        }
-        #endregion
-
-        #region SelectID By curtomerNew
-        internal int SelectIdCCustomerNew(string EmailAddress)
-        {
-            int id = 0;
-            try
-            {
-                checkDbOpen();
-                sqlCmd.CommandText = "SELECT CustomerId FROM CustomerNew WHERE EmailAddress = @EmailAddress";
-                sqlCmd.Parameters.AddWithValue("@EmailAddress", EmailAddress);
-                sqlCmd.Connection = sqlCnn;
-
-                using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
-                {
-                    if (sqlReader.HasRows)
-                    {
-                        while (sqlReader.Read())
-                        {
-                            id = Convert.ToInt16(sqlReader["CustomerId"]);
-                        }
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
-            finally
-            {
-                checkDbClose();
-            }
-
-            return id;
-        }
-        #endregion
-
+        //UTILITY DB  CREDENTIALS
         #region update CredentialId 
         internal int UpdateCredentialId(CustomerNew customerNew, int customerId)
         {
@@ -233,6 +128,7 @@ namespace SqlManager.BLogic
         }
         #endregion
 
+        #region credentialsFromEmail
         internal CredentialDB credentialsFromEmail(string email)
         {
             CredentialDB credentials = new CredentialDB();
@@ -289,7 +185,9 @@ namespace SqlManager.BLogic
 
             return credentials;
         }
+        #endregion
 
+        #region writeInfoOnDb
         internal void writeInfoOnDb(CredentialDB credentialDBToInsert)
         {
             CredentialDB credentialDb = new CredentialDB();
@@ -322,8 +220,9 @@ namespace SqlManager.BLogic
 
 
         }
+        #endregion
 
-
+        #region writeNewPasswordOnDb
         internal void writeNewPasswordOnDb(BetaCycle4.Models.ResetPassword resetPassword)
         {
             string passwordHash;
@@ -355,30 +254,6 @@ namespace SqlManager.BLogic
             { checkDbClose(); }
 
 
-        }
-
-        #region DeleteCustomerNew
-        public int DeleteCredentials(int CredentialsCnnId)
-        {
-            int delete = 0;
-
-            try
-            {
-                checkDbOpen();
-                sqlCmd.Connection = sqlCnn;
-                sqlCmd.CommandText = "DELETE FROM [dbo].[Credentials] WHERE CredentialsCnnId = @CredentialsCnnId";
-                sqlCmd.Parameters.AddWithValue("@CredentialsCnnId", CredentialsCnnId);
-
-                delete = sqlCmd.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"ERRORE: {ex.Message}");
-            }
-            finally
-            { checkDbClose(); }
-
-            return delete;
         }
         #endregion
 
@@ -476,6 +351,7 @@ namespace SqlManager.BLogic
             catch (Exception ex)
             {
                 Console.WriteLine($"ERRORE: {ex.Message}");
+                return update = 0;
             }
             finally
             { checkDbClose(); }
@@ -484,6 +360,267 @@ namespace SqlManager.BLogic
         }
         #endregion
 
+        #region DeleteCredentials
+        public int DeleteCredentials(int CredentialsCnnId)
+        {
+            int delete = 0;
+
+            try
+            {
+                checkDbOpen();
+                sqlCmd.Connection = sqlCnn;
+                sqlCmd.CommandText = "DELETE FROM [dbo].[Credentials] WHERE CredentialsCnnId = @CredentialsCnnId";
+                sqlCmd.Parameters.AddWithValue("@CredentialsCnnId", CredentialsCnnId);
+
+                delete = sqlCmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"ERRORE: {ex.Message}");
+            }
+            finally
+            { checkDbClose(); }
+
+            return delete;
+        }
+        #endregion
+
+
+        //DB UTILITY ADLT2019
+        #region CheckIsElseWhere
+        internal bool CheckIsElseWhere(string email)
+        {
+            bool emailFlag = false;
+            try
+            {
+                checkDbOpen();
+                sqlCmd.CommandText = "SELECT CustomerId, IsElseWhere FROM SalesLT.Customer WHERE SalesLT.Customer.CustomerId = @email";
+                sqlCmd.Parameters.AddWithValue("@email", email);
+                sqlCmd.Connection = sqlCnn;
+
+                using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
+                {
+                    if (sqlReader.HasRows)
+                    {
+                        while (sqlReader.Read())
+                        {
+                            if (Convert.ToBoolean(sqlReader["iselsewhere"]) == true)
+                                emailFlag = true;
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            finally
+            {
+                checkDbClose();
+            }
+
+            return emailFlag;
+        }
+        #endregion
+
+        #region CheckEmailDbAWLT2019
+        internal bool CheckEmailDbAWLT2019(string email)
+        {
+            bool emailExists = false;
+            try
+            {
+                checkDbOpen();
+                sqlCmd.CommandText = "SELECT CustomerId FROM SalesLT.Customer WHERE SalesLT.Customer.CustomerId = @email";
+                sqlCmd.Parameters.AddWithValue("@email", email);
+                sqlCmd.Connection = sqlCnn;
+
+                using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
+                {
+                    if (sqlReader.HasRows)
+                    {
+                        emailExists = true;
+                    }
+                    else
+                    {
+                        emailExists = false;
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            finally
+            {
+                checkDbClose();
+            }
+
+            return emailExists;
+        }
+        #endregion
+
+        #region SelectID By curtomerNew
+        internal int SelectIdCustomerNew(string EmailAddress)
+        {
+            int id = 0;
+            try
+            {
+                checkDbOpen();
+                sqlCmd.CommandText = "SELECT CustomerId FROM CustomerNew WHERE EmailAddress = @EmailAddress";
+                sqlCmd.Parameters.AddWithValue("@EmailAddress", EmailAddress);
+                sqlCmd.Connection = sqlCnn;
+
+                using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
+                {
+                    if (sqlReader.HasRows)
+                    {
+                        while (sqlReader.Read())
+                        {
+                            id = Convert.ToInt16(sqlReader["CustomerId"]);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            finally
+            {
+                checkDbClose();
+            }
+
+            return id;
+        }
+        #endregion
+
+        #region SelectIDaddress
+        internal int SelectAddressId(int CustomerId)
+        {
+            int id = 0;
+            try
+            {
+                checkDbOpen();
+                sqlCmd.CommandText = "SELECT AddressId FROM AddressNew WHERE CustomerId = @CustomerId";
+                sqlCmd.Parameters.AddWithValue("@CustomerId", CustomerId);
+                sqlCmd.Connection = sqlCnn;
+
+                using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
+                {
+                    if (sqlReader.HasRows)
+                    {
+                        while (sqlReader.Read())
+                        {
+                            id = Convert.ToInt16(sqlReader["AddressId"]);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            finally
+            {
+                checkDbClose();
+            }
+
+            return id;
+        }
+        #endregion
+
+        #region PostAddress
+        internal int PostAddressNew(Address address)
+        {
+            int addressInsert = 0;
+            try
+            {
+                checkDbOpen();
+
+                sqlCmd.CommandText = "INSERT INTO [dbo].[AddressNew] ([CustomerID],[AddressLine1],[AddressLine2],[City],[StateProvince],[CountryRegion],[PostalCode],[ModifiedDate]) VALUES (@CustomerID,@AddressLine1,@AddressLine2,@City,@StateProvince,@CountryRegion,@PostalCode,@ModifiedDate)";
+                sqlCmd.Parameters.AddWithValue("@CustomerID", address.CustomerId);
+                sqlCmd.Parameters.AddWithValue("@AddressLine1", address.AddressLine1);
+                sqlCmd.Parameters.AddWithValue("@AddressLine2", address.AddressLine2);
+                sqlCmd.Parameters.AddWithValue("@City", address.City);
+                sqlCmd.Parameters.AddWithValue("@StateProvince", address.StateProvince);
+                sqlCmd.Parameters.AddWithValue("@CountryRegion", address.CountryRegion);
+                sqlCmd.Parameters.AddWithValue("@PostalCode", address.PostalCode);
+                sqlCmd.Parameters.AddWithValue("@ModifiedDate", address.ModifiedDate);
+
+
+                addressInsert = sqlCmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                return addressInsert = 0;
+                throw;
+            }
+            finally
+            { checkDbClose(); }
+
+            return addressInsert;
+        }
+        #endregion
+
+        #region PostCustomerAddressNew
+        internal int PostCustomerAddressNew(CustomerAddress customerAddress)
+        {
+            int CustomerAddressInsert = 0;
+            try
+            {
+                checkDbOpen();
+
+                sqlCmd.CommandText = "INSERT INTO [dbo].[CustomerAddressNew] ([CustomerID],[AddressID],[AddressType],[ModifiedDate]) VALUES (@CustomerID,@AddressID,@AddressType,@ModifiedDate)";
+                sqlCmd.Parameters.AddWithValue("@CustomerID", customerAddress.CustomerId);
+                sqlCmd.Parameters.AddWithValue("@AddressID", customerAddress.AddressId);
+                sqlCmd.Parameters.AddWithValue("@AddressType", customerAddress.AddressType);
+                sqlCmd.Parameters.AddWithValue("@ModifiedDate", customerAddress.ModifiedDate);
+
+
+
+                CustomerAddressInsert = sqlCmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            { checkDbClose(); }
+
+            return CustomerAddressInsert;
+        }
+        #endregion
+
+        #region DeleteCredentials
+        public int DeleteAddressNew(int addressId)
+        {
+            int delete = 0;
+
+            try
+            {
+                checkDbOpen();
+                sqlCmd.Connection = sqlCnn;
+                sqlCmd.CommandText = "DELETE FROM [dbo].[AddressNew] WHERE AddressID = @AddressID";
+                sqlCmd.Parameters.AddWithValue("@AddressID", addressId);
+
+                delete = sqlCmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"ERRORE: {ex.Message}");
+                return delete = 0;
+            }
+            finally
+            { checkDbClose(); }
+
+            return delete;
+        }
+        #endregion
+
+
+
+        //CHECK DB
         #region CHECK OPEN/CLOSE DB
         void checkDbOpen()
         {

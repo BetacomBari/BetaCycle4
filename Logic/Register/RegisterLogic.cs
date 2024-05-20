@@ -4,8 +4,11 @@ using BetaCycle4.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using SqlManager.BLogic;
 using System.Data.SqlTypes;
+using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace BetaCycle4.Logic.Register
 {
@@ -18,6 +21,7 @@ namespace BetaCycle4.Logic.Register
             _context = context;
         }
 
+        // UTILITY DB ADLT2019
         #region DeleteCustomerNew
         public bool DeleteCustomerNew(int id)
         {
@@ -87,6 +91,8 @@ namespace BetaCycle4.Logic.Register
         }
         #endregion
 
+
+        // UTILITY DB CREDENTIALS
         #region PostCredentials
         public bool PostCredentials(Credentials credentials)
         {
@@ -146,5 +152,6 @@ namespace BetaCycle4.Logic.Register
             return false;
         }
         #endregion
+
     }
 }

@@ -14,6 +14,7 @@ public partial class Address
     /// </summary>
     [Key]
     public int AddressId { get; set; }
+    public int CustomerId { get; set; }
 
     /// <summary>
     /// First street address line.
