@@ -182,7 +182,6 @@ namespace BetaCycle4.Controllers
                                 {
                                     dbUtilityLT2019.SetIsElseWhereTrue(customerRegister.EmailAddress);
                                 }
-
                                 return Ok(new { message = "registrazione completa" });
                             }
                             else

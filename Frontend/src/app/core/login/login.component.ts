@@ -38,8 +38,6 @@ export class LoginComponent {
 
   constructor(private http: HttprequestService, private router: Router, private resetService: ResetPasswordService, private authStatus: AuthService) { }
 
-
-
   login(email: HTMLInputElement, password: HTMLInputElement){
     this.loginCredentials.EmailAddress = email.value
     this.loginCredentials.Password = password.value
@@ -74,7 +72,9 @@ export class LoginComponent {
         }
       })
     } else {
-      console.log("error")
+      this.errorMessage = []
+      this.errorMessage.push("I campi non possono essere vuoti")
+            console.log(this.errorMessage);
     }
   }
 
