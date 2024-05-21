@@ -15,9 +15,10 @@ declare var handleSignOut: any;
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
-  isLoggged: boolean = false
+  
   constructor(private auth: AuthService) { }
-  getLoginStatus() {
-    this.auth.getLoginStatus()
+  
+  isLoggedIn(): boolean{
+    return this.auth.isLoggedIn()
   }
 }

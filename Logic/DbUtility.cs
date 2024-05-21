@@ -394,7 +394,7 @@ namespace SqlManager.BLogic
             try
             {
                 checkDbOpen();
-                sqlCmd.CommandText = "SELECT CustomerId, IsElseWhere FROM SalesLT.Customer WHERE SalesLT.Customer.CustomerId = @email";
+                sqlCmd.CommandText = "SELECT CustomerId, IsElseWhere FROM SalesLT.Customer WHERE SalesLT.Customer.EmailAddress = @email";
                 sqlCmd.Parameters.AddWithValue("@email", email);
                 sqlCmd.Connection = sqlCnn;
 
@@ -430,7 +430,7 @@ namespace SqlManager.BLogic
             try
             {
                 checkDbOpen();
-                sqlCmd.CommandText = "SELECT CustomerId FROM SalesLT.Customer WHERE SalesLT.Customer.CustomerId = @email";
+                sqlCmd.CommandText = "SELECT EmailAddress FROM SalesLT.Customer WHERE SalesLT.Customer.EmailAddress = @email";
                 sqlCmd.Parameters.AddWithValue("@email", email);
                 sqlCmd.Connection = sqlCnn;
 
@@ -618,7 +618,31 @@ namespace SqlManager.BLogic
         }
         #endregion
 
+        #region SetIsElseWhereTrue
+        internal int SetIsElseWhereTrue(string emailAddress)
+        {
+            int update = 0;
 
+            try
+            {
+                checkDbOpen();
+                sqlCmd.Connection = sqlCnn;
+                sqlCmd.CommandText = "UPDATE [SalesLT].[Customer] SET [IsElseWhere] = 1 WHERE EmailAddress = @EmailAddress";
+                sqlCmd.Parameters.AddWithValue("@EmailAddress", emailAddress);
+
+                update = sqlCmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"ERRORE: {ex.Message}");
+                return update = 0;
+            }
+            finally
+            { checkDbClose(); }
+
+            return update;
+        }
+        #endregion
 
         //CHECK DB
         #region CHECK OPEN/CLOSE DB

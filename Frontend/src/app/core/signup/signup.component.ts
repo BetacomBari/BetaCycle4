@@ -6,7 +6,7 @@ import { Address } from '../../shared/models/Address';
 import { CustomerAddress } from '../../shared/models/CustomerAddress';
 import { Credentials } from '../../shared/models/Credentials';
 import { HttprequestService } from '../services/httprequest.service';
-
+// KANEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
 @Component({
   selector: 'app-signup',
   standalone: true,
@@ -23,9 +23,6 @@ export class SignupComponent {
   customerRegister: CustomerRegister = new CustomerRegister();
 
   constructor(private http: HttprequestService){}
-
-
-
 
   hideShowPassword(){
     this.isText = !this.isText;
@@ -184,26 +181,21 @@ export class SignupComponent {
           return this.isRegistered == true
         },
         error: (error: any) => {
-          console.log(error.error.message);
+          this.errorMessage = []
+          if (error.error.message == "emailExist") {
+            this.errorMessage.push("L'email inserita è già in uso.")
+          }
+          this.errorMessage.forEach(element => {
+            console.log(element);     
+          });
         }
       })
-        // if (response.status == 200) {
-        //   console.log("Register ok");
-        //   return this.isRegistered == true
-        // }else if (response.status == 400 || response.error.message == "emailExist"){
-        //   console.log("Questa Email è già utilizzata.");
-        //   return this.isRegistered == false  
-        // }else{
-        //   return this.isRegistered == false
-
-        // }
 
 
     }else{
-      console.log("ciao");
+      this.errorMessage = []
       this.errorMessage.forEach(element => {
-        console.log(element); 
-        
+        console.log(element);     
       });
       return this.isRegistered == false  
     }
