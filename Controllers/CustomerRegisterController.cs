@@ -182,18 +182,14 @@ namespace BetaCycle4.Controllers
                                 {
                                     dbUtilityLT2019.SetIsElseWhereTrue(customerRegister.EmailAddress);
                                 }
-                                else
-                                {
-                                    return BadRequest();
-                                }
 
                                 return Ok(new { message = "registrazione completa" });
                             }
                             else
                             {
                                 dbUtilityCredentials.DeleteCredentials(customerId);
-                                registerLogic.DeleteCustomerNew(customerId);
                                 dbUtilityLT2019.DeleteAddressNew(addressId);
+                                registerLogic.DeleteCustomerNew(customerId);
                                 return BadRequest("Errore in post customerAddress");
                             }
                         }
