@@ -13,7 +13,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './product.component.css'
 })
 export class ProductComponent {
-  product: any = {};
+  product: any = [];
   productById: Product = new Product();
   constructor(private mainhttp: HttprequestService){}
   

@@ -30,6 +30,7 @@ namespace BetaCycle4.Controllers
         {
             RegisterLogic registerLogic = new RegisterLogic(_context);
             int customerId = 0;
+            bool emailExistInDbADLT2019 = false;
 
             try
             {
@@ -41,7 +42,7 @@ namespace BetaCycle4.Controllers
                 {
                     return BadRequest("EMAIL ERROR");
                 }
-                
+
                 if (!LogicVerify.VerifyLength(customerRegister.FirstName, 50, false))
                 {
                     return BadRequest("FirstName ERROR");
@@ -144,7 +145,6 @@ namespace BetaCycle4.Controllers
                 customerAddressToPass.ModifiedDate = DateTime.Now;
                 //
 
-
                 //INSERT CREDENTIALS
                 if (registerLogic.PostCredentials(credentialToPass))
                 {
@@ -177,13 +177,18 @@ namespace BetaCycle4.Controllers
                             //INSERT CUSTOMER ADDRESS
                             if (dbUtilityLT2019.PostCustomerAddressNew(customerAddressToPass) == 1)
                             {
+                                emailExistInDbADLT2019 = dbUtilityLT2019.CheckEmailDbAWLT2019(customerRegister.EmailAddress);
+                                if (emailExistInDbADLT2019 && !dbUtilityLT2019.CheckIsElseWhere(customerRegister.EmailAddress))
+                                {
+                                    dbUtilityLT2019.SetIsElseWhereTrue(customerRegister.EmailAddress);
+                                }
                                 return Ok(new { message = "registrazione completa" });
                             }
                             else
                             {
                                 dbUtilityCredentials.DeleteCredentials(customerId);
-                                registerLogic.DeleteCustomerNew(customerId);
                                 dbUtilityLT2019.DeleteAddressNew(addressId);
+                                registerLogic.DeleteCustomerNew(customerId);
                                 return BadRequest("Errore in post customerAddress");
                             }
                         }

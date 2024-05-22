@@ -1,7 +1,6 @@
 import { HttpRequest, HttpStatusCode } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { HttprequestService } from '../services/httprequest.service';
-import { Credentials } from '../../shared/models/Credentials';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -12,12 +11,13 @@ import { NavbarComponent } from '../navbar/navbar.component';
 import { ResetPasswordService } from '../services/reset-password.service';
 import { AuthService } from '../services/auth.service';
 import { CustomerRegister } from '../../shared/models/CustomerRegister';
-declare var handleSignOut: any;
+import { Credentials } from '../../shared/models/Credentials';
+
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterModule, CommonModule, FormsModule, RouterModule,UserCardComponent, NavbarComponent],
+  imports: [RouterModule, CommonModule, FormsModule, RouterModule, UserCardComponent, NavbarComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -25,72 +25,65 @@ export class LoginComponent {
 
   type: string = "password";
   isText: boolean = false;
-  eyeIcon:string = "fa-eye-slash"
-  email_toShow:string="";
-  logged_in: boolean = false;
+  eyeIcon: string = "fa-eye-slash"
+  email_toShow: string = "";
+  private isLogged: boolean = false;
   userProfile: any;
   customerRegister: CustomerRegister = new CustomerRegister();
   resetPassword!: string;
   isEmailForResetValid!: boolean;
   jwtToken: string = "";
-
   loginCredentials: Credentials = new Credentials()
+  errorMessage: string[] = []
 
-  constructor(private http: HttprequestService, private router: Router, private resetService: ResetPasswordService, private authStatus: AuthService) { }
+  constructor(private http: HttprequestService, private resetService: ResetPasswordService, public authStatus: AuthService) { }
 
-  
-
-  login(email: HTMLInputElement, password: HTMLInputElement) {
-    this.loginCredentials.EmailAddress = email.value
-    this.loginCredentials.Password = password.value
-
-    if (email.value != "" && password.value != "") { 
-      this.loginCredentials.EmailAddress = email.value
+  login(email: HTMLInputElement, password: HTMLInputElement){
+    if (email.value != "" && password.value != "") {
+      this.loginCredentials.EmailAddress = email.value.trim()
       this.loginCredentials.Password = password.value
 
-      this.http.loginPostJwt(this.loginCredentials).subscribe(resp =>{    
-        if (resp.status == 200) {
+      this.http.loginPostJwt(this.loginCredentials).subscribe({
+        next: (resp: any) => {
           console.log("LOGIN OK!");
-          this.logged_in = true;
+          this.isLogged = true;
           this.email_toShow = email.value;
           this.jwtToken = resp.body.token;
           localStorage.setItem('jwtToken', this.jwtToken)
-        }else{
-          console.log("Status: " + resp.status);      
+          this.authStatus.setJwtLoginStatus(true, this.jwtToken);
+        },
+        error: (error: any) => {
+          this.authStatus.setJwtLoginStatus(false);
+          this.errorMessage = []
+          if (error.error.message == "passwordError") {
+            this.errorMessage.push("Password non valida.")
+            console.log(this.errorMessage);          
+          } else if(error.error.message == "registratiNuovamente"){
+            this.errorMessage.push("Necessaria nuova registrazione per aggiornamento interno.")
+            console.log(this.errorMessage);                     
+          } else if (error.error.message == "emailError") {
+            this.errorMessage.push("Email non registrata.")
+            console.log(this.errorMessage);          
+          } else{
+            this.errorMessage.push("Errore generico.")
+            console.log(this.errorMessage);
+          }
         }
-        
       })
-    } else{
-      console.log("error")
+    } else {
+      this.errorMessage = []
+      this.errorMessage.push("I campi non possono essere vuoti")
+            console.log(this.errorMessage);
     }
-  } 
+  }
 
-  hideShowPassword(){
+  hideShowPassword() {
     this.isText = !this.isText;
     this.isText ? this.eyeIcon = "fa-eye" : this.eyeIcon = "fa-eye-slash";
-    this.isText ? this.type="text" : this.type = "password"
+    this.isText ? this.type = "text" : this.type = "password"
   }
 
-
-  ngOnInit() {
-      this.userProfile = JSON.parse(sessionStorage.getItem("loggedInUser") || "");
-  }
-
-  handleSignOut() {
-    handleSignOut();
-    localStorage.removeItem("jwtToken")
-    sessionStorage.removeItem("loggedInUser");
-    this.router.navigate(["/login"]).then( ()=>{
-      window.location.reload();
-    });
-    localStorage.removeItem("loggedInUser");
-    this.router.navigate(["/login"]).then( ()=>{
-      window.location.reload();
-    });
-    
-  }
-
-  writeInDb(){
+  writeInDb() {
     this.customerRegister.EmailAddress = this.userProfile.email;
     this.customerRegister.FirstName = this.userProfile.given_name;
     this.customerRegister.LastName = this.userProfile.family_name;
@@ -105,22 +98,20 @@ export class LoginComponent {
         console.log(err);
       }
     })
-
   }
 
   
-
-  checkValidEmailForReset(event: string){
-    const value = event; 
+  checkValidEmailForReset(event: string) {
+    const value = event;
     //const pattern = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,3}$/;
     let pattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/;
     this.isEmailForResetValid = pattern.test(value);
     console.log(this.isEmailForResetValid);
     return this.isEmailForResetValid;
   }
-
-  confirmToSend(){
-    if (this.checkValidEmailForReset(this.resetPassword)){
+  
+  confirmToSend() {
+    if (this.checkValidEmailForReset(this.resetPassword)) {
       console.log(this.resetPassword);
       this.resetPassword = "";
       const buttonRef = document.getElementById("closeBtn");
@@ -133,7 +124,7 @@ export class LoginComponent {
           const buttonRef = document.getElementById("closeBtn");
           buttonRef?.click();
         },
-        error:(err)=>{
+        error: (err) => {
           console.log(err);
         }
       })
