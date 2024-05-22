@@ -1,11 +1,11 @@
 <router-outlet></router-outlet>
 <app-navbar></app-navbar>
-<div class="container-fluid register-page d-flex justify-content-center align-items-center p-0">
+<div class="container-fluid register-page d-flex justify-content-center align-items-center p-0 mb-3" >
     <div class="row w-100 justify-content-center">
         <div class="col-12 col-md-9 col-lg-9 card-register w-100">
             <form (submit)="onSubmit($event)" class="d-flex flex-column align-items-center  "
                 style="position: relative; z-index:1;">
-                
+
                 <h1 class="croissant title display-4">Registrati</h1>
                 
                 <div class="container-fluid">
@@ -84,3 +84,5 @@
         </div>
     </div>
 </div>
+
+<app-footer></app-footer>

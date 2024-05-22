@@ -5,11 +5,12 @@ import { CustomerRegister } from '../../shared/models/CustomerRegister';
 import { HttprequestService } from '../services/httprequest.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { FooterComponent } from '../footer/footer.component';
 // KANEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [RouterModule, NavbarComponent, CommonModule, FormsModule],
+  imports: [RouterModule, NavbarComponent, CommonModule, FormsModule, FooterComponent],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css'
 })
