@@ -22,7 +22,7 @@ namespace BetaCycle4.Controllers
         private readonly IConfiguration _config;
         private readonly IEmailService _emailService;
 
-        public CustomersNewController(AdventureWorksLt2019Context context, IConfiguration config, IEmailService emailService)
+        public CustomerNewController(AdventureWorksLt2019Context context, IConfiguration config, IEmailService emailService)
         {
             _context = context;
             _config = config;

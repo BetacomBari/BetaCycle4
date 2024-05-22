@@ -9,7 +9,7 @@ using SqlManager.BLogic;
 
 namespace BetaCycle4.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("Register")]
     [ApiController]
     public class CustomerRegisterController : ControllerBase
     {
@@ -30,11 +30,86 @@ namespace BetaCycle4.Controllers
         {
             RegisterLogic registerLogic = new RegisterLogic(_context);
             int customerId = 0;
+            bool emailExistInDbADLT2019 = false;
 
             try
             {
-
                 CustomersNewController customersNewController = new CustomersNewController(_context, _config, _emailService);
+
+                #region VERIFICHE CAMPI
+                //VERIFY CUSTOMER NEW
+                if (!LogicVerify.IsValidEmail(customerRegister.EmailAddress))
+                {
+                    return BadRequest("EMAIL ERROR");
+                }
+
+                if (!LogicVerify.VerifyLength(customerRegister.FirstName, 50, false))
+                {
+                    return BadRequest("FirstName ERROR");
+                }
+
+                if (!LogicVerify.VerifyLength(customerRegister.MiddleName, 50, true))
+                {
+                    return BadRequest("MiddleName ERROR");
+                }
+
+                if (!LogicVerify.VerifyLength(customerRegister.LastName, 50, false))
+                {
+                    return BadRequest("LastName ERROR");
+                }
+
+                if (!LogicVerify.VerifyLength(customerRegister.Phone, 25, false))
+                {
+                    return BadRequest("Phone ERROR");
+                }
+
+                //VERIFY PASSWORD          
+                if (!LogicVerify.IsValidPassword(customerRegister.Password))
+                {
+                    return BadRequest("Password ERROR");
+                }
+
+                //VERIFY ADDRESS NEW          
+                if (!LogicVerify.VerifyLength(customerRegister.AddressLine1, 60, false))
+                {
+                    return BadRequest("AddressLine1 ERROR");
+                }
+
+                if (!LogicVerify.VerifyLength(customerRegister.AddressLine2, 60, true))
+                {
+                    return BadRequest("AddressLine2 ERROR");
+                }
+                else
+                {
+                    customerRegister.AddressLine2 = "";
+                }
+
+                if (!LogicVerify.VerifyLength(customerRegister.City, 30, false))
+                {
+                    return BadRequest("City ERROR");
+                }
+
+                if (!LogicVerify.VerifyLength(customerRegister.StateProvince, 50, false))
+                {
+                    return BadRequest("StateProvince ERROR");
+                }
+
+                if (!LogicVerify.VerifyLength(customerRegister.CountryRegion, 50, false))
+                {
+                    return BadRequest("CountryRegion ERROR");
+                }
+
+                if (!LogicVerify.VerifyLength(customerRegister.PostalCode, 15, false))
+                {
+                    return BadRequest("PostalCode ERROR");
+                }
+
+                //VERIFY CUSTOMER ADDRESS
+                if (!LogicVerify.VerifyLength(customerRegister.AddressType, 50, false))
+                {
+                    return BadRequest("AddressType ERROR");
+                }
+                #endregion
 
                 Credentials credentialToPass = new();
                 CustomerNew customersNewToPass = new();
@@ -52,7 +127,7 @@ namespace BetaCycle4.Controllers
                 customersNewToPass.LastName = customerRegister.LastName;
                 customersNewToPass.EmailAddress = EncryptionSHA256.sha256Encrypt(customerRegister.EmailAddress);
                 customersNewToPass.Phone = customerRegister.Phone;
-                customersNewToPass.ModifiedDate = customerRegister.ModifiedDate.AddHours(2);
+                customersNewToPass.ModifiedDate = DateTime.Now;
                 //
 
                 //ADDRESS
@@ -62,14 +137,13 @@ namespace BetaCycle4.Controllers
                 addressToPass.StateProvince = customerRegister.StateProvince;
                 addressToPass.CountryRegion = customerRegister.CountryRegion;
                 addressToPass.PostalCode = customerRegister.PostalCode;
-                addressToPass.ModifiedDate = customerRegister.ModifiedDate.AddHours(2);
+                addressToPass.ModifiedDate = DateTime.Now;
                 //
 
                 //CUSTOMER ADDRESS           
                 customerAddressToPass.AddressType = customerRegister.AddressType;
-                customerAddressToPass.ModifiedDate = customerRegister.ModifiedDate.AddHours(2);
+                customerAddressToPass.ModifiedDate = DateTime.Now;
                 //
-
 
                 //INSERT CREDENTIALS
                 if (registerLogic.PostCredentials(credentialToPass))
@@ -103,13 +177,18 @@ namespace BetaCycle4.Controllers
                             //INSERT CUSTOMER ADDRESS
                             if (dbUtilityLT2019.PostCustomerAddressNew(customerAddressToPass) == 1)
                             {
-                                return Ok("registrazione completa");
+                                emailExistInDbADLT2019 = dbUtilityLT2019.CheckEmailDbAWLT2019(customerRegister.EmailAddress);
+                                if (emailExistInDbADLT2019 && !dbUtilityLT2019.CheckIsElseWhere(customerRegister.EmailAddress))
+                                {
+                                    dbUtilityLT2019.SetIsElseWhereTrue(customerRegister.EmailAddress);
+                                }
+                                return Ok(new { message = "registrazione completa" });
                             }
                             else
                             {
                                 dbUtilityCredentials.DeleteCredentials(customerId);
-                                registerLogic.DeleteCustomerNew(customerId);
                                 dbUtilityLT2019.DeleteAddressNew(addressId);
+                                registerLogic.DeleteCustomerNew(customerId);
                                 return BadRequest("Errore in post customerAddress");
                             }
                         }
@@ -128,7 +207,7 @@ namespace BetaCycle4.Controllers
                 }
                 else
                 {
-                    return BadRequest("ERROR IN Credentials");
+                    return BadRequest(new { message = "emailExist" });
                 }
             }
             catch (Exception ex)

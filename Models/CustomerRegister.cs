@@ -2,8 +2,6 @@ namespace BetaCycle4.Models
 {
     public class CustomerRegister
     {
-        
-        public int CustomerId { get; set; }
 
         public bool NameStyle { get; set; } = false;
 
@@ -26,8 +24,6 @@ namespace BetaCycle4.Models
         public string Password { get; set; } 
 
         public Guid Rowguid { get; set; }
-
-        public DateTime ModifiedDate { get; set; } 
 
         //AddressType
         public string AddressLine1 { get; set; } = null!;
