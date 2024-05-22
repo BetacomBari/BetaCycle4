@@ -398,10 +398,25 @@ namespace SqlManager.BLogic
                 sqlCmd.Parameters.AddWithValue("@email", email);
                 sqlCmd.Connection = sqlCnn;
 
+=======
+        #region Get All Product Categories
+
+        internal List<ProductCategory> getAllCategories()
+        {
+            List<ProductCategory> allCategories = new();
+            try
+            {
+                checkDbOpen();
+
+                sqlCmd.CommandText = "SELECT * FROM [AdventureWorksLT2019].[SalesLT].[ProductCategory]";
+
+                sqlCmd.Connection = sqlCnn;
+>>>>>>> Product
                 using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
                 {
                     if (sqlReader.HasRows)
                     {
+<<<<<<< HEAD
                         while (sqlReader.Read())
                         {
                             if (Convert.ToBoolean(sqlReader["iselsewhere"]) == true)
@@ -469,16 +484,91 @@ namespace SqlManager.BLogic
                 checkDbOpen();
                 sqlCmd.CommandText = "SELECT CustomerId FROM CustomerNew WHERE EmailAddress = @EmailAddress";
                 sqlCmd.Parameters.AddWithValue("@EmailAddress", EmailAddress);
+=======
+                        ProductCategory category = new ProductCategory();
+                        while (sqlReader.Read())
+                        {
+                            category.ProductCategoryId = Convert.ToInt16(sqlReader["ProductCategoryId"]);
+                            category.ParentProductCategoryId = Convert.ToInt16(sqlReader["ParentProductCategoryId"]);
+                            category.Name = sqlReader["Name"].ToString();
+                            category.Rowguid = (Guid)sqlReader["Rowguid"];
+                            category.ModifiedDate = Convert.ToDateTime(sqlReader["ModifiedDate"]);
+
+                            allCategories.Add(category);
+                        }
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch
+            {
+
+            }
+
+
+
+            return allCategories;
+        }
+
+        #endregion
+
+        #region Get All Product From Category Id
+
+        internal List<Product> getAllProductFromCategoryId(string categoryId)
+        {
+            List<Product> allProductsByCategoryId = new();
+            try
+            {
+                checkDbOpen();
+
+                sqlCmd.CommandText = "SELECT * FROM [AdventureWorksLT2019].[SalesLT].[Product] WHERE [ProductCategoryID] = @categoryId";
+                sqlCmd.Parameters.AddWithValue("@categoryId", categoryId);
+>>>>>>> Product
                 sqlCmd.Connection = sqlCnn;
 
                 using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
                 {
                     if (sqlReader.HasRows)
                     {
+<<<<<<< HEAD
                         while (sqlReader.Read())
                         {
                             id = Convert.ToInt16(sqlReader["CustomerId"]);
                         }
+=======
+                        Product product = new Product();
+                        while (sqlReader.Read())
+                        {
+                            product.ProductId = Convert.ToInt16(sqlReader["ProductId"]);
+                            product.Name = sqlReader["Name"].ToString();
+                            product.ProductNumber = sqlReader["ProductNumber"].ToString();
+                            product.Color = sqlReader["Color"].ToString();
+                            product.StandardCost = Convert.ToInt16(sqlReader["StandardCost"]);
+                            product.ListPrice = Convert.ToInt16(sqlReader["ListPrice"]);
+                            product.Size = sqlReader["Size"].ToString();
+                            product.Weight = Convert.ToDecimal(sqlReader["Weight"]);
+                            product.ProductCategoryId = Convert.ToInt16(sqlReader["ProductCategoryId"]);
+                            product.ProductModelId = Convert.ToInt16(sqlReader["ProductModelId"]);
+                            product.SellStartDate = Convert.ToDateTime(sqlReader["SellStartDate"]);
+                            product.SellEndDate = Convert.ToDateTime(sqlReader["SellEndDate"]);
+                            product.DiscontinuedDate = Convert.ToDateTime(sqlReader["DiscontinuedDate"]);
+                            product.ThumbNailPhoto = [Convert.ToByte(sqlReader["ThumbNailPhoto"])];
+                            product.ThumbnailPhotoFileName = sqlReader["ThumbnailPhotoFileName"].ToString();
+                            product.Rowguid = (Guid)sqlReader["Rowguid"];
+                            product.ModifiedDate = Convert.ToDateTime(sqlReader["ModifiedDate"]);
+                            product.LargeImage = [Convert.ToByte(sqlReader["LargeImage"])];
+
+                            allProductsByCategoryId.Add(product);
+                        }
+
+                    }
+                    else
+                    {
+                        return null;
+>>>>>>> Product
                     }
                 }
             }
@@ -490,6 +580,7 @@ namespace SqlManager.BLogic
             {
                 checkDbClose();
             }
+<<<<<<< HEAD
 
             return id;
         }
@@ -504,16 +595,68 @@ namespace SqlManager.BLogic
                 checkDbOpen();
                 sqlCmd.CommandText = "SELECT AddressId FROM AddressNew WHERE CustomerId = @CustomerId";
                 sqlCmd.Parameters.AddWithValue("@CustomerId", CustomerId);
+=======
+            return allProductsByCategoryId;
+
+        }
+
+        #endregion
+
+        #region Get All Products From Category Name
+
+        internal List<Product> getAllProductFromCategoryName(string categoryName)
+        {
+            List<Product> allProductsByCategoryName = new();
+            try
+            {
+                checkDbOpen();
+
+                sqlCmd.CommandText = "SELECT * FROM [AdventureWorksLT2019].[SalesLT].[Product] WHERE [ProductCategoryID] LIKE @categoryName";
+                sqlCmd.Parameters.AddWithValue("@categoryName", categoryName);
+>>>>>>> Product
                 sqlCmd.Connection = sqlCnn;
 
                 using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
                 {
                     if (sqlReader.HasRows)
                     {
+<<<<<<< HEAD
                         while (sqlReader.Read())
                         {
                             id = Convert.ToInt16(sqlReader["AddressId"]);
                         }
+=======
+                        Product product = new Product();
+                        while (sqlReader.Read())
+                        {
+
+                            product.ProductId = Convert.ToInt16(sqlReader["ProductId"]);
+                            product.Name = sqlReader["Name"].ToString();
+                            product.ProductNumber = sqlReader["ProductNumber"].ToString();
+                            product.Color = sqlReader["Color"].ToString();
+                            product.StandardCost = Convert.ToInt16(sqlReader["StandardCost"]);
+                            product.ListPrice = Convert.ToInt16(sqlReader["ListPrice"]);
+                            product.Size = sqlReader["Size"].ToString();
+                            product.Weight = Convert.ToDecimal(sqlReader["Weight"]);
+                            product.ProductCategoryId = Convert.ToInt16(sqlReader["ProductCategoryId"]);
+                            product.ProductModelId = Convert.ToInt16(sqlReader["ProductModelId"]);
+                            product.SellStartDate = Convert.ToDateTime(sqlReader["SellStartDate"]);
+                            product.SellEndDate = Convert.ToDateTime(sqlReader["SellEndDate"]);
+                            product.DiscontinuedDate = Convert.ToDateTime(sqlReader["DiscontinuedDate"]);
+                            product.ThumbNailPhoto = [Convert.ToByte(sqlReader["ThumbNailPhoto"])];
+                            product.ThumbnailPhotoFileName = sqlReader["ThumbnailPhotoFileName"].ToString();
+                            product.Rowguid = (Guid)sqlReader["Rowguid"];
+                            product.ModifiedDate = Convert.ToDateTime(sqlReader["ModifiedDate"]);
+                            product.LargeImage = [Convert.ToByte(sqlReader["LargeImage"])];
+
+                            allProductsByCategoryName.Add(product);
+                        }
+
+                    }
+                    else
+                    {
+                        return null;
+>>>>>>> Product
                     }
                 }
             }
@@ -525,6 +668,7 @@ namespace SqlManager.BLogic
             {
                 checkDbClose();
             }
+<<<<<<< HEAD
 
             return id;
         }
@@ -534,10 +678,25 @@ namespace SqlManager.BLogic
         internal int PostAddressNew(Address address)
         {
             int addressInsert = 0;
+=======
+            return allProductsByCategoryName;
+
+        }
+
+
+        #endregion
+
+        #region Get Product From Name
+
+        internal List<Product> getProductFromName(string name)
+        {
+            List<Product> allProductFromName = new();
+>>>>>>> Product
             try
             {
                 checkDbOpen();
 
+<<<<<<< HEAD
                 sqlCmd.CommandText = "INSERT INTO [dbo].[AddressNew] ([CustomerID],[AddressLine1],[AddressLine2],[City],[StateProvince],[CountryRegion],[PostalCode],[ModifiedDate]) VALUES (@CustomerID,@AddressLine1,@AddressLine2,@City,@StateProvince,@CountryRegion,@PostalCode,@ModifiedDate)";
                 sqlCmd.Parameters.AddWithValue("@CustomerID", address.CustomerId);
                 sqlCmd.Parameters.AddWithValue("@AddressLine1", address.AddressLine1);
@@ -582,10 +741,55 @@ namespace SqlManager.BLogic
                 CustomerAddressInsert = sqlCmd.ExecuteNonQuery();
             }
             catch (Exception ex)
+=======
+                sqlCmd.CommandText = "SELECT * FROM [AdventureWorksLT2019].[SalesLT].[Product] WHERE [Name] LIKE @Name";
+                sqlCmd.Parameters.AddWithValue("@Name", name);
+                sqlCmd.Connection = sqlCnn;
+
+                using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
+                {
+                    if (sqlReader.HasRows)
+                    {
+                        Product product = new Product();
+                        while (sqlReader.Read())
+                        {
+
+                            product.ProductId = Convert.ToInt16(sqlReader["ProductId"]);
+                            product.Name = sqlReader["Name"].ToString();
+                            product.ProductNumber = sqlReader["ProductNumber"].ToString();
+                            product.Color = sqlReader["Color"].ToString();
+                            product.StandardCost = Convert.ToInt16(sqlReader["StandardCost"]);
+                            product.ListPrice = Convert.ToInt16(sqlReader["ListPrice"]);
+                            product.Size = sqlReader["Size"].ToString();
+                            product.Weight = Convert.ToDecimal(sqlReader["Weight"]);
+                            product.ProductCategoryId = Convert.ToInt16(sqlReader["ProductCategoryId"]);
+                            product.ProductModelId = Convert.ToInt16(sqlReader["ProductModelId"]);
+                            product.SellStartDate = Convert.ToDateTime(sqlReader["SellStartDate"]);
+                            product.SellEndDate = Convert.ToDateTime(sqlReader["SellEndDate"]);
+                            product.DiscontinuedDate = Convert.ToDateTime(sqlReader["DiscontinuedDate"]);
+                            product.ThumbNailPhoto = [Convert.ToByte(sqlReader["ThumbNailPhoto"])];
+                            product.ThumbnailPhotoFileName = sqlReader["ThumbnailPhotoFileName"].ToString();
+                            product.Rowguid = (Guid)sqlReader["Rowguid"];
+                            product.ModifiedDate = Convert.ToDateTime(sqlReader["ModifiedDate"]);
+                            product.LargeImage = [Convert.ToByte(sqlReader["LargeImage"])];
+
+                            allProductFromName.Add(product);
+                        }
+
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch (Exception e)
+>>>>>>> Product
             {
                 throw;
             }
             finally
+<<<<<<< HEAD
             { checkDbClose(); }
 
             return CustomerAddressInsert;
@@ -645,6 +849,7 @@ namespace SqlManager.BLogic
         #endregion
 
         //CHECK DB
+
         #region CHECK OPEN/CLOSE DB
         void checkDbOpen()
         {
