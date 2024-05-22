@@ -5,8 +5,11 @@ import { Observable } from 'rxjs';
 
 import { User } from '../../shared/models/user';
 import { AuthService } from './auth.service';
-import { Credentials } from '../../shared/models/Credentials';
+
 import { CustomerRegister } from '../../shared/models/CustomerRegister';
+import { Credentials } from '../../shared/models/Credentials';
+
+
 
 
 @Injectable({
@@ -30,10 +33,6 @@ export class HttprequestService {
   getCustomer(): Observable<any> {  
     this.token = String(localStorage.getItem('jwtToken'));
     this.auth.setJwtLoginStatus(true, this.token)
-    console.log(this.token);
-
-    console.log(this.auth.authJwtHeader);
-    
     return this.http.get(`https://localhost:7165/api/Customers`, {headers: this.auth.authJwtHeader} )
   }
 

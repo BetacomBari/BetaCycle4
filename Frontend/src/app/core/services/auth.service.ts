@@ -14,11 +14,11 @@ export class AuthService {
     contentType: 'application/json',
     responseType: 'text'
   });
-  
 
 
-  setJwtLoginStatus(logValue: boolean, jwtToken: string) {
+  setJwtLoginStatus(logValue: boolean, jwtToken : string = '') {
     this.isLogged = logValue;
+
     if (logValue) {
       localStorage.removeItem("jwtToken");
       localStorage.setItem('jwtToken', jwtToken);
@@ -36,7 +36,7 @@ export class AuthService {
     }
   }
 
-  isLoggedIn(): boolean {
-    return localStorage.getItem('JwtToken') !== null;
+  getLoginStatus():boolean {
+    return localStorage.getItem('jwtToken') !== null;
   }
 }

@@ -1,7 +1,6 @@
 import { HttpRequest, HttpStatusCode } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { HttprequestService } from '../services/httprequest.service';
-import { Credentials } from '../../shared/models/Credentials';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -12,7 +11,8 @@ import { NavbarComponent } from '../navbar/navbar.component';
 import { ResetPasswordService } from '../services/reset-password.service';
 import { AuthService } from '../services/auth.service';
 import { CustomerRegister } from '../../shared/models/CustomerRegister';
-declare var handleSignOut: any;
+import { Credentials } from '../../shared/models/Credentials';
+
 
 @Component({
   selector: 'app-login',
@@ -27,7 +27,7 @@ export class LoginComponent {
   isText: boolean = false;
   eyeIcon: string = "fa-eye-slash"
   email_toShow: string = "";
-  logged_in: boolean = false;
+  private isLogged: boolean = false;
   userProfile: any;
   customerRegister: CustomerRegister = new CustomerRegister();
   resetPassword!: string;
@@ -36,25 +36,24 @@ export class LoginComponent {
   loginCredentials: Credentials = new Credentials()
   errorMessage: string[] = []
 
-  constructor(private http: HttprequestService, private router: Router, private resetService: ResetPasswordService, private authStatus: AuthService) { }
+  constructor(private http: HttprequestService, private resetService: ResetPasswordService, public authStatus: AuthService) { }
 
   login(email: HTMLInputElement, password: HTMLInputElement){
-    this.loginCredentials.EmailAddress = email.value
-    this.loginCredentials.Password = password.value
-
     if (email.value != "" && password.value != "") {
-      this.loginCredentials.EmailAddress = email.value
+      this.loginCredentials.EmailAddress = email.value.trim()
       this.loginCredentials.Password = password.value
 
       this.http.loginPostJwt(this.loginCredentials).subscribe({
         next: (resp: any) => {
           console.log("LOGIN OK!");
-          this.logged_in = true;
+          this.isLogged = true;
           this.email_toShow = email.value;
           this.jwtToken = resp.body.token;
           localStorage.setItem('jwtToken', this.jwtToken)
+          this.authStatus.setJwtLoginStatus(true, this.jwtToken);
         },
         error: (error: any) => {
+          this.authStatus.setJwtLoginStatus(false);
           this.errorMessage = []
           if (error.error.message == "passwordError") {
             this.errorMessage.push("Password non valida.")
@@ -84,25 +83,6 @@ export class LoginComponent {
     this.isText ? this.type = "text" : this.type = "password"
   }
 
-
-  ngOnInit() {
-    this.userProfile = JSON.parse(sessionStorage.getItem("loggedInUser") || "");
-  }
-
-  handleSignOut() {
-    handleSignOut();
-    localStorage.removeItem("jwtToken")
-    sessionStorage.removeItem("loggedInUser");
-    this.router.navigate(["/login"]).then(() => {
-      window.location.reload();
-    });
-    localStorage.removeItem("loggedInUser");
-    this.router.navigate(["/login"]).then(() => {
-      window.location.reload();
-    });
-
-  }
-
   writeInDb() {
     this.customerRegister.EmailAddress = this.userProfile.email;
     this.customerRegister.FirstName = this.userProfile.given_name;
@@ -118,11 +98,9 @@ export class LoginComponent {
         console.log(err);
       }
     })
-
   }
 
-
-
+  
   checkValidEmailForReset(event: string) {
     const value = event;
     //const pattern = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,3}$/;
@@ -131,7 +109,7 @@ export class LoginComponent {
     console.log(this.isEmailForResetValid);
     return this.isEmailForResetValid;
   }
-
+  
   confirmToSend() {
     if (this.checkValidEmailForReset(this.resetPassword)) {
       console.log(this.resetPassword);
@@ -140,16 +118,16 @@ export class LoginComponent {
       buttonRef?.click();
       // API call
       this.resetService.sendResetPasswordLink(this.resetPassword)
-        .subscribe({
-          next: (res) => {
-            this.resetPassword = "";
-            const buttonRef = document.getElementById("closeBtn");
-            buttonRef?.click();
-          },
-          error: (err) => {
-            console.log(err);
-          }
-        })
+      .subscribe({
+        next: (res) => {
+          this.resetPassword = "";
+          const buttonRef = document.getElementById("closeBtn");
+          buttonRef?.click();
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      })
     }
   }
 }
