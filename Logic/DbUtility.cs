@@ -530,7 +530,7 @@ namespace SqlManager.BLogic
 
         #endregion
 
-        #region Get All Product From Id
+        #region Get All Product From Category Id
 
         internal List<Product> getAllProductFromCategoryId(string categoryId)
         {
@@ -590,6 +590,71 @@ namespace SqlManager.BLogic
             return allProductsByCategoryId;
 
         }
+
+        #endregion
+
+        #region Get All Products From Category Name
+
+        internal List<Product> getAllProductFromCategoryName(string categoryName)
+        {
+            List<Product> allProductsByCategoryName = new();
+            try
+            {
+                checkDbOpen();
+
+                sqlCmd.CommandText = "SELECT * FROM [AdventureWorksLT2019].[SalesLT].[Product] WHERE [ProductCategoryID] LIKE @categoryName";
+                sqlCmd.Parameters.AddWithValue("@categoryName", categoryName);
+                sqlCmd.Connection = sqlCnn;
+
+                using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
+                {
+                    if (sqlReader.HasRows)
+                    {
+                        Product product = new Product();
+                        while (sqlReader.Read())
+                        {
+
+                            product.ProductId = Convert.ToInt16(sqlReader["ProductId"]);
+                            product.Name = sqlReader["Name"].ToString();
+                            product.ProductNumber = sqlReader["ProductNumber"].ToString();
+                            product.Color = sqlReader["Color"].ToString();
+                            product.StandardCost = Convert.ToInt16(sqlReader["StandardCost"]);
+                            product.ListPrice = Convert.ToInt16(sqlReader["ListPrice"]);
+                            product.Size = sqlReader["Size"].ToString();
+                            product.Weight = Convert.ToDecimal(sqlReader["Weight"]);
+                            product.ProductCategoryId = Convert.ToInt16(sqlReader["ProductCategoryId"]);
+                            product.ProductModelId = Convert.ToInt16(sqlReader["ProductModelId"]);
+                            product.SellStartDate = Convert.ToDateTime(sqlReader["SellStartDate"]);
+                            product.SellEndDate = Convert.ToDateTime(sqlReader["SellEndDate"]);
+                            product.DiscontinuedDate = Convert.ToDateTime(sqlReader["DiscontinuedDate"]);
+                            product.ThumbNailPhoto = [Convert.ToByte(sqlReader["ThumbNailPhoto"])];
+                            product.ThumbnailPhotoFileName = sqlReader["ThumbnailPhotoFileName"].ToString();
+                            product.Rowguid = (Guid)sqlReader["Rowguid"];
+                            product.ModifiedDate = Convert.ToDateTime(sqlReader["ModifiedDate"]);
+                            product.LargeImage = [Convert.ToByte(sqlReader["LargeImage"])];
+
+                            allProductsByCategoryName.Add(product);
+                        }
+
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            finally
+            {
+                checkDbClose();
+            }
+            return allProductsByCategoryName;
+
+        }
+
 
         #endregion
 
