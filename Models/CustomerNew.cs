@@ -1,7 +1,10 @@
-﻿namespace BetaCycle4.Models;
+using System.ComponentModel.DataAnnotations;
+
+namespace BetaCycle4.Models;
 
 public partial class CustomerNew
 {
+    [Key]
     public int CustomerId { get; set; }
 
     public bool NameStyle { get; set; }
@@ -20,6 +23,8 @@ public partial class CustomerNew
 
     public string? SalesPerson { get; set; }
 
+    public string? EmailAddress { get; set; }
+
     public string? Phone { get; set; }
 
     public Guid Rowguid { get; set; }
@@ -27,6 +32,9 @@ public partial class CustomerNew
     public DateTime ModifiedDate { get; set; }
 
     public int Role { get; set; }
+
+
+
 
 
 }
