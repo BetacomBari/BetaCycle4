@@ -11,7 +11,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
 import { ResetPasswordService } from '../services/reset-password.service';
 import { AuthService } from '../services/auth.service';
 import { CustomerRegister } from '../../shared/models/CustomerRegister';
-import { Credentials } from '../../shared/models/Credentials';
+import { Credentials } from '../../shared/models/credentials';
 
 
 @Component({
