@@ -1,87 +1,106 @@
-.outer{
-    height: 100vh;
-    background: linear-gradient();
+/* REGISTRA */
+
+:root{
+    --gray:#A0A6B4;
+    --lightBlue:#587a80;
+    --columbianBlue:#B3D2E7;
+    --white:#F8F8F8;
 }
 
-.panel-heading{
-    text-align: center;
-    margin-bottom: 10px;
+.transition{
+    transition: 0.5s;
 }
 
-#forget{
-    min-width: 100px;
-    margin-left: auto;
-    text-decoration: none;
-    cursor: pointer;
+.transition{
+    transition: 0.5s;
 }
 
-a:hover{
-    text-decoration: none;
+.title{
+    color: #587a80;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 600;
 }
 
-.form-inline label{
-    padding-left: 10px;
-    margin: 0;
-    cursor: pointer;
-}
-.btn {
-    margin-top: 20px;
-    border-radius: 15px;
+.label{
+    color: #587a80;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 900;
 }
 
-.panel{
-    min-height: 380px;
-    box-shadow: 20px 20px 80px rgb(218, 218, 218);
-    border-radius: 12px;
-    margin-top: 100px;
-}
-
-.input-field{
-    border-radius: 5px;
-    padding: 5px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    border: 1px solid #ddd;
-    color: #4343ff
-}
-.input-field.error{
-    border: 1px solid red;
-    color: red;
-}
-
-input[type='text']
-input[type='password'] {
-    border: none;
-    outline:none;
-    box-shadow: none;
-    width: 100%;
-}
-
-.fa-eye-slash.btn {
-    border: none;
-    outline:none;
-    box-shadow: none;
-}
-
-img{
-    width: 40px;
-    height: 40px;
-    object-fit: cover;
-    border-radius: 50%;
+.register-page{
+    background-image: url("https://www.gardatrentino.it/website_images/Outdoor/Bici/mountainbike/Percorsi/image-thumb__12085__header/GARDATRENTINO_WATCHSOME_MTB_TENNO_STRADA_DEL_PIL_02.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow: hidden;
     position: relative;
+    z-index:0;
 }
 
-.bordert{
-    border-top: 1px solid #aaa;
-    position: relative
+
+.scuro{
+    transition: 0.3s;
+    background-color: #b3d2e798;
+    border: solid 2px #587a80;
+    color: rgb(0, 0, 0);
+    font-family: 'IBM Plex Serif';
+}
+.scuro:focus{
+    outline:none;
+    box-shadow: inset 0px 0px 10px rgb(156, 156, 156);
 }
 
-.bordert::after{
-    content: "Or connect with:";
-    position: absolute;
-    top: -13px;
-    left: 33%;
-    background-color: #fff;
-    
+.scuro:hover{
+    transition: 0.3s;
+    background-color: #6d9ebea6;
 }
+
+.btn-register{
+    transition: 0.5s;
+    background: #B3D2E7;
+    font-weight:500;
+    transition:0.5s;
+    border:2px solid #587a80;
+    color:#587a80;
+}
+
+.btn-register:hover{
+    transition: 0.3s;
+    background: #6d9ebe;
+    border:2px solid rgb(255, 255, 255);
+    color: white;
+}
+.card-register{
+
+    background-color: #f8f8f89c;
+    padding:20px;
+
+    position:relative;
+    box-shadow: inset 0px 0px 20px rgb(255, 255, 255);
+}
+
+.raimbow{
+    position:absolute;
+    z-index:-1;
+    top:0px;
+    left:0px;
+    width:100%;
+    height: 100%;
+
+    padding:30px;
+    border-radius: 10px;
+    animation: rotazione 2.5s linear infinite;
+}
+
+@keyframes rotazione {
+    0%{
+        filter:hue-rotate(0deg) blur(15px);
+    }
+    50%{
+        filter:hue-rotate(40deg) blur(15px);
+    }
+    100%{
+        filter:hue-rotate(0deg) blur(15px);
+    }
+}
+/* FINE REGISTER */
