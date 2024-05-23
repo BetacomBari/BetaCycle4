@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,10 +14,24 @@ namespace BetaCycle4.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly AdventureWorksLt2019Context _context;
+        private int lastId = 0;
 
         public ProductsController(AdventureWorksLt2019Context context)
         {
             _context = context;
+        }
+
+        [Route("GetProductsByPage")]
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Product>>> GetProductsByPage()
+        {
+            int rowPage = 12;
+
+            var page = await _context.Products.FromSql($"SELECT TOP 12 * FROM [SalesLT].[Product]")
+                .OrderBy( x => x.ProductId )
+                .Take( rowPage )
+                .ToListAsync();
+            return page;
         }
 
         // GET: api/Products

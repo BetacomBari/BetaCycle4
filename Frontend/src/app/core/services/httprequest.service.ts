@@ -44,6 +44,10 @@ export class HttprequestService {
     return this.http.get(`https://localhost:7165/api/Products`)
   }
 
+  getLast12Product(): Observable<any> {
+    return this.http.get(`https://localhost:7165/api/Products/GetProductsByPage`)
+  }
+
   getProductByID(id:number): Observable<any> {
     return this.http.get(`https://localhost:7165/api/Products/${id}`)
   }
