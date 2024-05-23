@@ -10,6 +10,25 @@
                 <div class = "panel-heading">
                     <h3 class = "pt3 font-weight-bold"> Login</h3>    
                 </div>
+
+                <!--! errori -->
+                <div class="row justify-content-center">
+                    <div *ngIf="errorMessage.length != 0" class="col-12 col-md-12 col-lg-7" >
+                        <div class="alert alert-danger" role="alert">
+                          <p class="m-0" *ngFor="let e of errorMessage">{{e}}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!--! message -->
+                <div class="row justify-content-center">
+                    <div *ngIf="successMessage != null" class="col-12 col-md-12 col-lg-7" >
+                        <div class="alert alert-success" role="alert">
+                          <p class="m-0" >{{successMessage}}</p>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="panel-body p-3">
                     <form>
                         <div class="form-group pt-3">
@@ -40,8 +59,8 @@
                     </div>
                 </div>
                 -->
-                <!-- CODE FROM GOOGLE  (data-login_uri="https://localhost:4200/navbar")-->
-                <div id="g_id_onload"
+                <!--! CODE FROM GOOGLE  (data-login_uri="https://localhost:4200/navbar")-->
+                <!-- <div id="g_id_onload"
                     data-client_id="236179809361-r91sb4haj3rafbdp66g5jdq9446bv86p.apps.googleusercontent.com"
                     data-context="use"
                     data-ux_mode="popup" 
@@ -58,25 +77,20 @@
                     data-text="signin_with"
                     data-size="large"
                     data-logo_alignment="left">
-                </div>
-                <!-- CODE FROM GOOGLE END -->
+                </div> -->
+                <!--! CODE FROM GOOGLE END -->
             </div>
         </div>
     </div>
 </div>
 
 
-<ng-container *ngIf="userProfile"> 
+<!-- <ng-container *ngIf="userProfile"> 
         <div> Welcome {{userProfile.name}}</div>    
         <app-user-card [userProfile]="userProfile"></app-user-card>
         <button type="submit" class="btn btn-primary btn-block mt-4 w-50" (click)="writeInDb()">Register to DB</button>
-        <!-- now we need to register the email of the user to our db -->
-        <!-- <button id="signout-button" (click)="handleSignOut()">Sign Out</button> -->
-</ng-container>
 
-<ng-container *ngIf="authStatus.getLoginStatus()">
-    <div> Welcome {{email_toShow}}</div>   
-</ng-container>
+</ng-container> -->
 
 <!-- FORGET PASSWORD    -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
