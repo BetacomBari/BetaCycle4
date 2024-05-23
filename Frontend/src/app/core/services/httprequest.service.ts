@@ -7,7 +7,7 @@ import { User } from '../../shared/models/user';
 import { AuthService } from './auth.service';
 
 import { CustomerRegister } from '../../shared/models/CustomerRegister';
-import { Credentials } from '../../shared/models/Credentials';
+import { Credentials } from '../../shared/models/credentials';
 
 
 
