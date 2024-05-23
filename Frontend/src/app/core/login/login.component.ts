@@ -1,7 +1,7 @@
 import { HttpRequest, HttpStatusCode } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { HttprequestService } from '../services/httprequest.service';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -35,9 +35,16 @@ export class LoginComponent {
   jwtToken: string = "";
   loginCredentials: Credentials = new Credentials()
   errorMessage: string[] = []
+  successMessage: string | null = null;
 
-  constructor(private http: HttprequestService, private resetService: ResetPasswordService, public authStatus: AuthService) { }
+  constructor(private http: HttprequestService, private resetService: ResetPasswordService, public authStatus: AuthService, private route: ActivatedRoute) { }
 
+  ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      this.successMessage = params['message'];
+    });
+  }
+  
   login(email: HTMLInputElement, password: HTMLInputElement){
     if (email.value != "" && password.value != "") {
       this.loginCredentials.EmailAddress = email.value.trim()

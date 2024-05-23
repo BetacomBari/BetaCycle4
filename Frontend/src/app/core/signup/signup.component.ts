@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { CustomerRegister } from '../../shared/models/CustomerRegister';
 import { HttprequestService } from '../services/httprequest.service';
@@ -22,7 +22,7 @@ export class SignupComponent {
   isRegistered: boolean = false;
   customerRegister: CustomerRegister = new CustomerRegister();
 
-  constructor(private http: HttprequestService) { }
+  constructor(private http: HttprequestService, private router: Router) { }
 
   hideShowPassword() {
     this.isText = !this.isText;
@@ -175,7 +175,7 @@ export class SignupComponent {
       this.customerRegister.Password = Password.value;
 
       this.http.register(this.customerRegister).subscribe({
-        next: (customerRegister: CustomerRegister) => {
+        next: () => {
 
           //! customerNew
           FirstName.value = "";
@@ -198,7 +198,7 @@ export class SignupComponent {
           EmailAddress.value = "";
           Password.value = "";
           PasswordConfirm.value = "";
-          console.log("Register ok");
+          this.router.navigate(['/login'], { queryParams: { message: 'Registrazione avvenuta con successo! Effettua il login per accedere.' } })
           return this.isRegistered == true
         },
         error: (error: any) => {
