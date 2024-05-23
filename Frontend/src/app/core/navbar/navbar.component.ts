@@ -21,7 +21,7 @@ export class NavbarComponent implements OnInit {
 
   constructor(public authStatus: AuthService, private router: Router,) { }
   ngOnInit() {
-    this.imageUrl = '/assets/logo.png';
+    this.imageUrl = '/assets/logo.jpeg';
   }
 
   handleSignOut() {
