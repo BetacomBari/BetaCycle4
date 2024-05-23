@@ -7,6 +7,7 @@ import { UserCardComponent } from './core/user-card/user-card.component';
 import { SignupComponent } from './core/signup/signup.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
+
 @Component({
   selector: 'app-root',
   standalone: true,
