@@ -21,6 +21,7 @@ using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pag
 using Microsoft.Identity.Client.Platforms.Features.DesktopOs.Kerberos;
 using System.Net;
 using System.Net.Mail;
+using System.Xml;
 
 
 namespace SqlManager.BLogic
@@ -753,7 +754,7 @@ namespace SqlManager.BLogic
             {
                 checkDbOpen();
 
-                sqlCmd.CommandText = "SELECT * FROM [AdventureWorksLT2019].[SalesLT].[Product] WHERE [ProductCategoryID] LIKE @categoryName";
+                sqlCmd.CommandText = "SELECT * FROM [AdventureWorksLT2019].[SalesLT].[Product] WHERE [ProductCategoryID] = @categoryName";
                 sqlCmd.Parameters.AddWithValue("@categoryName", categoryName);
                 sqlCmd.Connection = sqlCnn;
 
@@ -804,6 +805,104 @@ namespace SqlManager.BLogic
             }
             return allProductsByCategoryName;
 
+        }
+
+        internal List<SalesOrderHeader> getOrdersForCustomer(int customerId)
+        {
+            List<SalesOrderHeader> allOrders = [];
+
+            try
+            {
+                checkDbOpen();
+
+                sqlCmd.CommandText = "SELECT * FROM [AdventureWorksLT2019].[SalesLT].[SalesOrderHeader] WHERE [CustomerID] = @CustomerID";
+                sqlCmd.Parameters.AddWithValue("@CustomerID", customerId);
+                sqlCmd.Connection = sqlCnn;
+
+                using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
+                {
+
+                    if (sqlReader.HasRows)
+                    {
+                        SalesOrderHeader order = new();
+                        while (sqlReader.Read())
+                        {
+                            order.SalesOrderId = Convert.ToInt32(sqlReader["SalesOrderId"]);
+                            order.RevisionNumber = Convert.ToByte(sqlReader["RevisionNumber"]);
+                            order.OrderDate = Convert.ToDateTime(sqlReader["OrderDate"]);
+                            order.DueDate = Convert.ToDateTime(sqlReader["DueDate"]);
+                            order.ShipDate = Convert.ToDateTime(sqlReader["ShipDate"]);
+                            order.Status = Convert.ToByte(sqlReader["Status"]);
+                            order.OnlineOrderFlag = Convert.ToBoolean(sqlReader["OnlineOrderFlag"]);
+                            order.SalesOrderNumber = sqlReader["SalesOrderNumber"].ToString();
+                            order.PurchaseOrderNumber = sqlReader["PurchaseOrderNumber"].ToString();
+                            order.AccountNumber = sqlReader["AccountNumber"].ToString();
+                            order.CustomerId = Convert.ToInt32(sqlReader["CustomerId"]);
+                            order.ShipToAddressId = Convert.ToInt32(sqlReader["ShipToAddressId"]);
+                            order.BillToAddressId = Convert.ToInt32(sqlReader["BillToAddressId"]);
+                            order.ShipMethod = sqlReader["ShipMethod"].ToString();
+                            order.CreditCardApprovalCode = sqlReader["CreditCardApprovalCode"].ToString();
+                            order.SubTotal = Convert.ToDecimal(sqlReader["SubTotal"]);
+                            order.TaxAmt = Convert.ToDecimal(sqlReader["TaxAmt"]);
+                            order.Freight = Convert.ToDecimal(sqlReader["Freight"]);
+                            order.TotalDue = Convert.ToDecimal(sqlReader["TotalDue"]);
+                            order.Comment = sqlReader["Comment"].ToString();
+                            order.Rowguid = (Guid)sqlReader["Rowguid"];
+                            order.ModifiedDate = Convert.ToDateTime(sqlReader["ModifiedDate"]);
+
+                            allOrders.Add(order);
+
+                        }
+                    }
+                    else return null;
+                }
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+
+            return allOrders;
+        }
+
+        internal List<SalesOrderDetail> getOrderDetails(int orderId)
+        {
+            List<SalesOrderDetail> allOrderDetails = [];
+
+            try
+            {
+                checkDbOpen();
+
+                sqlCmd.CommandText = "SELECT * FROM [AdventureWorksLT2019].[SalesLT].[SalesOrderDetail] WHERE [SalesOrderID] = @SalesOrderID";
+                sqlCmd.Parameters.AddWithValue("@SalesOrderID", orderId);
+                sqlCmd.Connection = sqlCnn;
+
+                using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
+                {
+
+                        SalesOrderDetail orderDetail = new();
+                        while (sqlReader.Read())
+                        {
+                        orderDetail.ProductId = Convert.ToInt32(sqlReader["ProductID"]);
+                        orderDetail.OrderQty = Convert.ToInt16(sqlReader["OrderQty"]);
+                        orderDetail.UnitPrice = Convert.ToDecimal(sqlReader["UnitPrice"]);
+
+                        }
+                    allOrderDetails.Add(orderDetail);
+                }
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+            finally
+            {
+                checkDbClose();
+            }
+
+            return allOrderDetails;
         }
 
 
