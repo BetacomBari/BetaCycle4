@@ -5,8 +5,8 @@
     --white:#F8F8F8;
 }
 
-.vh-70{
-    height: 70vh;
+.vh-90{
+    height: 90vh;
 }
 .passwordDimenticarta{
     color: #587a80;
@@ -98,15 +98,18 @@
     animation: rotazione 2.5s linear infinite;
 }
 
-@keyframes rotazione {
-    0%{
-        filter:hue-rotate(0deg) blur(15px);
-    }
-    50%{
-        filter:hue-rotate(40deg) blur(15px);
-    }
-    100%{
-        filter:hue-rotate(0deg) blur(15px);
-    }
+
+
+@media screen and (max-width: 767px){
+
 }
-/* FINE REGISTER */
+
+
+
+@media screen and (min-width: 767px) and (max-width: 1200px){
+}
+
+
+@media screen and (min-width: 1200px){
+
+}
