@@ -1,2 +1,10 @@
 <app-navbar></app-navbar>
 <p class="display-4">home works!</p>
+<!--! message -->
+<div class="row justify-content-center">
+    <div *ngIf="successMessage != null" class="col-12 col-md-12 col-lg-7">
+        <div class="alert alert-success" role="alert">
+            <p class="m-0">{{successMessage}}</p>
+        </div>
+    </div>
+</div>
