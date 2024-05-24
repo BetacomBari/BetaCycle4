@@ -198,7 +198,7 @@ export class SignupComponent {
           EmailAddress.value = "";
           Password.value = "";
           PasswordConfirm.value = "";
-          this.router.navigate(['/login'], { queryParams: { message: 'Registrazione avvenuta con successo! Effettua il login per accedere.' } })
+          this.router.navigate(['/login'], { queryParams: { message: 'Registrazione completata! Effettua il login per accedere.' } })
           return this.isRegistered == true
         },
         error: (error: any) => {
