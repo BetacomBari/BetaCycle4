@@ -125,10 +125,10 @@
 
 .annuncio2{
     height:70vh;
-    background:url("https://contents.mediadecathlon.com/p2496635/k$583b7debfa7445d5a907cbcd44baf971/1800x0/3865pt2332/7729xcr4122/default.jpg?format=auto"),#E2F6FF ;
+    background:url("https://hips.hearstapps.com/hmg-prod/images/roman-mager-ohrodclnnu8-unsplash-1599655505.jpg?resize=2048:*"),#E2F6FF ;
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: center;
+    background-position: bottom;
     background-attachment: fixed;
 }
 .annuncio2>.sfondo{
