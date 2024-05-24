@@ -27,8 +27,7 @@ namespace BetaCycle4.Controllers
         {
             int rowPage = 12;
 
-            var page = await _context.Products.FromSql($"SELECT TOP 12 * FROM [SalesLT].[Product]")
-                .OrderBy( x => x.ProductId )
+            var page = await _context.Products.FromSql($"SELECT TOP 12 * FROM [SalesLT].[Product] ORDER BY ProductID DESC")
                 .Take( rowPage )
                 .ToListAsync();
             return page;
