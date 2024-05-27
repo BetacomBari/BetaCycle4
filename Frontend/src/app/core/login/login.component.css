@@ -112,14 +112,22 @@
 
 @media screen and (min-width: 767px) and (max-width: 1200px){
     .vh-90{
-        height: 90vh;
+        height: 100vh;
+    }
+
+    .h-65sm{
+        height: 75vh !important;
     }
 }
 
 
 @media screen and (min-width: 1200px){
     .vh-90{
-        height: 90vh;
+        height: 100vh;
+    }
+
+    .h-65sm{
+        height: 75vh !important;
     }
 }
 
