@@ -44,6 +44,9 @@
           <input class="form-control me-2 inputSearch" type="search" placeholder="Cerca" aria-label="Search">
           <a class="d-flex align-items-center" type="submit"><i class="bi bi-search fs-3 text-white mx-3"></i></a>
         </form>
+
+          <a *ngIf="authStatus.getLoginStatus()" href="/cart" class="nav-link aNavbar active" ><i class="bi bi-bag fs-4"></i></a>
+        
       </div>
     </div>
   </nav>
