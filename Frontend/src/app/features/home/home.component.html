@@ -1,10 +1,84 @@
 <app-navbar></app-navbar>
-<p class="display-4">home works!</p>
 <!--! message -->
-<div class="row justify-content-center">
+<!-- <div class="row justify-content-center">
     <div *ngIf="successMessage != null" class="col-12 col-md-12 col-lg-7">
         <div class="alert alert-success" role="alert">
             <p class="m-0">{{successMessage}}</p>
         </div>
     </div>
+</div> -->
+
+
+<div class="w-100 ">
+    <div class="start-page w-100 d-flex align-items-center z-n1">
+        <div class="container z-0">
+            <div class="row flex-column justify-content-center align-items-center ">
+                <div class="col-12 col-md-9 col-lg-6 text-center bg-search z-1">
+                    <h1 class="display-1 mt-5 titleHome">Betacycle</h1>
+
+                    <!--! message -->
+                    <div class="row justify-content-center">
+                        <div *ngIf="successMessage != null" class="col-12 col-md-12 col-lg-7">
+                            <div class="alert alert-success" role="alert">
+                                <p class="m-0">{{successMessage}}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<!--! carosello articolo -->
+
+<div class="container" *ngIf="products.length > 0">
+    <div class="row">
+        <div class="col-12">
+            <swiper-container class="mySwiper" pagination="true" effect="coverflow" grab-cursor="true"
+                centered-slides="true" slides-per-view="auto" coverflow-effect-rotate="50" coverflow-effect-stretch="0"
+                coverflow-effect-depth="100" coverflow-effect-modifier="1" coverflow-effect-slide-shadows="true">
+
+                <swiper-slide *ngFor="let p of products">
+                    <div class="card h-100 border border-info">
+                        <!-- <h6 class="card-subtitle mb-2 text-body-secondary text-warning">ID: {{p.productId}}</h6> -->
+                        <img [src]="getDecodedImage(p.largeImage)" alt="" width="300px">
+                        <h5 class="card-title text-danger">{{p.name}} </h5>
+                        <h5 class="card-title text-danger"> {{p.listPrice}} €</h5>
+
+                        <p class="card-text"></p>
+                    </div>
+                </swiper-slide>
+
+            </swiper-container>
+        </div>
+    </div>
+</div>
+
+
+<header class="container my-5">
+    <div class="row">
+        <div class="col-12 flex-column flex-md-row annuncio2 d-flex align-items-center justify-content-center">
+            <div class="col-12 col-md-5">
+                <h1 class="display-1 mt-5 titleHome">Chi siamo?</h1>
+            </div>
+
+
+            <div class="col-12 col-md-5 didascalia d-flex align-items-center px-4">
+                <p class="serif fs-5" data-aos="zoom-in-left ">Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                    Illo facilis laudantium autem odio dolorum necessitatibus quia similique accusamus quaerat porro
+                    itaque repudiandae natus, illum cum perspiciatis veritatis distinctio, ipsam esse.</p>
+            </div>
+        </div>
+
+        <!-- <div class="col-12 annuncio2 d-flex align-items-center justify-content-center my-5">
+            <div class="col-5 didascalia d-flex align-items-center px-4">
+                <h2 class="serif display-4" data-aos="zoom-in-left">dcgsadcjhavsdjchvasjc</h2>
+            </div>
+            <div class="col-5 sfondo" data-aos="zoom-in-down"></div>
+        </div> -->
+    </div>
+</header>
+
+<app-footer></app-footer>

@@ -21,7 +21,7 @@ export class Product{
     productCategory:any;
     productModel:any;
     salesOrderDetails:any;
-    largeImage?: number[];
+    largeImage: string = '';
 
     
 }

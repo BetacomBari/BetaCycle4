@@ -5,9 +5,7 @@
     --white:#F8F8F8;
 }
 
-.vh-70{
-    height: 70vh;
-}
+
 .passwordDimenticarta{
     color: #587a80;
     font-weight: bold;
@@ -34,7 +32,7 @@
 }
 
 .register-page{
-    background-image: url("https://www.gardatrentino.it/website_images/Outdoor/Bici/mountainbike/Percorsi/image-thumb__12085__header/GARDATRENTINO_WATCHSOME_MTB_TENNO_STRADA_DEL_PIL_02.jpg");
+    background-image: url("https://www.gardatrentino.it/website_images/Outdoor/Bici/mountainbike/Percorsi/image-thumb__1085__header/GARDATRENTINO_WATCHSOME_MTB_TENNO_STRADA_DEL_PIL_02.jpg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -98,15 +96,49 @@
     animation: rotazione 2.5s linear infinite;
 }
 
-@keyframes rotazione {
-    0%{
-        filter:hue-rotate(0deg) blur(15px);
+
+
+@media screen and (max-width: 767px){
+    .vh-90{
+        height: 90vh;
     }
-    50%{
-        filter:hue-rotate(40deg) blur(15px);
-    }
-    100%{
-        filter:hue-rotate(0deg) blur(15px);
+
+    .h-65sm{
+        height: 65vh !important;
     }
 }
-/* FINE REGISTER */
+
+
+
+@media screen and (min-width: 767px) and (max-width: 1200px){
+    .vh-90{
+        height: 90vh;
+    }
+}
+
+
+@media screen and (min-width: 1200px){
+    .vh-90{
+        height: 90vh;
+    }
+}
+
+.annuncio2{
+    height:70vh;
+    background:url("https://hips.hearstapps.com/hmg-prod/images/roman-mager-ohrodclnnu8-unsplash-1599655505.jpg?resize=2048:*"),#E2F6FF ;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: bottom;
+    background-attachment: fixed;
+}
+.annuncio2>.sfondo{
+    height:50vh;
+    background-image: url("https://www.delta-informatica.com/wp-content/uploads/pagina-chi-siamo-come-crearla.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.annuncio2>.didascalia{
+    height:50vh;
+    background-color: white;
+    color:#442D1B;
+}

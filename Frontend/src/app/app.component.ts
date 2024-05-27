@@ -13,7 +13,8 @@ import { ReactiveFormsModule } from '@angular/forms';
   standalone: true,
   imports: [RouterOutlet, NavbarComponent, LoginComponent, LogoutComponent, UserCardComponent, SignupComponent, ReactiveFormsModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
+  
 })
 export class AppComponent {
   title = 'betacycle';

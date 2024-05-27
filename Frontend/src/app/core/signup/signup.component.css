@@ -16,13 +16,13 @@
 }
 
 .title{
-    color: #587a80;
+    color: #F8F8F8;
     font-family: 'Courier New', Courier, monospace;
     font-weight: 600;
 }
 
 .label{
-    color: #587a80;
+    color: #F8F8F8;
     font-family: 'Courier New', Courier, monospace;
     font-weight: 900;
 }
@@ -41,11 +41,12 @@
 .scuro{
     transition: 0.3s;
     background-color: #b3d2e798;
-    border: solid 2px #587a80;
+    border: solid 2px #F8F8F8;
     color: rgb(0, 0, 0);
     font-family: 'IBM Plex Serif';
 }
 .scuro:focus{
+    border: solid 2px #587a80;
     outline:none;
     box-shadow: inset 0px 0px 10px rgb(156, 156, 156);
 }
@@ -53,30 +54,31 @@
 .scuro:hover{
     transition: 0.3s;
     background-color: #6d9ebea6;
+    border: solid 2px #587a80;
+
 }
 
 .btn-register{
     transition: 0.5s;
-    background: #B3D2E7;
     font-weight:500;
     transition:0.5s;
-    border:2px solid #587a80;
-    color:#587a80;
+    border:2px solid rgb(255, 255, 255);
+    background: #6d9ebe;
+    color: white;
 }
 
 .btn-register:hover{
+    background: #B3D2E7;
     transition: 0.3s;
-    background: #6d9ebe;
-    border:2px solid rgb(255, 255, 255);
-    color: white;
+    color:#587a80;
+    border:2px solid #587a80;
 }
+
+
 .card-register{
-
-    background-color: #f8f8f89c;
+    background-color: #0000008e;
     padding:20px;
-
     position:relative;
-    box-shadow: inset 0px 0px 20px rgb(255, 255, 255);
 }
 
 .raimbow{
@@ -92,15 +94,4 @@
     animation: rotazione 2.5s linear infinite;
 }
 
-@keyframes rotazione {
-    0%{
-        filter:hue-rotate(0deg) blur(15px);
-    }
-    50%{
-        filter:hue-rotate(40deg) blur(15px);
-    }
-    100%{
-        filter:hue-rotate(0deg) blur(15px);
-    }
-}
 /* FINE REGISTER */
