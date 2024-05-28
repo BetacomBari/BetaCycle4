@@ -47,4 +47,12 @@ export class HttprequestService {
   getProductByID(id:number): Observable<any> {
     return this.http.get(`https://localhost:7165/api/Products/${id}`)
   }
+
+  getRecommandations(product_id: number): Observable<any> {
+    return this.http.get(`http://127.0.0.1:5000/api/recommendations/${product_id}`)
+  } 
+
+  getRecommandations2(): Observable<any> {
+    return this.http.get(`http://127.0.0.1:5000/recom/`)
+  } 
 }
