@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BetaCycle4.Models;
 using Microsoft.AspNetCore.Authorization;
+using SqlManager.BLogic;
 
 namespace BetaCycle4.Controllers
 {
@@ -14,6 +15,9 @@ namespace BetaCycle4.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
+
+        DbUtility dbUtilityLT2019 = new("Data Source=.\\SQLEXPRESS;Initial Catalog=AdventureWorksLT2019;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
+
         private readonly AdventureWorksLt2019Context _context;
         private int lastId = 0;
 
@@ -21,6 +25,16 @@ namespace BetaCycle4.Controllers
         {
             _context = context;
         }
+
+
+        [Route("GetProductsByCategoryId")]
+        [HttpGet("{categoryId}")]
+        public List<Product> GetProductsByCategoryId(int categoryId)
+        {
+            return dbUtilityLT2019.getAllProductFromCategoryId(categoryId);
+        }
+
+
 
         [Route("GetProductsByPage")]
         [HttpGet]
