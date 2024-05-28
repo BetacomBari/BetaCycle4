@@ -3,7 +3,8 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from '../../core/navbar/navbar.component';
 import { FooterComponent } from '../../core/footer/footer.component';
-
+import { HttprequestService } from '../../core/services/httprequest.service';
+import { Product } from '../../shared/models/product';
 @Component({
   selector: 'app-cart',
   standalone: true,
@@ -12,5 +13,15 @@ import { FooterComponent } from '../../core/footer/footer.component';
   styleUrl: './cart.component.css'
 })
 export class CartComponent {
+cartItems: Product[] = []
+cartTotal: number = 0
+userId: number = 0;
+
+constructor (private http: HttprequestService){
+  this.userId =  
+}
+ngOnInit(){
+
+}
 
 }
