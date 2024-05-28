@@ -10,7 +10,7 @@ using SqlManager.BLogic;
 
 namespace BetaCycle4.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("category")]
     [ApiController]
     public class ProductCategoriesController : ControllerBase
     {
@@ -32,81 +32,81 @@ namespace BetaCycle4.Controllers
             return categories;
         }
 
-        // GET: api/ProductCategories/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ProductCategory>> GetProductCategory(int id)
-        {
-            var productCategory = await _context.ProductCategories.FindAsync(id);
+        //// GET: api/ProductCategories/5
+        //[HttpGet("{id}")]
+        //public async Task<ActionResult<ProductCategory>> GetProductCategory(int id)
+        //{
+        //    var productCategory = await _context.ProductCategories.FindAsync(id);
 
-            if (productCategory == null)
-            {
-                return NotFound();
-            }
+        //    if (productCategory == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return productCategory;
-        }
+        //    return productCategory;
+        //}
 
-        // PUT: api/ProductCategories/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutProductCategory(int id, ProductCategory productCategory)
-        {
-            if (id != productCategory.ProductCategoryId)
-            {
-                return BadRequest();
-            }
+        //// PUT: api/ProductCategories/5
+        //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> PutProductCategory(int id, ProductCategory productCategory)
+        //{
+        //    if (id != productCategory.ProductCategoryId)
+        //    {
+        //        return BadRequest();
+        //    }
 
-            _context.Entry(productCategory).State = EntityState.Modified;
+        //    _context.Entry(productCategory).State = EntityState.Modified;
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProductCategoryExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+        //    try
+        //    {
+        //        await _context.SaveChangesAsync();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!ProductCategoryExists(id))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
 
-        // POST: api/ProductCategories
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<ProductCategory>> PostProductCategory(ProductCategory productCategory)
-        {
-            _context.ProductCategories.Add(productCategory);
-            await _context.SaveChangesAsync();
+        //// POST: api/ProductCategories
+        //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        //[HttpPost]
+        //public async Task<ActionResult<ProductCategory>> PostProductCategory(ProductCategory productCategory)
+        //{
+        //    _context.ProductCategories.Add(productCategory);
+        //    await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetProductCategory", new { id = productCategory.ProductCategoryId }, productCategory);
-        }
+        //    return CreatedAtAction("GetProductCategory", new { id = productCategory.ProductCategoryId }, productCategory);
+        //}
 
-        // DELETE: api/ProductCategories/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProductCategory(int id)
-        {
-            var productCategory = await _context.ProductCategories.FindAsync(id);
-            if (productCategory == null)
-            {
-                return NotFound();
-            }
+        //// DELETE: api/ProductCategories/5
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> DeleteProductCategory(int id)
+        //{
+        //    var productCategory = await _context.ProductCategories.FindAsync(id);
+        //    if (productCategory == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            _context.ProductCategories.Remove(productCategory);
-            await _context.SaveChangesAsync();
+        //    _context.ProductCategories.Remove(productCategory);
+        //    await _context.SaveChangesAsync();
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
 
-        private bool ProductCategoryExists(int id)
-        {
-            return _context.ProductCategories.Any(e => e.ProductCategoryId == id);
-        }
+        //private bool ProductCategoryExists(int id)
+        //{
+        //    return _context.ProductCategories.Any(e => e.ProductCategoryId == id);
+        //}
     }
 }

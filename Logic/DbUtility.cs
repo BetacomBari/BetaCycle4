@@ -697,7 +697,7 @@ namespace SqlManager.BLogic
             return allCategories;
         }
 
-        internal List<Product> getAllProductFromCategoryId(string categoryId)
+        internal List<Product> getAllProductFromCategoryId(int categoryId)
         {
             List<Product> allProductsByCategoryId = new();
             try
@@ -712,9 +712,9 @@ namespace SqlManager.BLogic
                 {
                     if (sqlReader.HasRows)
                     {
-                        Product product = new Product();
                         while (sqlReader.Read())
                         {
+                        Product product = new Product();
                             product.ProductId = Convert.ToInt16(sqlReader["ProductId"]);
                             product.Name = sqlReader["Name"].ToString();
                             product.ProductNumber = sqlReader["ProductNumber"].ToString();
@@ -740,7 +740,7 @@ namespace SqlManager.BLogic
                     }
                     else
                     {
-                        return null;
+                        return allProductsByCategoryId;
                     }
                 }
             }
