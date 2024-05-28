@@ -14,6 +14,7 @@ namespace BetaCycle4
 {
     public class Program
     {
+
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -27,6 +28,8 @@ namespace BetaCycle4
             //Imposto il tracer come singleton in modo tale da poterlo iniettare dove mi serve per usufruire
             //dei suoi metodi ove ne ho bisogno -S
             builder.Services.AddSingleton(tracer);
+            
+            
 
             builder.Services.AddControllers();
 

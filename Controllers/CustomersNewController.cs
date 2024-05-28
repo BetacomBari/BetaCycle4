@@ -241,6 +241,7 @@ namespace BetaCycle4.Controllers
                 StatusCode = 200,
                 Message = "Password reset successfully"
             });
+            await _context.PostAsJsonAsync();
         }
     }
 }
