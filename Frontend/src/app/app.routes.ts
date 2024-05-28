@@ -7,6 +7,7 @@ import { CustomerComponent } from './features/admin/customer/customer.component'
 import { HomeComponent } from './features/home/home.component';
 import { ResetComponent } from './core/reset/reset.component';
 import { ProductComponent } from './core/product/product.component';
+import { RecommandationsComponent } from './core/recommandations/recommandations.component';
 
 export const routes: Routes = [
     {path:"", component:HomeComponent},
@@ -15,6 +16,7 @@ export const routes: Routes = [
     {path:"login", component:LoginComponent},
     {path:"customer", component:CustomerComponent},
     {path:"reset", component: ResetComponent},
-    {path:"product", component: ProductComponent}
+    {path:"product", component: ProductComponent},
+    {path:"recommandations", component: RecommandationsComponent}
 
 ];
