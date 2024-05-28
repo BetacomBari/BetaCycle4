@@ -15,7 +15,15 @@ import { FormsModule } from '@angular/forms';
 export class ProductComponent {
   product: any = [];
   productById: Product = new Product();
+  isOpen = false;
+
   constructor(private mainhttp: HttprequestService){}
+
+  toggleMenu() {
+    this.isOpen = !this.isOpen;
+  }
+
+
 
   getDecodedImage(thumbNailPhoto: string){
     if (!thumbNailPhoto) {
