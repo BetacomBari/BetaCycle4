@@ -1,6 +1,14 @@
 
+using BetaCycle4.Logger;
+using BetaCycle4.Logic;
 using BetaCycle4.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using WebAca5CodeFirst.Logic.Autentication.Basic;
 
 namespace BetaCycle4
 {
@@ -10,15 +18,58 @@ namespace BetaCycle4
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            //KANEEEEEEE
+
             // Add services to the container.
 
+            DbTracer tracer = new DbTracer();
+
+            //Imposto il tracer come singleton in modo tale da poterlo iniettare dove mi serve per usufruire
+            //dei suoi metodi ove ne ho bisogno -S
+            builder.Services.AddSingleton(tracer);
+
             builder.Services.AddControllers();
-            
+
             builder.Services.AddEndpointsApiExplorer();
+
+            #region BASIC AUTHENTICATION
+            builder.Services.AddAuthentication()
+            .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", opt => { });
+            builder.Services.AddAuthorization(opts =>
+            {
+                opts.AddPolicy("BasicAuthentication", new AuthorizationPolicyBuilder("BasicAuthentication")
+                .RequireAuthenticatedUser().Build());
+            });
+            #endregion
+
+            #region JWT AUTHENTICATION
+            JwtSettings jwtSettings = new();
+            jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
+            builder.Services.AddSingleton(jwtSettings);
+
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opts =>
+            opts.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = jwtSettings.Issuer,
+                ValidAudience = jwtSettings.Audience,
+                RequireExpirationTime = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey))
+
+            });
+            #endregion
+
+
             builder.Services.AddSwaggerGen();
             builder.Services.AddDbContext<AdventureWorksLt2019Context>
                 (opt => opt.UseSqlServer(
          builder.Configuration.GetConnectionString("ConnectionString")));
+
+            builder.Services.AddScoped<IEmailService, EmailService>();
+
             builder.Services.AddCors(opt =>
             {
                 opt.AddPolicy("CorsPolicy",

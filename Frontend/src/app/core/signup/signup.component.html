@@ -1,0 +1,88 @@
+<router-outlet></router-outlet>
+<app-navbar></app-navbar>
+<div class="container-fluid register-page d-flex justify-content-center align-items-center p-0 mb-3" >
+    <div class="row w-100 justify-content-center">
+        <div class="col-12 col-md-9 col-lg-9 card-register w-100">
+            <form (submit)="onSubmit($event)" class="d-flex flex-column align-items-center  "
+                style="position: relative; z-index:1;">
+
+                <h1 class="croissant title display-4">Registrati</h1>
+                
+                <div class="container-fluid">
+
+                    <!--! errori -->
+                    <div class="row justify-content-center">
+                        <div *ngIf="errorMessage.length != 0" class="col-12 col-md-12 col-lg-7" >
+                            <div class="alert alert-danger" role="alert">
+                              <p class="m-0" *ngFor="let e of errorMessage">{{e}}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-12 col-md-12 col-lg-4 mx-5">
+
+                            <label for="FirstName" class="fs-5 label">Nome:</label>
+                            <input class="w-100 scuro py-1 my-1" type="text" id="FirstName" #FirstName>
+
+                            <label for="MiddleName" class="fs-5 label">Secondo nome:</label>
+                            <input class=" w-100 scuro py-1 my-1" type="text" id="MiddleName" #MiddleName>
+
+                            <label for="LastName" class="fs-5 label">Cognome:</label>
+                            <input class=" w-100 scuro py-1 my-1" type="text" id="LastName" #LastName>
+
+                            <label for="Phone" class="fs-5 label">Cellulare:</label>
+                            <input class=" w-100 scuro py-1 my-1" type="text" id="Phone" #Phone>
+
+                            <label for="AddressType" class="fs-5 label">Tipo di indirizzo:</label>
+                            <input class=" w-100 scuro py-1 my-1" type="text" id="AddressType" #AddressType>
+
+                            <label for="AddressLine1" class="fs-5 label">Indirizzo 1:</label>
+                            <input class=" w-100 scuro py-1 my-1" type="text" id="AddressLine1" #AddressLine1>
+
+                            <label for="AddressLine2" class="fs-5 label">Indirizzo 2 (facoltativo):</label>
+                            <input class=" w-100 scuro py-1 my-1" type="text" id="AddressLine2" #AddressLine2>
+                        </div>
+
+                        <div class="col-12 col-md-12 col-lg-4 mx-5">
+                            <label for="City" class="fs-5 label">Città:</label>
+                            <input class="w-100 scuro py-1 my-1" type="text" id="City" #City>
+
+                            <label for="StateProvince" class="fs-5 label">Provincia:</label>
+                            <input class="w-100 scuro py-1 my-1" type="text" id="StateProvince" #StateProvince>
+
+                            <label for="CountryRegion" class="fs-5 label">Regione:</label>
+                            <input class="w-100 scuro py-1 my-1" type="text" id="CountryRegion" #CountryRegion>
+
+                            <label for="PostalCode" class="fs-5 label">CAP:</label>
+                            <input class="w-100 scuro py-1 my-1" type="text" id="PostalCode" #PostalCode>
+
+                            <label for="EmailAddress" class="fs-5 label">Email:</label>
+                            <input class="w-100 scuro py-1 my-1" type="email" id="EmailAddress" #EmailAddress>
+
+                            <label for="Password" class="fs-5 label">Password:</label>
+                            <input class="w-100 scuro py-1 my-1" type="password" id="Password" #Password>
+                            <span (click)="hideShowPassword()" class="fa {{eyeIcon}}"></span>
+
+                            <label for="PasswordConfirm" class="fs-5 label">Conferma password:</label>
+                            <input class="w-100 scuro py-1 my-1" type="password" id="PasswordConfirm" #PasswordConfirm>
+                            <span (click)="hideShowPassword()" class="fa {{eyeIcon}}"></span>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-75 d-flex justify-content-evenly">
+                    <button type="submit" class="btn-register mt-4 px-3 py-2 w-auto"
+                        (click)="register(FirstName, MiddleName, LastName, Phone, AddressType, EmailAddress, Password, AddressLine1, AddressLine2, City, StateProvince, CountryRegion, PostalCode, PasswordConfirm)">Registrati</button>
+                </div>
+                <a class="text-decoration-none" id="forget" routerLink="/login">
+                    <div class="btn-register mt-4 px-3 py-2 w-auto text-decoration-none">Ho già un account</div>
+                </a>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>
