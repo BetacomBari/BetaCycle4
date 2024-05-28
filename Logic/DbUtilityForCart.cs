@@ -40,7 +40,8 @@ namespace BetaCycle4.Logic
         }
         #endregion
 
-
+        //CRUD FOR SHOPPINGCART
+        #region GetCartByCustomer
         internal List<Product> GetCartByCustomerId(CustomerNew customerNew)
         {
             List<Product> productsInCart = new List<Product>();
@@ -77,7 +78,9 @@ namespace BetaCycle4.Logic
 
             return productsInCart;
         }
+        #endregion
 
+        #region AddProductToCart
         internal void AddProudctToCart(CustomerNew customer, Product product)
         {
             try
@@ -100,7 +103,9 @@ namespace BetaCycle4.Logic
                 checkDbClose();
             }
         }
-        
+        #endregion
+
+        #region BuyProductInYourCart
         internal void BuyProductInYourCart(CustomerNew customer, Product product)
         {
             try
@@ -123,7 +128,9 @@ namespace BetaCycle4.Logic
                 checkDbClose();
             }
         }
+        #endregion
 
+        #region DeleteProdutInYourCart
         internal void DeleteProdutInYourCart(CustomerNew customer, Product product)
         {
             try
@@ -146,6 +153,9 @@ namespace BetaCycle4.Logic
                 checkDbClose();
             }
         }
+        #endregion
+
+        #region GetProductInfo
         internal Product GetProductInfo(int productId)
         {
             Product product = new Product();
@@ -184,7 +194,9 @@ namespace BetaCycle4.Logic
             return product;
         }
 
-        
+        #endregion
+
+
 
         #region SelectID By curtomerNew
         internal int SelectIdCustomerNew(string EmailAddress)
