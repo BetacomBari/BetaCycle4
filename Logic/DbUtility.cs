@@ -722,21 +722,20 @@ namespace SqlManager.BLogic
                             product.StandardCost = Convert.ToInt16(sqlReader["StandardCost"]);
                             product.ListPrice = Convert.ToInt16(sqlReader["ListPrice"]);
                             product.Size = sqlReader["Size"].ToString();
-                            product.Weight = Convert.ToDecimal(sqlReader["Weight"]);
+                            //product.Weight = Convert.ToDecimal(sqlReader["Weight"]);
                             product.ProductCategoryId = Convert.ToInt16(sqlReader["ProductCategoryId"]);
                             product.ProductModelId = Convert.ToInt16(sqlReader["ProductModelId"]);
                             product.SellStartDate = Convert.ToDateTime(sqlReader["SellStartDate"]);
                             product.SellEndDate = Convert.ToDateTime(sqlReader["SellEndDate"]);
-                            product.DiscontinuedDate = Convert.ToDateTime(sqlReader["DiscontinuedDate"]);
-                            product.ThumbNailPhoto = [Convert.ToByte(sqlReader["ThumbNailPhoto"])];
+                            //product.DiscontinuedDate = Convert.ToDateTime(sqlReader["DiscontinuedDate"]);
+                            //product.ThumbNailPhoto = [Convert.ToByte(sqlReader["ThumbNailPhoto"])];
                             product.ThumbnailPhotoFileName = sqlReader["ThumbnailPhotoFileName"].ToString();
                             product.Rowguid = (Guid)sqlReader["Rowguid"];
                             product.ModifiedDate = Convert.ToDateTime(sqlReader["ModifiedDate"]);
-                            product.LargeImage = [Convert.ToByte(sqlReader["LargeImage"])];
+                            //product.LargeImage = [Convert.ToByte(sqlReader["LargeImage"])];
 
                             allProductsByCategoryId.Add(product);
                         }
-
                     }
                     else
                     {
