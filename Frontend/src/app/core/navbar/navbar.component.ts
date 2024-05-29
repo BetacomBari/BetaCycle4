@@ -24,6 +24,10 @@ export class NavbarComponent implements OnInit {
     this.imageUrl = '/assets/logo.png';
   }
 
+  search(inputSearch:HTMLInputElement){
+    this.router.navigate(['/product'], { queryParams: { message: inputSearch.value.trim() } })
+  }
+
   handleSignOut() {
     handleSignOut();
     localStorage.removeItem("jwtToken")

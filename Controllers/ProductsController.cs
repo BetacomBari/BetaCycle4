@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using BetaCycle4.Models;
 using Microsoft.AspNetCore.Authorization;
 using SqlManager.BLogic;
+using Microsoft.Data.SqlClient;
 
 namespace BetaCycle4.Controllers
 {
@@ -28,8 +29,10 @@ namespace BetaCycle4.Controllers
 
         [HttpGet("category/{categoryId}")]
         public async Task<ActionResult<IEnumerable<Product>>> GetProductsByCategoryId(int categoryId)
-        { 
-            return await _context.Products.FromSql($"SELECT * FROM [AdventureWorksLT2019].[SalesLT].[Product] WHERE [ProductCategoryID] = {categoryId}")
+        {
+           
+            var sqlParametro = new SqlParameter("Category", categoryId);
+            return await _context.Products.FromSqlRaw($"SELECT * FROM [AdventureWorksLT2019].[SalesLT].[Product] WHERE [ProductCategoryID] = @Category", sqlParametro)
                 .ToListAsync();
         }
 
@@ -37,7 +40,9 @@ namespace BetaCycle4.Controllers
         [HttpGet("name/{name}")]
         public async Task<ActionResult<IEnumerable<Product>>> GetProductsByName(string name)
         {
-            return await _context.Products.FromSql($"SELECT * FROM [AdventureWorksLT2019].[SalesLT].[Product] WHERE [Name] LIKE {'%' + name + '%'}")
+            var sqlParametro = new SqlParameter("Name", "%" + name + "%");
+
+            return await _context.Products.FromSqlRaw($"SELECT * FROM [AdventureWorksLT2019].[SalesLT].[Product] WHERE [Name] LIKE @Name", sqlParametro)
                 .ToListAsync();
         }
 
@@ -46,11 +51,10 @@ namespace BetaCycle4.Controllers
         public async Task<ActionResult<IEnumerable<Product>>> GetProductsByPage()
         {
             int rowPage = 12;
-
-            var page = await _context.Products.FromSql($"SELECT TOP 12 * FROM [SalesLT].[Product] ORDER BY ProductID DESC")
+  
+            return await _context.Products.FromSql($"SELECT TOP 12 * FROM [SalesLT].[Product] ORDER BY ProductID DESC")
                 .Take( rowPage )
                 .ToListAsync();
-            return page;
         }
 
 

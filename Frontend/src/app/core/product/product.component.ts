@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { HttprequestService } from '../services/httprequest.service';
 import { Product} from '../../shared/models/product';
@@ -16,13 +16,33 @@ export class ProductComponent {
   product: any = [];
   productById: Product = new Product();
   isOpen = false;
+  inputSearch:string = "" 
 
-  constructor(private mainhttp: HttprequestService){}
+  constructor(private mainhttp: HttprequestService, private route: ActivatedRoute){}
+
+  ngOnInit(){
+    this.route.queryParams.subscribe(params => {
+      this.inputSearch = params['message'];
+      console.log(this.inputSearch);    
+    });
+    this.getProductByName()
+  }
 
   toggleMenu() {
     this.isOpen = !this.isOpen;
   }
 
+  getProductByName(){
+    this.mainhttp.getProductByName(this.inputSearch).subscribe({
+      next: (Data: any) => {
+        this.product = Data
+        console.log(this.product);
+      },
+      error: (error: any) => {
+        console.log(error);
+      }
+    })
+  }
 
 
   getDecodedImage(thumbNailPhoto: string){
