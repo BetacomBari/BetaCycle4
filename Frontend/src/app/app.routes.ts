@@ -9,6 +9,7 @@ import { ResetComponent } from './core/reset/reset.component';
 import { PayWithGoogleComponent } from './core/pay-with-google/pay-with-google.component';
 import { ProductComponent } from './core/product/product.component';
 import { RecommandationsComponent } from './core/recommandations/recommandations.component';
+import { ChatComponent } from './chat/chat.component';
 
 
 export const routes: Routes = [
@@ -19,6 +20,7 @@ export const routes: Routes = [
     {path:"customer", component:CustomerComponent},
     {path:"reset", component: ResetComponent},
     {path:"product", component: ProductComponent},
-    {path:"recommandations", component: RecommandationsComponent}
+    {path:"recommandations", component: RecommandationsComponent},
+    {path:"chat", component: ChatComponent}
 
 ];

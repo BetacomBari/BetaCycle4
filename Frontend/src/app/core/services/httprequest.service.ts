@@ -55,4 +55,9 @@ export class HttprequestService {
   getRecommandations2(): Observable<any> {
     return this.http.get(`http://127.0.0.1:5000/recom/`)
   } 
+
+  goToChat():Observable<any>{
+    return this.http.get(`http://127.0.0.1:5000/`)
+  }
+
 }
