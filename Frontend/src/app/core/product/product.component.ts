@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { HttprequestService } from '../services/httprequest.service';
 import { Product} from '../../shared/models/product';
@@ -13,23 +13,23 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './product.component.css'
 })
 export class ProductComponent {
-  product: any = [];
+  product: any[] = [];
   isOpen = false;
   inputSearch:string = "" 
-  category:any = []
+  category:any[] = []
 
-  constructor(private mainhttp: HttprequestService, private route: ActivatedRoute){}
+  constructor(private mainhttp: HttprequestService, private route: ActivatedRoute , private router: Router){}
 
   ngOnInit(){
+    
     this.getCategory()
 
     this.route.queryParams.subscribe(params => {
-      this.inputSearch = params['message'];    
+      this.inputSearch = params['message'];
     });
 
-
     if (this.inputSearch != undefined) {
-      this.getProductByName()
+      this.getProductByName()      
     }else{
       this.getProduct()
     }
@@ -37,6 +37,10 @@ export class ProductComponent {
 
   toggleMenu() {
     this.isOpen = !this.isOpen;
+  }
+
+  redirectAllProduct(){
+    this.router.navigate(['/product'])
   }
 
   getDecodedImage(thumbNailPhoto: string){
@@ -47,7 +51,7 @@ export class ProductComponent {
     }
   }
 
-  getProductByName(){
+  getProductByName(){    
     this.mainhttp.getProductByName(this.inputSearch).subscribe({
       next: (Data: any) => {
         this.product = Data
@@ -71,6 +75,8 @@ export class ProductComponent {
   }
 
   getProductByCategory(categoryId:number){
+    console.log("category");
+
     this.mainhttp.getProductByCategory(categoryId).subscribe({
       next: (Data: any) => {
         this.product = Data

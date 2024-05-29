@@ -19,7 +19,7 @@ declare var handleSignOut: any;
 export class NavbarComponent implements OnInit {
   imageUrl: string = "";
 
-  constructor(public authStatus: AuthService, private router: Router,) { }
+  constructor(public authStatus: AuthService, private router: Router) { }
   ngOnInit() {
     this.imageUrl = '/assets/logo.png';
   }

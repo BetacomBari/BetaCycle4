@@ -47,10 +47,25 @@ body {
     padding-left: 10px;
     padding-right: 10px;
     position: fixed;
+    top: 120px;
+    left: 20px;
+    z-index: 2;
+  }
+
+  .menu-button2 {
+    transition: .3s;
+    cursor: pointer;
+    background-color: #587a80;
+    color: white;
+    border: none;
+    padding-left: 10px;
+    padding-right: 10px;
+    position: fixed;
     top: 80px;
     left: 20px;
     z-index: 2;
   }
+
 
   .menu-button:hover{
     transition: .3s;
@@ -62,6 +77,17 @@ body {
     outline: none;
   }
   
+  .menu-button2:hover{
+    transition: .3s;
+    background-color: #587a80a2;
+    color: rgba(255, 255, 255, 0.619);
+  }
+  
+  .menu-button2:focus {
+    outline: none;
+  }
+  
+
   .menu.open {
     left: 0;
   }
