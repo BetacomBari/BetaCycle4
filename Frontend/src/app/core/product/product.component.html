@@ -8,9 +8,8 @@
     </div>
     <ul>
         
-        <li><a href="#">About</a></li>
-        <li><a href="#">Services</a></li>
-        <li><a href="#">Contact</a></li>
+        <li *ngFor="let c of category"><a (click)="getProductByCategory(c.productCategoryId)">{{c.name}}</a></li>
+
     </ul>
 </div>
 
@@ -20,19 +19,18 @@
 
 
 
-<div class="vh-100"></div>
-<div class="vh-100"></div>
+
 
 
 <!--! get 1 -->
-<!-- <div class="container border border-2 rounded border-danger my-5">
+<div class="container border border-2 rounded border-danger my-5">
     <div class="row">
         <div class="col-12">
             <h1 class="title text-center mt-4">VISUALIZZA PRODUCT</h1>
         </div>
-        <div class="col-12 d-flex justify-content-center my-4">
+        <!-- <div class="col-12 d-flex justify-content-center my-4">
             <button class="btn btn-warning bgYellow me-4 text-danger" (click)="getProduct()">Mostra</button>
-        </div>
+        </div> -->
         <div *ngFor="let p of product " class="col-4 d-flex justify-content-center my-3">
             <div class="card cardStyle" style="width: 300px; height: 130px;">
                 <div class="card-body">
@@ -47,7 +45,7 @@
             </div>
         </div>
     </div>
-</div> -->
+</div>
 
 <!--! get ID -->
 <!-- <div class="container border border-2 rounded border-danger my-5">

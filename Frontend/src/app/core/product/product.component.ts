@@ -14,36 +14,30 @@ import { FormsModule } from '@angular/forms';
 })
 export class ProductComponent {
   product: any = [];
-  productById: Product = new Product();
   isOpen = false;
   inputSearch:string = "" 
+  category:any = []
 
   constructor(private mainhttp: HttprequestService, private route: ActivatedRoute){}
 
   ngOnInit(){
+    this.getCategory()
+
     this.route.queryParams.subscribe(params => {
-      this.inputSearch = params['message'];
-      console.log(this.inputSearch);    
+      this.inputSearch = params['message'];    
     });
-    this.getProductByName()
+
+
+    if (this.inputSearch != undefined) {
+      this.getProductByName()
+    }else{
+      this.getProduct()
+    }
   }
 
   toggleMenu() {
     this.isOpen = !this.isOpen;
   }
-
-  getProductByName(){
-    this.mainhttp.getProductByName(this.inputSearch).subscribe({
-      next: (Data: any) => {
-        this.product = Data
-        console.log(this.product);
-      },
-      error: (error: any) => {
-        console.log(error);
-      }
-    })
-  }
-
 
   getDecodedImage(thumbNailPhoto: string){
     if (!thumbNailPhoto) {
@@ -51,6 +45,17 @@ export class ProductComponent {
     }else{
       return 'data:image/png;base64,' + thumbNailPhoto;
     }
+  }
+
+  getProductByName(){
+    this.mainhttp.getProductByName(this.inputSearch).subscribe({
+      next: (Data: any) => {
+        this.product = Data
+      },
+      error: (error: any) => {
+        console.log(error);
+      }
+    })
   }
 
   getProduct(){
@@ -64,11 +69,22 @@ export class ProductComponent {
       }
     })
   }
-  getProductById(id:HTMLInputElement){
-    this.mainhttp.getProductByID(parseInt(id.value)).subscribe({
+
+  getProductByCategory(categoryId:number){
+    this.mainhttp.getProductByCategory(categoryId).subscribe({
       next: (Data: any) => {
-        this.productById = Data
-     
+        this.product = Data
+      },
+      error: (error: any) => {
+        console.log(error);
+      }
+    })
+  }
+
+  getCategory(){
+    this.mainhttp.getCategory().subscribe({
+      next: (Data: any) => {
+        this.category = Data
       },
       error: (error: any) => {
         console.log(error);
