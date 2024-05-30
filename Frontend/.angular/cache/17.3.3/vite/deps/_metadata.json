@@ -1,49 +1,84 @@
 {
+<<<<<<< HEAD
   "hash": "9361d9ef",
   "configHash": "af91c402",
   "lockfileHash": "08ac92f9",
   "browserHash": "4fb386dc",
+=======
+  "hash": "9a857655",
+  "configHash": "ca40f2b9",
+  "lockfileHash": "08ac92f9",
+  "browserHash": "f662c76c",
+>>>>>>> e34a64f170093f0baf5b54df71f187d063a5dc10
   "optimized": {
     "@angular/common": {
       "src": "../../../../../node_modules/@angular/common/fesm2022/common.mjs",
       "file": "@angular_common.js",
+<<<<<<< HEAD
       "fileHash": "e3879f83",
+=======
+      "fileHash": "8dd658d0",
+>>>>>>> e34a64f170093f0baf5b54df71f187d063a5dc10
       "needsInterop": false
     },
     "@angular/common/http": {
       "src": "../../../../../node_modules/@angular/common/fesm2022/http.mjs",
       "file": "@angular_common_http.js",
+<<<<<<< HEAD
       "fileHash": "839c2861",
+=======
+      "fileHash": "9c19376d",
+>>>>>>> e34a64f170093f0baf5b54df71f187d063a5dc10
       "needsInterop": false
     },
     "@angular/core": {
       "src": "../../../../../node_modules/@angular/core/fesm2022/core.mjs",
       "file": "@angular_core.js",
+<<<<<<< HEAD
       "fileHash": "d992dffe",
+=======
+      "fileHash": "d19584e7",
+>>>>>>> e34a64f170093f0baf5b54df71f187d063a5dc10
       "needsInterop": false
     },
     "@angular/forms": {
       "src": "../../../../../node_modules/@angular/forms/fesm2022/forms.mjs",
       "file": "@angular_forms.js",
+<<<<<<< HEAD
       "fileHash": "3a58e7e5",
+=======
+      "fileHash": "e5b8ae7f",
+>>>>>>> e34a64f170093f0baf5b54df71f187d063a5dc10
       "needsInterop": false
     },
     "@angular/platform-browser": {
       "src": "../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
       "file": "@angular_platform-browser.js",
+<<<<<<< HEAD
       "fileHash": "f57c0c8b",
+=======
+      "fileHash": "b7e3226e",
+>>>>>>> e34a64f170093f0baf5b54df71f187d063a5dc10
       "needsInterop": false
     },
     "@angular/router": {
       "src": "../../../../../node_modules/@angular/router/fesm2022/router.mjs",
       "file": "@angular_router.js",
+<<<<<<< HEAD
       "fileHash": "f49379ac",
+=======
+      "fileHash": "a4ecde64",
+>>>>>>> e34a64f170093f0baf5b54df71f187d063a5dc10
       "needsInterop": false
     },
     "swiper/element/bundle": {
       "src": "../../../../../node_modules/swiper/swiper-element-bundle.mjs",
       "file": "swiper_element_bundle.js",
+<<<<<<< HEAD
       "fileHash": "6c039880",
+=======
+      "fileHash": "bf4dac8e",
+>>>>>>> e34a64f170093f0baf5b54df71f187d063a5dc10
       "needsInterop": false
     }
   },

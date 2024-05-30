@@ -19,9 +19,18 @@ declare var handleSignOut: any;
 export class NavbarComponent implements OnInit {
   imageUrl: string = "";
 
-  constructor(public authStatus: AuthService, private router: Router,) { }
+  constructor(public authStatus: AuthService, private router: Router) { }
   ngOnInit() {
     this.imageUrl = '/assets/logo.png';
+  }
+
+  search(inputSearch: HTMLInputElement) {
+    this.router.navigate(['/product'], { queryParams: { message: inputSearch.value.trim() } })
+      .then(() => {
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+          this.router.navigate(['/product'], { queryParams: { message: inputSearch.value.trim() } });
+        });
+      });
   }
 
   handleSignOut() {

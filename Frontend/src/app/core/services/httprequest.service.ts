@@ -12,6 +12,7 @@ import { Credentials } from '../../shared/models/credentials';
 
 
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -40,8 +41,20 @@ export class HttprequestService {
     return this.http.get(`https://localhost:7165/api/Customers/${id}`)
   }
 
+  getCategory(): Observable<any> {
+    return this.http.get(`https://localhost:7165/category`)
+  }
+
   getProduct(): Observable<any> {
     return this.http.get(`https://localhost:7165/api/Products`)
+  }
+
+  getProductByCategory(categoryId:number): Observable<any> {
+    return this.http.get(`https://localhost:7165/api/Products/category/${categoryId}`)
+  }
+
+  getProductByName(name:string): Observable<any> {
+    return this.http.get(`https://localhost:7165/api/Products/name/${name}`)
   }
 
   getLast12Product(): Observable<any> {

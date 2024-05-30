@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using BetaCycle4.Models;
 using Microsoft.AspNetCore.Authorization;
 using SqlManager.BLogic;
+using Microsoft.Data.SqlClient;
 
 namespace BetaCycle4.Controllers
 {
@@ -26,39 +27,36 @@ namespace BetaCycle4.Controllers
             _context = context;
         }
 
-
-        [Route("GetProductsByCategoryId")]
-        [HttpGet("{categoryId}")]
-        public List<Product> GetProductsByCategoryId(int categoryId)
+        [HttpGet("category/{categoryId}")]
+        public async Task<ActionResult<IEnumerable<Product>>> GetProductsByCategoryId(int categoryId)
         {
-            return dbUtilityLT2019.getAllProductFromCategoryId(categoryId);
+           
+            var sqlParametro = new SqlParameter("Category", categoryId);
+            return await _context.Products.FromSqlRaw($"SELECT * FROM [AdventureWorksLT2019].[SalesLT].[Product] WHERE [ProductCategoryID] = @Category", sqlParametro)
+                .ToListAsync();
         }
 
 
+        [HttpGet("name/{name}")]
+        public async Task<ActionResult<IEnumerable<Product>>> GetProductsByName(string name)
+        {
+            var sqlParametro = new SqlParameter("Name", "%" + name + "%");
+
+            return await _context.Products.FromSqlRaw($"SELECT * FROM [AdventureWorksLT2019].[SalesLT].[Product] WHERE [Name] LIKE @Name", sqlParametro)
+                .ToListAsync();
+        }
 
         [Route("GetProductsByPage")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProductsByPage()
         {
             int rowPage = 12;
-
-            var page = await _context.Products.FromSql($"SELECT TOP 12 * FROM [SalesLT].[Product] ORDER BY ProductID DESC")
+  
+            return await _context.Products.FromSql($"SELECT TOP 12 * FROM [SalesLT].[Product] ORDER BY ProductID DESC")
                 .Take( rowPage )
                 .ToListAsync();
-            return page;
         }
 
-        //[Route("GetProductsByPage")]
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<Product>>> GetProductsByCategory()
-        //{
-        //    int rowPage = 12;
-
-        //    var page = await _context.Products.FromSql($"SELECT TOP 12 * FROM [SalesLT].[Product] ORDER BY ProductID DESC")
-        //        .Take(rowPage)
-        //        .ToListAsync();
-        //    return page;
-        //}
 
         // GET: api/Products
         [HttpGet]

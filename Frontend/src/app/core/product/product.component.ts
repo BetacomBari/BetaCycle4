@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { HttprequestService } from '../services/httprequest.service';
 import { Product} from '../../shared/models/product';
@@ -13,9 +13,35 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './product.component.css'
 })
 export class ProductComponent {
-  product: any = [];
-  productById: Product = new Product();
-  constructor(private mainhttp: HttprequestService){}
+  product: any[] = [];
+  isOpen = false;
+  inputSearch:string = "" 
+  category:any[] = []
+
+  constructor(private mainhttp: HttprequestService, private route: ActivatedRoute , private router: Router){}
+
+  ngOnInit(){
+    
+    this.getCategory()
+
+    this.route.queryParams.subscribe(params => {
+      this.inputSearch = params['message'];
+    });
+
+    if (this.inputSearch != undefined) {
+      this.getProductByName()      
+    }else{
+      this.getProduct()
+    }
+  }
+
+  toggleMenu() {
+    this.isOpen = !this.isOpen;
+  }
+
+  redirectAllProduct(){
+    this.router.navigate(['/product'])
+  }
 
   getDecodedImage(thumbNailPhoto: string){
     if (!thumbNailPhoto) {
@@ -23,6 +49,17 @@ export class ProductComponent {
     }else{
       return 'data:image/png;base64,' + thumbNailPhoto;
     }
+  }
+
+  getProductByName(){    
+    this.mainhttp.getProductByName(this.inputSearch).subscribe({
+      next: (Data: any) => {
+        this.product = Data
+      },
+      error: (error: any) => {
+        console.log(error);
+      }
+    })
   }
 
   getProduct(){
@@ -36,11 +73,24 @@ export class ProductComponent {
       }
     })
   }
-  getProductById(id:HTMLInputElement){
-    this.mainhttp.getProductByID(parseInt(id.value)).subscribe({
+
+  getProductByCategory(categoryId:number){
+    console.log("category");
+
+    this.mainhttp.getProductByCategory(categoryId).subscribe({
       next: (Data: any) => {
-        this.productById = Data
-     
+        this.product = Data
+      },
+      error: (error: any) => {
+        console.log(error);
+      }
+    })
+  }
+
+  getCategory(){
+    this.mainhttp.getCategory().subscribe({
+      next: (Data: any) => {
+        this.category = Data
       },
       error: (error: any) => {
         console.log(error);
