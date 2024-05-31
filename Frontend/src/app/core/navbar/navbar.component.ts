@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { UserCardComponent } from '../user-card/user-card.component';
+import { AuthService } from '../services/auth.service';
+declare var handleSignOut: any;
 declare var handleSignOut: any;
 
 @Component({
@@ -14,18 +16,19 @@ declare var handleSignOut: any;
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
-  // constructor(private router: Router){}
-  // userProfile: any;
+  
+  constructor(public authStatus: AuthService, private router: Router,) { }
 
-  // ngOnInit() {
-  //     this.userProfile = JSON.parse(sessionStorage.getItem("loggedInUser") || "");
-  // }
-
-  // handleSignOut() {
-  //   handleSignOut();
-  //   sessionStorage.removeItem("loggedInUser");
-  //   this.router.navigate(["/login"]).then( ()=>{
-  //     window.location.reload();
-  //   });
-  // }
+handleSignOut() {
+  handleSignOut();
+  localStorage.removeItem("jwtToken")
+  sessionStorage.removeItem("loggedInUser");
+  this.router.navigate(["/login"]).then(() => {
+    window.location.reload();
+  });
+  localStorage.removeItem("loggedInUser");
+  this.router.navigate(["/login"]).then(() => {
+    window.location.reload();
+  });
+}
 }

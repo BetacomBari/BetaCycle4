@@ -1,7 +1,6 @@
 import { HttpRequest, HttpStatusCode } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { HttprequestService } from '../services/httprequest.service';
-import { Credientals } from '../../shared/models/credentials';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -10,12 +9,15 @@ import { UserCardComponent } from '../user-card/user-card.component';
 import { User } from '../../shared/models/user';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { ResetPasswordService } from '../services/reset-password.service';
-declare var handleSignOut: any;
+import { AuthService } from '../services/auth.service';
+import { CustomerRegister } from '../../shared/models/CustomerRegister';
+import { Credentials } from '../../shared/models/Credentials';
+
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterModule, CommonModule, FormsModule, RouterModule,UserCardComponent, NavbarComponent],
+  imports: [RouterModule, CommonModule, FormsModule, RouterModule, UserCardComponent, NavbarComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -23,17 +25,30 @@ export class LoginComponent {
 
   type: string = "password";
   isText: boolean = false;
-  eyeIcon:string = "fa-eye-slash"
-  email_toShow:string="";
-  logged_in: boolean = false;
+  eyeIcon: string = "fa-eye-slash"
+  email_toShow: string = "";
+  private isLogged: boolean = false;
   userProfile: any;
+<<<<<<< HEAD
   user: User = new User();
   resetPasswordEmail!: string;
+=======
+  customerRegister: CustomerRegister = new CustomerRegister();
+  resetPassword!: string;
+>>>>>>> Register
   isEmailForResetValid!: boolean;
+  jwtToken: string = "";
+  loginCredentials: Credentials = new Credentials()
+  errorMessage: string[] = []
 
+  constructor(private http: HttprequestService, private resetService: ResetPasswordService, public authStatus: AuthService) { }
 
-  loginCredientals: Credientals = new Credientals()
+  login(email: HTMLInputElement, password: HTMLInputElement){
+    if (email.value != "" && password.value != "") {
+      this.loginCredentials.EmailAddress = email.value.trim()
+      this.loginCredentials.Password = password.value
 
+<<<<<<< HEAD
   constructor(private http: HttprequestService, 
     private router: Router, private resetService: ResetPasswordService) { }
 
@@ -52,70 +67,67 @@ export class LoginComponent {
 
       this.http.loginPost(this.loginCredientals).subscribe(resp =>{    
         if (resp.status == 200) {
+=======
+      this.http.loginPostJwt(this.loginCredentials).subscribe({
+        next: (resp: any) => {
+>>>>>>> Register
           console.log("LOGIN OK!");
-          this.logged_in = true;
+          this.isLogged = true;
           this.email_toShow = email.value;
-          console.log(resp);
-          localStorage.setItem('loggedInUser', JSON.stringify(resp.body.token));
-          console.log(resp.body.token);
-
-        }else{
-          console.log("Status: " + resp.status);      
+          this.jwtToken = resp.body.token;
+          localStorage.setItem('jwtToken', this.jwtToken)
+          this.authStatus.setJwtLoginStatus(true, this.jwtToken);
+        },
+        error: (error: any) => {
+          this.authStatus.setJwtLoginStatus(false);
+          this.errorMessage = []
+          if (error.error.message == "passwordError") {
+            this.errorMessage.push("Password non valida.")
+            console.log(this.errorMessage);          
+          } else if(error.error.message == "registratiNuovamente"){
+            this.errorMessage.push("Necessaria nuova registrazione per aggiornamento interno.")
+            console.log(this.errorMessage);                     
+          } else if (error.error.message == "emailError") {
+            this.errorMessage.push("Email non registrata.")
+            console.log(this.errorMessage);          
+          } else{
+            this.errorMessage.push("Errore generico.")
+            console.log(this.errorMessage);
+          }
         }
-        
       })
-    } else{
-      console.log("error")
+    } else {
+      this.errorMessage = []
+      this.errorMessage.push("I campi non possono essere vuoti")
+            console.log(this.errorMessage);
     }
-  } 
+  }
 
-  hideShowPassword(){
+  hideShowPassword() {
     this.isText = !this.isText;
     this.isText ? this.eyeIcon = "fa-eye" : this.eyeIcon = "fa-eye-slash";
-    this.isText ? this.type="text" : this.type = "password"
+    this.isText ? this.type = "text" : this.type = "password"
   }
 
+  writeInDb() {
+    this.customerRegister.EmailAddress = this.userProfile.email;
+    this.customerRegister.FirstName = this.userProfile.given_name;
+    this.customerRegister.LastName = this.userProfile.family_name;
+    this.customerRegister.Password = "passwordFromGoogle";
 
-  ngOnInit() {
-      this.userProfile = JSON.parse(sessionStorage.getItem("loggedInUser") || "");
-  }
-
-  handleSignOut() {
-    handleSignOut();
-    sessionStorage.removeItem("loggedInUser");
-    this.router.navigate(["/login"]).then( ()=>{
-      window.location.reload();
-    });
-    localStorage.removeItem("loggedInUser");
-    this.router.navigate(["/login"]).then( ()=>{
-      window.location.reload();
-    });
-    
-  }
-
-  writeInDb(){
-    this.user.EmailAddress = this.userProfile.email;
-    this.user.FirstName = this.userProfile.given_name;
-    this.user.LastName = this.userProfile.family_name;
-    this.user.PasswordHash = "passwordFromGoogle";
-    this.user.PasswordSalt = "passwordFromGoogle";
-    console.log(this.user);
-
-    // this.http.postUser(this.user).subscribe({
-    //   next: (data: any) => {
-    //     this.user = data;
-    //     console.log(this.user)
-    //   },
-    //   error: (err: any) => {
-    //     console.log(err);
-    //   }
-    // })
-
+    this.http.register(this.customerRegister).subscribe({
+      next: (data: any) => {
+        this.customerRegister = data;
+        console.log(this.customerRegister)
+      },
+      error: (err: any) => {
+        console.log(err);
+      }
+    })
   }
 
   
-
-  checkValidEmailForReset(event: string){
+  checkValidEmailForReset(event: string) {
     const value = event;
     //const pattern = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,3}$/;
     let pattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/;
@@ -123,11 +135,19 @@ export class LoginComponent {
     console.log(this.isEmailForResetValid);
     return this.isEmailForResetValid;
   }
+<<<<<<< HEAD
 
   confirmToSend(){
     if (this.checkValidEmailForReset(this.resetPasswordEmail)){
       console.log(this.resetPasswordEmail);     
       console.log("here without error");
+=======
+  
+  confirmToSend() {
+    if (this.checkValidEmailForReset(this.resetPassword)) {
+      console.log(this.resetPassword);
+      
+>>>>>>> Register
 
       // API call
       this.resetService.sendResetPasswordLink(this.resetPasswordEmail)
@@ -137,9 +157,14 @@ export class LoginComponent {
           this.resetPasswordEmail="";
           const buttonRef = document.getElementById("closeBtn");
           buttonRef?.click();
+          console.log("Email inviata correttamente")
         },
+<<<<<<< HEAD
         error:(err)=>{
           console.log("Email not sent");
+=======
+        error: (err) => {
+>>>>>>> Register
           console.log(err);
         }
       })

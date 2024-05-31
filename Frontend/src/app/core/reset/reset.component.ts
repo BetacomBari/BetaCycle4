@@ -72,6 +72,7 @@ export class ResetComponent implements OnInit{
 
         } , error: (err) => {
           console.log("Error in change password ")
+          console.log(this.emailToken);
         }
       })
 

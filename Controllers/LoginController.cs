@@ -1,3 +1,4 @@
+using BetaCycle4.Logger;
 using BetaCycle4.Logic;
 using BetaCycle4.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -16,11 +17,11 @@ namespace BetaCycle4.Controllers
 
     public class LoginController : ControllerBase
     {
-
+        private readonly DbTracer _dbTracer;
         private JwtSettings _jwtSettings;
-
-        public LoginController(JwtSettings jwtSettings)
+        public LoginController(DbTracer dbTracer, JwtSettings jwtSettings)
         {
+            _dbTracer = dbTracer;
             _jwtSettings = jwtSettings;
         }
 
@@ -47,32 +48,29 @@ namespace BetaCycle4.Controllers
                 //CONTROLLO SE L'UTENTE È PRESENTE NELLA TABELLA VECCHIA E IN QUELLA NUOVA
                 if (isElseWhere == true && emailExists == true)
                 {
-                    if (  dbUtilityCredentials.CheckEmailDbCustomerCredentials(inputEmail)  )
+                    if (dbUtilityCredentials.CheckEmailDbCustomerCredentials(inputEmail))
                     {
                         KeyValuePair<string, string> keyValuePair = dbUtilityCredentials.GetPasswordHashAndSalt(inputEmail);
 
                         string passwordHash = keyValuePair.Key;
                         string passwordSalt = keyValuePair.Value;
 
-                        bool isLogin = PasswordLogic.Encrypted(passwordHash, passwordSalt, inputPassword);
-
-                        if (isLogin == true)
+                        if (PasswordLogic.Encrypted(passwordHash, passwordSalt, inputPassword))
                         {
                             var token = GenerateJwtToken(inputEmail);
-
 
                             return Ok(new { token });
                         }
                         else
                         {
-                            return BadRequest();
+                            return BadRequest(new { message = "passwordError" });
                         }
-                    }       
+                    }
                 }
                 else if (isElseWhere == false && emailExists == true)
                 {
                     //L'UTENTE VERRÀ INDIRIZZATO NELLA PAGINA PER LE REGISTRAZIONE
-                    return BadRequest();
+                    return BadRequest(new { message = "registratiNuovamente" });
                 }
                 else if (emailExists == false)
                 {
@@ -89,12 +87,11 @@ namespace BetaCycle4.Controllers
                         {
                             var token = GenerateJwtToken(inputEmail);
 
-
                             return Ok(new { token });
                         }
                         else
                         {
-                            return BadRequest();
+                            return BadRequest(new { message = "passwordError" });
                         }
                     }
                 }
@@ -102,9 +99,10 @@ namespace BetaCycle4.Controllers
             }
             catch (Exception ex)
             {
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
                 return BadRequest();
             }
-            return BadRequest();
+            return BadRequest(new { message = "emailError" });
         }
 
 

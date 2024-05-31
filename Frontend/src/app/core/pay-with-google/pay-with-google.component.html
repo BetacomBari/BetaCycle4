@@ -1,0 +1,64 @@
+<!-- 
+<p>pay-with-google works!</p>
+
+
+<div class="wrapper">
+    <google-pay-button
+        environmenr="TEST"
+        buttonColor="white"
+        buttonType="buy"
+        [paymentRequest]="paymentRequest" [style.width.px]="buttonWidth"
+        (loadpaymentdata)="onLoadPaymentData($event)">
+    </google-pay-button> 
+
+    <div class="wrapper">
+      <google-pay-button
+        environment="TEST"
+        buttonColor="black"
+        buttonType="buy"
+        [paymentRequest]="paymentRequest"
+        [style.width.px]="buttonWidth"
+        (loadpaymentdata)="onLoadPaymentData($event)">
+      </google-pay-button>
+    </div>
+    
+</div>  -->
+
+
+<google-pay-button
+  environment="TEST"
+  buttonType="buy"
+  buttonColor="black"
+  [paymentRequest]="{
+    apiVersion: 2,
+    apiVersionMinor: 0,
+    allowedPaymentMethods: [
+      {
+        type: 'CARD',
+        parameters: {
+          allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
+          allowedCardNetworks: ['AMEX', 'VISA', 'MASTERCARD']
+        },
+        tokenizationSpecification: {
+          type: 'PAYMENT_GATEWAY',
+          parameters: {
+            gateway: 'example',
+            gatewayMerchantId: 'exampleGatewayMerchantId'
+          }
+        }
+      }
+    ],
+    merchantInfo: {
+      merchantId: '12345678901234567890',
+      merchantName: 'Demo Merchant'
+    },
+    transactionInfo: {
+      totalPriceStatus: 'FINAL',
+      totalPriceLabel: 'Total',
+      totalPrice: '100.00',
+      currencyCode: 'USD',
+      countryCode: 'US'
+    }
+  }"
+  (loadpaymentdata)="onLoadPaymentData($event)"
+></google-pay-button>

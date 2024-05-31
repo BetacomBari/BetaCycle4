@@ -2,8 +2,7 @@
 
 <app-navbar></app-navbar>
 
-
-<div class="outher">
+<div  class="outher">
     <div class="container">
         <div class ="row">
          <div class="offset-md-2 col-lg-5 col-md-7 offset-lg-4 offset-md-3">
@@ -72,12 +71,11 @@
         <app-user-card [userProfile]="userProfile"></app-user-card>
         <button type="submit" class="btn btn-primary btn-block mt-4 w-50" (click)="writeInDb()">Register to DB</button>
         <!-- now we need to register the email of the user to our db -->
-        <button id="signout-button" (click)="handleSignOut()">Sign Out</button>
+        <!-- <button id="signout-button" (click)="handleSignOut()">Sign Out</button> -->
 </ng-container>
 
-<ng-container *ngIf="logged_in">
+<ng-container *ngIf="authStatus.getLoginStatus()">
     <div> Welcome {{email_toShow}}</div>   
-    <button id="signout-button" (click)="handleSignOut()">Sign Out</button> 
 </ng-container>
 
 <!-- FORGET PASSWORD    -->
@@ -104,4 +102,4 @@
           </div>
       </div>
   </div>
-</div>
+</div> 
