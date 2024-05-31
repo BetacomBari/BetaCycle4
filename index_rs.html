@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Recommendation System</title>
+</head>
+<body>
+  <h1>Recommendations for Product {{ product_id }}</h1>
+  <p>Because you purchased {{ suggested_product[product_id] }}, we suggest you to buy:</p>
+  <ul>
+    {% for product in similar_product %}
+      <li>--- {{ suggested_product[product] }}</li>
+    {% endfor %}
+  </ul>
+  <form action="/">
+    <label for="product_id">Enter Product ID:</label>
+    <input type="text" id="product_id" name="product_id">
+    <button type="submit">Get Recommendations</button>
+  </form>
+</body>
+</html>
