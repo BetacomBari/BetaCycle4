@@ -5,6 +5,7 @@ import { NavbarComponent } from '../../core/navbar/navbar.component';
 import { FooterComponent } from '../../core/footer/footer.component';
 import { HttprequestService } from '../../core/services/httprequest.service';
 import { Product } from '../../shared/models/product';
+import { CartProduct } from '../../shared/models/cartProduct';
 @Component({
   selector: 'app-cart',
   standalone: true,
@@ -13,15 +14,45 @@ import { Product } from '../../shared/models/product';
   styleUrl: './cart.component.css'
 })
 export class CartComponent {
+cartList: any
 cartItems: Product[] = []
-cartTotal: number = 0
-userId: number = 0;
+userId: number = 1;
 
 constructor (private http: HttprequestService){
-  this.userId =  
-}
-ngOnInit(){
-
+  this.userId =  1
 }
 
+ngOnInit() {
+  this.http.getCartProducts(this.userId).subscribe({
+    next: (products: Product) => {
+      this.cartList = products;
+      console.log(this.cartList)
+    }
+  })
+  console.log("Carrello ritirato con successo");
+  console.log(this.cartItems[1]?.name);
 }
+// ngOnInit(){
+  // this.http.getCartProducts(this.userId).subscribe({
+  //   next: (products: Product[]) => {
+  //     this.cartList = products
+
+  //     const productRequest:any[] = [];
+
+  //     products.forEach(element => {
+  //       productRequest.push(this.http.getProductsForCart(element.productId))
+  //     })
+  //       })
+  //       console.log("Carrello ritirato con successo")
+  //       console.log(this.cartItems[1].name)
+  //     }
+  //   }
+
+  // this.cartList.forEach(element => {
+  //   this.http.getProductsForCart(element.productId).subscribe({
+  //     next: (product: any) => {
+  //       this.cartItems.push(product)
+  //     }
+  //   })
+
+  };

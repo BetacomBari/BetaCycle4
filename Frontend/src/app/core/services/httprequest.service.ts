@@ -52,7 +52,11 @@ export class HttprequestService {
     return this.http.get(`https://localhost:7165/api/Products/${id}`)
   }
 
-  getCartProducts(id: number): Observable<any> {
-    return this.http.get(`https://localhost:7165/api/ShoppingCarts/${id}`)
+  getCartProducts(customerId: number): Observable<any> {
+    return this.http.get(`https://localhost:7165/api/ShoppingCarts/${customerId}`)
+  }
+
+  getProductsForCart(productId: number): Observable<any>{
+    return this.http.get(`https://localhost:7165/api/Products/${productId}`)
   }
 }

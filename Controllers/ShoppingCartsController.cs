@@ -29,9 +29,10 @@ namespace BetaCycle4.Controllers
 
         // GET: api/ShoppingCarts/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ShoppingCart>> GetShoppingCart(int id)
+        public async Task<ActionResult<IEnumerable<Product>>> GetShoppingCart(int id)
         {
-            var shoppingCart = await _context.ShoppingCart.FindAsync(id);
+            var shoppingCart = await _context.ShoppingCart.FromSql($"SELECT * FROM [SalesLT].[Product] WHERE CustomerId = {id}")
+                .ToListAsync();
 
             if (shoppingCart == null)
             {
