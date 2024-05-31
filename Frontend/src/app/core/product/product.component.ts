@@ -5,10 +5,11 @@ import { HttprequestService } from '../services/httprequest.service';
 import { Product} from '../../shared/models/product';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { FooterComponent } from '../footer/footer.component';
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [RouterModule, NavbarComponent, CommonModule, FormsModule],
+  imports: [RouterModule, NavbarComponent, CommonModule, FormsModule, FooterComponent],
   templateUrl: './product.component.html',
   styleUrl: './product.component.css'
 })

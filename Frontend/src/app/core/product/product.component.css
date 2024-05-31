@@ -38,6 +38,41 @@ body {
     background-color: #575757;
   }
   
+
+
+  .menu-button:hover{
+    transition: .3s;
+    background-color: #435c61;
+    color: rgb(255, 255, 255);
+  }
+  
+  .menu-button:focus {
+    outline: none;
+  }
+  
+  .menu-button2:hover{
+    transition: .3s;
+    background-color: #435c61;
+    color: rgb(255, 255, 255);
+  }
+  
+  .menu-button2:focus {
+    outline: none;
+  }
+  
+
+  .menu.open {
+    left: 0;
+  }
+  
+  .title{
+    color: #19B0CE;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 600;
+}
+
+
+@media screen and (max-width: 767px){
   .menu-button {
     transition: .3s;
     cursor: pointer;
@@ -47,7 +82,49 @@ body {
     padding-left: 10px;
     padding-right: 10px;
     position: fixed;
-    top: 120px;
+    top: 100px;
+    left: 20px;
+    z-index: 2;
+  }
+
+  .menu-button2 {
+    transition: .3s;
+    cursor: pointer;
+    background-color: #587a80;
+    color: white;
+    border: none;
+    padding-left: 10px;
+    padding-right: 10px;
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    z-index: 2;
+  }
+
+  .cardHome{
+    border: 1px solid #587a80;
+    border-radius: 0;
+    transition: .5s;
+    height: 400px;
+    width: 100%;
+  
+  }
+
+}
+
+
+
+@media screen and (min-width: 767px) and (max-width: 1200px){
+  .menu-button {
+    transition: .3s;
+    cursor: pointer;
+    background-color: #587a80;
+    color: white;
+    border: none;
+    padding-left: 10px;
+    padding-right: 10px;
+    position: fixed;
+    top: 80px;
     left: 20px;
     z-index: 2;
   }
@@ -62,33 +139,89 @@ body {
     padding-right: 10px;
     position: fixed;
     top: 80px;
+    right: 20px;
+    z-index: 2;
+  }
+
+  .borderTitle{
+    border-bottom: 2px solid #587a80;
+  }
+
+  .cardHome{
+    border: 1px solid #587a80;
+    border-radius: 0;
+    transition: .5s;
+    height: 350px;
+    width: 100%;
+  
+  }
+
+}
+
+
+@media screen and (min-width: 1200px){
+  .cardHome{
+    border: 1px solid #587a80;
+    border-radius: 0;
+    transition: .5s;
+    height: 350px;
+    width: 100%;
+  
+  }
+
+  .menu-button {
+    transition: .3s;
+    cursor: pointer;
+    background-color: #587a80;
+    color: white;
+    border: none;
+    padding-left: 10px;
+    padding-right: 10px;
+    position: fixed;
+    top: 80px;
     left: 20px;
     z-index: 2;
   }
 
-
-  .menu-button:hover{
+  .menu-button2 {
     transition: .3s;
-    background-color: #587a80a2;
-    color: rgba(255, 255, 255, 0.619);
+    cursor: pointer;
+    background-color: #587a80;
+    color: white;
+    border: none;
+    padding-left: 10px;
+    padding-right: 10px;
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 2;
   }
-  
-  .menu-button:focus {
-    outline: none;
-  }
-  
-  .menu-button2:hover{
-    transition: .3s;
-    background-color: #587a80a2;
-    color: rgba(255, 255, 255, 0.619);
-  }
-  
-  .menu-button2:focus {
-    outline: none;
-  }
-  
 
-  .menu.open {
-    left: 0;
+  .borderTitle{
+    border-bottom: 2px solid #587a80;
   }
-  
+
+}
+
+.containerCard{
+  margin-top: 150px;
+}
+
+.vh-70{
+  height: 70vh;
+}
+
+.divImg{
+  width: 100%;
+  height: 200px;
+
+}
+
+
+
+.cardHome:hover{
+  transition: .5s;
+  border: 1px solid #2e4042;
+
+}
+
