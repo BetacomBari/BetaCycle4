@@ -1,78 +1,90 @@
 body {
-    font-family: Arial, sans-serif;
-  }
-  
-  .menu {
-    width: 250px;
-    height: 100%;
-    background-color: #333;
-    position: fixed;
-    top: 0;
-    left: -250px;
-    transition: left 0.3s;
-    z-index: 10;
-    overflow-x: hidden;
-    padding-top: 60px;
-  }
-  
-  .menu ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .menu ul li {
-    padding: 8px 16px;
-  }
-  
-  .pointer{
-    cursor: pointer;
-  }
+  font-family: Arial, sans-serif;
+}
 
-  .menu ul li a {
-    color: white;
-    text-decoration: none;
-    display: block;
-  }
-  
-  .menu ul li a:hover {
-    background-color: #575757;
-  }
-  
+.titleCard {
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 800;
+  color: rgb(85, 85, 85);
+}
 
+.titleCard2{
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 800;
+  color: #19B0CE;
+}
 
-  .menu-button:hover{
-    transition: .3s;
-    background-color: #435c61;
-    color: rgb(255, 255, 255);
-  }
-  
-  .menu-button:focus {
-    outline: none;
-  }
-  
-  .menu-button2:hover{
-    transition: .3s;
-    background-color: #435c61;
-    color: rgb(255, 255, 255);
-  }
-  
-  .menu-button2:focus {
-    outline: none;
-  }
-  
+.menu {
+  width: 250px;
+  height: 100%;
+  background-color: #333;
+  position: fixed;
+  top: 0;
+  left: -250px;
+  transition: left 0.3s;
+  z-index: 10;
+  overflow-x: hidden;
+  padding-top: 60px;
+}
 
-  .menu.open {
-    left: 0;
-  }
-  
-  .title{
-    color: #19B0CE;
-    font-family: 'Courier New', Courier, monospace;
-    font-weight: 600;
+.menu ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.menu ul li {
+  padding: 8px 16px;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.menu ul li a {
+  color: white;
+  text-decoration: none;
+  display: block;
+}
+
+.menu ul li a:hover {
+  background-color: #575757;
 }
 
 
-@media screen and (max-width: 767px){
+
+.menu-button:hover {
+  transition: .3s;
+  background-color: #435c61;
+  color: rgb(255, 255, 255);
+}
+
+.menu-button:focus {
+  outline: none;
+}
+
+.menu-button2:hover {
+  transition: .3s;
+  background-color: #435c61;
+  color: rgb(255, 255, 255);
+}
+
+.menu-button2:focus {
+  outline: none;
+}
+
+
+.menu.open {
+  left: 0;
+}
+
+.title {
+  color: #19B0CE;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 600;
+}
+
+
+@media screen and (max-width: 767px) {
   .menu-button {
     transition: .3s;
     cursor: pointer;
@@ -101,20 +113,36 @@ body {
     z-index: 2;
   }
 
-  .cardHome{
+  .cardHome {
     border: 1px solid #587a80;
     border-radius: 0;
     transition: .5s;
     height: 400px;
     width: 100%;
-  
+
+  }
+
+  .divImg {
+    width: 100%;
+    height: 200px;
+
+  }
+
+  .imgCardHome {
+    width: 95%;
+  }
+
+  .borderTitle {
+    padding-bottom: 30px;
+    border-bottom: 2px solid #587a80;
+
   }
 
 }
 
 
 
-@media screen and (min-width: 767px) and (max-width: 1200px){
+@media screen and (min-width: 767px) and (max-width: 1200px) {
   .menu-button {
     transition: .3s;
     cursor: pointer;
@@ -143,30 +171,46 @@ body {
     z-index: 2;
   }
 
-  .borderTitle{
+  .borderTitle {
     border-bottom: 2px solid #587a80;
   }
 
-  .cardHome{
+  .cardHome {
     border: 1px solid #587a80;
     border-radius: 0;
     transition: .5s;
     height: 350px;
     width: 100%;
-  
+
+  }
+
+  .divImg {
+    width: 100%;
+    height: 200px;
+
+  }
+
+  .imgCardHome {
+    width: 95%;
   }
 
 }
 
 
-@media screen and (min-width: 1200px){
-  .cardHome{
+@media screen and (min-width: 1200px) {
+  .divImg {
+    width: 100%;
+    height: 200px;
+
+  }
+
+  .cardHome {
     border: 1px solid #587a80;
     border-radius: 0;
-    transition: .5s;
+
     height: 350px;
     width: 100%;
-  
+
   }
 
   .menu-button {
@@ -197,31 +241,32 @@ body {
     z-index: 2;
   }
 
-  .borderTitle{
+  .borderTitle {
     border-bottom: 2px solid #587a80;
   }
 
 }
 
-.containerCard{
+.containerCard {
   margin-top: 150px;
 }
 
-.vh-70{
+.vh-70 {
   height: 70vh;
 }
 
-.divImg{
-  width: 100%;
-  height: 200px;
+.cardHome:hover {
+  border: 1px solid #19B0CE;
 
 }
 
-
-
-.cardHome:hover{
-  transition: .5s;
-  border: 1px solid #2e4042;
-
+.btnCart{
+  color: #19B0CE;
+  border: none;
+  background: none;
 }
 
+.btnCart:hover{
+  color: #126879;
+
+}

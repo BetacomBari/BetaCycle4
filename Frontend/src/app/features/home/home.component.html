@@ -36,12 +36,12 @@
 <div class="container  containerCarosello mt-5" *ngIf="products.length > 0">
     <div class="row ">
         <div class="col-12">
-            <swiper-container class="mySwiper py-3" pagination="true" effect="coverflow" grab-cursor="true"
+            <swiper-container class="mySwiper py-3" pagination="false" effect="coverflow" grab-cursor="true"
                 centered-slides="true" slides-per-view="auto" coverflow-effect-rotate="50" coverflow-effect-stretch="0"
                 coverflow-effect-depth="100" coverflow-effect-modifier="1" coverflow-effect-slide-shadows="true">
 
-                <swiper-slide *ngFor="let p of products">
-                    <div class="card cardHome ">
+                <swiper-slide  *ngFor="let p of products">
+                    <div class="card cardHome w-100">
                         <div class="divImg d-flex flex-column justify-content-center align-items-center p-2">
                             <img class="imgCardHome" [src]="getDecodedImage(p.largeImage)" alt="">
                         </div>

@@ -29,7 +29,7 @@
 </section>
 
 <section class="container containerCard z-0">
-    <div class="row justify-content-evenly">
+    <div class="row justify-content-venly">
         <div *ngIf="product.length == 0" class="vh-70 d-flex flex-column justify-content-center">
             <div>
                 <h2 class="text-center title">NESSUN ARTICOLO TROVATO</h2>
@@ -44,7 +44,10 @@
                     <img class="imgCardHome" [src]="getDecodedImage(p.largeImage)" alt="">
                 </div>
                 <h5 class="card-title ms-3 titleCard">{{p.name}} </h5>
-                <h5 class="card-title ms-3 titleCard2"> {{p.listPrice}} €</h5>
+                <div class="d-flex">
+                    <h5 class="card-title text-end ms-3 mb-0 titleCard2 pt-2"> {{p.listPrice}} €</h5>
+                    <button class="ms-auto me-4 p-0  btnCart"><i class="bi bi-cart-plus cart fs-4"></i></button>
+                </div>
 
                 <p class="card-text"></p>
             </div>
