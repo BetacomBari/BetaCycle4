@@ -76,8 +76,6 @@ export class ProductComponent {
   }
 
   getProductByCategory(categoryId:number){
-    console.log("category");
-
     this.mainhttp.getProductByCategory(categoryId).subscribe({
       next: (Data: any) => {
         this.product = Data

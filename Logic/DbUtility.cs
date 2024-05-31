@@ -645,6 +645,45 @@ namespace SqlManager.BLogic
         }
         #endregion
 
+        #region GetProductComplete
+        internal List<ProductC> GetProductComplete()
+        {
+            List<ProductC> products = new List<ProductC>();
+            try
+            {
+                checkDbOpen();
+                sqlCmd.CommandText = "SELECT pr.[ProductID], pr.[Name], pr.[color], pr.[ListPrice], pr.[size], pr.[LargeImage], de.[Description], ca.[Name] as category FROM  [SalesLT].[Product] as pr INNER JOIN [SalesLT].[ProductModelProductDescription] as moDe ON moDe.ProductModelID = moDe.ProductModelID INNER JOIN  [SalesLT].[ProductDescription] as de ON de.ProductDescriptionID = moDe.ProductDescriptionID INNER JOIN [SalesLT].[ProductCategory] as ca ON ca.ProductCategoryID = pr.ProductCategoryID";
+                sqlCmd.Connection = sqlCnn;
+
+                using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
+                {
+                    if (sqlReader.HasRows)
+                    {
+                        while (sqlReader.Read())
+                        {
+                            ProductC productComplete = new();
+                            productComplete.ProductID = Convert.ToInt16(sqlReader["ProductID"]);
+                            products.Add(productComplete);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            finally
+            {
+                checkDbClose();
+            }
+
+            return products;
+        }
+        #endregion
+
+
+
+
 
         internal List<ProductCategory> getAllCategories()
         {
