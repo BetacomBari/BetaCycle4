@@ -1,0 +1,158 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": [
+        "Ciao",
+        "Buongiorno",
+        "Buonasera",
+        "Hey",
+        "Hi",
+        "Hello"
+      ],
+      "responses": [
+        "Ciao, posso esserti utile in qualche maniera?",
+        "Ciao, come posso rendermi utile?",
+        "Ciao, cosa posso fare per te?"
+      ],
+      "context": [
+        ""
+      ]
+
+    },
+    {
+      "tag": "info_bici_road",
+      "patterns": [
+        "Cosa mi puoi dire sulle bici da strada?",
+        "Hai bici da corsa?",
+        "Mi servono informazioni sulle biciclette da strada."
+      ],
+      "responses": [
+        "Certo! Le nostre bici da strada sono progettate per performance ottimali su asfalto. Ecco alcuni dei nostri prodotti consigliati: <a href=\"http://google.com\">Clicca qui!</a>"
+      ]
+    },
+    {
+      "tag": "info_bici_mountain",
+      "patterns": [
+        "Quali mountain bike avete?",
+        "Cerco una bici per fuoristrada.",
+        "Voglio informazioni sulle vostre MTB."
+      ],
+      "responses": [
+        "Le nostre mountain bike sono perfette per affrontare terreni accidentati e avventure fuoristrada. Di seguito alcuni delle nostre MTB consigliate: <a href=\"http://google.com\">Clicca qui!</a>"
+      ]
+    },
+    {
+      "tag": "info_bici_elettriche",
+      "patterns": [
+        "Avete biciclette elettriche?",
+        "Come funzionano le vostre e-bike?",
+        "Cerco una bici elettrica, mi puoi aiutare?"
+      ],
+      "responses": [
+        "Ci dispiace, purtroppo non trattiamo ancora questo tipo di prodotto."
+      ]
+    },
+    {
+      "tag": "accessori",
+      "patterns": [
+        "Avete accessori per biciclette?",
+        "Cerco un casco per bici.",
+        "Cerco guanti per bici",
+        "Quali accessori offrite?",
+        "Accessori"
+      ],
+      "responses": [
+        "Certamente, disponiamo di una vasta gamma di scelta per quanto riguarda l'abbigliamento tecnico, come ad esempio guanti, shorts e simili. Eccoti alcuni dei nostri best sellers: <a href=\"http://google.com\">Clicca qui!</a>"
+      ]
+    },
+    {
+      "tag": "manutenzione",
+      "patterns": [
+        "Come faccio la manutenzione della bici?",
+        "Servizi di manutenzione per biciclette?",
+        "Manutenzione della mia bici?"
+      ],
+      "responses": [
+        "Per mantenere la bici in perfette condizioni, offriamo la possibilità di acquistare pezzi di ricambio adatti ai nostri prodotti in vendita."
+      ]
+    },
+    {
+      "tag": "metodi_pagamento",
+      "patterns": [
+        "Quali metodi di pagamento accettate?",
+        "Posso pagare con PayPal?",
+        "Metodi di pagamento disponibili?"
+      ],
+      "responses": [
+        "Il nostro sistema accetta pagamenti con GooglePay, PayPal e Bonifico Bancario durante il checkout, nel quale vengono fornite le istruzioni necessarie per effettuare un pagamento corretto."
+      ]
+    },
+    {
+      "tag": "assistenza_tecnica",
+      "patterns": [
+        "Ho bisogno di assistenza per la mia bici.",
+        "La mia bici ha un problema, potete aiutarmi?",
+        "Supporto tecnico per la mia bici?"
+      ],
+      "responses": [
+        "Purtroppo non forniamo servizi di assistenza tecnica in merito alla riparazione di un prodotto, ci dispiace per l'inconveniente.'"
+      ]
+    },
+    {
+      "tag": "garanzia",
+      "patterns": [
+        "Qual è la garanzia sulle vostre bici?",
+        "La mia bici è coperta da garanzia?",
+        "Problemi con la bici, è in garanzia?"
+      ],
+      "responses": [
+        "Le nostre biciclette vengono fornite con una garanzia di 2 anni. Se hai problemi con la tua bici, ti basterà contattare un operatore del servizio clienti. Puoi capire come contattarci dalla pagina <a href=\"http://google.com\">Contattaci</a>."
+      ]
+    },
+    {
+      "tag": "resi",
+      "patterns": [
+        "Come faccio a restituire un prodotto?",
+        "Posso fare un reso?",
+        "Ho bisogno di restituire la bici."
+      ],
+      "responses": [
+        "Ci dispiace che tu voglia restituire il prodotto. Il reso potrà essere effettuato entro 10 giorni lavorativi dalla ricevuta di esso, e per procedere con l'operazione ti basterà andare nella <a href=\"http://google.com\">Cronologia Ordini</a>, aprire l'ordine del prodotto che desideri restituire, e cliccare il pulsante 'Reso'"
+      ]
+    },
+    {
+      "tag": "prova_bici",
+      "patterns": [
+        "Posso provare una bici prima di acquistarla?",
+        "Fate test ride?",
+        "Vorrei provare una bici, è possibile?"
+      ],
+      "responses": [
+        "Purtroppo non disponiamo di un punto vendita fisico. Quindi se desideri fare una prova, ti consiglio di acquistare un prodotto e di effettuarne il reso entro il tempo limite."
+      ]
+    },
+    {
+      "tag": "annullamento_ordine",
+      "patterns": [
+        "Posso annullare il mio ordine?",
+        "Come faccio a cancellare un ordine?",
+        "Ho bisogno di annullare il mio acquisto."
+      ],
+      "responses": [
+        "È possibile annullare l'ordine fino a quando non risulta in spedizione, dopodichè il processo di spedizione non potrà essere annullato. Però una volta arrivato l'ordine potrà sempre effettuare il reso, dove almeno il costo del prodotto le verrà rimborsato.'"
+      ]
+    },
+    {
+      "tag": "recensioni_prodotti",
+      "patterns": [
+        "Posso leggere le recensioni delle bici?",
+        "Avete recensioni su questo modello?",
+        "Dove posso trovare le recensioni dei vostri prodotti?"
+      ],
+      "responses": [
+        "Puoi trovare le recensioni dei nostri prodotti direttamente sulla pagina del prodotto nel nostro sito web. Cerca il prodotto al quale sei interessato, e sul fondo della pagina troverai le recensioni scritte dagli utenti!"
+      ]
+    }
+  ]
+}
