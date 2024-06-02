@@ -43,7 +43,8 @@
                 <div class="divImg d-flex flex-column justify-content-center align-items-center p-2">
                     <img class="imgCardHome" [src]="getDecodedImage(p.largeImage)" alt="">
                 </div>
-                <h5 class="card-title ms-3 titleCard">{{p.name}} </h5>
+                <h5 class="card-title ms-3 titleCard text-truncate">{{p.name}} </h5>
+                <h6 class="card-title ms-3 titleCard fw-bold ">Categoria: {{p.category}} </h6>
                 <div class="d-flex">
                     <h5 class="card-title text-end ms-3 mb-0 titleCard2 pt-2"> {{p.listPrice}} €</h5>
                     <button class="ms-auto me-4 p-0  btnCart"><i class="bi bi-cart-plus cart fs-4"></i></button>

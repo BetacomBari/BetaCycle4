@@ -46,7 +46,7 @@ export class HttprequestService {
   }
 
   getProduct(): Observable<any> {
-    return this.http.get(`https://localhost:7165/api/Products`)
+    return this.http.get(`https://localhost:7165/ProductComplete`)
   }
 
   getProductByCategory(categoryId:number): Observable<any> {

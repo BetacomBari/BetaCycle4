@@ -67,7 +67,6 @@ export class ProductComponent {
     this.mainhttp.getProduct().subscribe({
       next: (Data: any) => {
         this.product = Data
-        console.log(this.product);
       },
       error: (error: any) => {
         console.log(error);
