@@ -61,7 +61,7 @@ export class HttprequestService {
     return this.http.get(`https://localhost:7165/api/Products/GetProductsByPage`)
   }
 
-  getProductByID(id:number): Observable<any> {
-    return this.http.get(`https://localhost:7165/api/Products/${id}`)
+  getProductByID(productId:number): Observable<any> {
+    return this.http.get(`https://localhost:7165/ProductComplete/detail/${productId}`)
   }
 }

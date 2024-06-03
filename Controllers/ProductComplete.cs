@@ -25,6 +25,11 @@ namespace BetaCycle4.Controllers
             return dbUtilityLT2019.GetProductsByCategoryId(categoryId);
         }
 
+        [HttpGet("detail/{productId}")]
+        public ProductC GetProductForDetail(int productId)
+        {
+            return dbUtilityLT2019.GetProductForDetail(productId);
+        }
 
         [HttpGet("name/{name}")]
         public List<ProductC> GetProductsByName(string name)
@@ -32,5 +37,7 @@ namespace BetaCycle4.Controllers
             return dbUtilityLT2019.GetProductsByName(name);
 
         }
+
+
     }
 }

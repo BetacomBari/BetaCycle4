@@ -67,6 +67,7 @@ export class ProductComponent {
     this.mainhttp.getProduct().subscribe({
       next: (Data: any) => {
         this.product = Data
+        
       },
       error: (error: any) => {
         console.log(error);
@@ -94,5 +95,9 @@ export class ProductComponent {
         console.log(error);
       }
     })
+  }
+
+  goDetail(productId:number){  
+    this.router.navigate(['/detail'], { queryParams: { message: productId} })
   }
 }
