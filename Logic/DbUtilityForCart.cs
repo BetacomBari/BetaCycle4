@@ -2,6 +2,7 @@
 using BetaCycle4.Logic.Authentication.EncryptionWithSha256;
 using BetaCycle4.Models;
 using Microsoft.Data.SqlClient;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using System.Net.Mail;
 
 namespace BetaCycle4.Logic
@@ -201,12 +202,13 @@ namespace BetaCycle4.Logic
         #region SelectID By curtomerNew
         internal int SelectIdCustomerNew(string EmailAddress)
         {
-            int id = 0;
+            int id = -1;
             try
             {
                 checkDbOpen();
-                sqlCmd.CommandText = "SELECT CustomerId FROM CustomerNew WHERE EmailAddress = @EmailAddress";
-                sqlCmd.Parameters.AddWithValue("@EmailAddress", EmailAddress);
+                string emailAddressEncrypt = EncryptionSHA256.sha256Encrypt(EmailAddress);
+                sqlCmd.CommandText = "SELECT Id FROM [dbo].[Credentials] WHERE EmailAddressEncrypt = @EmailAddress";
+                sqlCmd.Parameters.AddWithValue("@EmailAddress", emailAddressEncrypt);
                 sqlCmd.Connection = sqlCnn;
 
                 using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
@@ -215,7 +217,7 @@ namespace BetaCycle4.Logic
                     {
                         while (sqlReader.Read())
                         {
-                            id = Convert.ToInt16(sqlReader["CustomerId"]);
+                            id = Convert.ToInt32(sqlReader["Id"]);
                         }
                     }
                 }

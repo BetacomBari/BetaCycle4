@@ -18,12 +18,12 @@ declare var handleSignOut: any;
 
 export class NavbarComponent implements OnInit {
   imageUrl: string = "";
+  @Input() decodedEmail: string = '';
 
   constructor(public authStatus: AuthService, private router: Router,) { }
   ngOnInit() {
     this.imageUrl = '/assets/logo.png';
   }
-
   handleSignOut() {
     handleSignOut();
     localStorage.removeItem("jwtToken")
