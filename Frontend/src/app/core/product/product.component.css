@@ -58,6 +58,12 @@ body {
   color: rgb(255, 255, 255);
 }
 
+.menu-button3:hover {
+  transition: .3s;
+  background-color: #435c61;
+  color: rgb(255, 255, 255);
+}
+
 .menu-button:focus {
   outline: none;
 }
@@ -83,6 +89,15 @@ body {
   font-weight: 600;
 }
 
+.menu-button3{
+  transition: .3s;
+  cursor: pointer;
+  background-color: #ffffff;
+  color: #435c61;
+  border: 2px solid #435c61;
+  padding-left: 10px;
+  padding-right: 10px;
+}
 
 @media screen and (max-width: 767px) {
   .menu-button {
@@ -240,6 +255,7 @@ body {
     right: 20px;
     z-index: 2;
   }
+
 
   .borderTitle {
     border-bottom: 2px solid #587a80;

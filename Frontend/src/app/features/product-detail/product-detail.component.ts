@@ -32,8 +32,6 @@ export class ProductDetailComponent {
     this.mainhttp.getProductByID(productId).subscribe({
       next: (data: any) => {
         this.product = data
-        console.log(data);
-        
       },
       error: (error: any) => {
         console.log(error);

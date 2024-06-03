@@ -22,7 +22,6 @@ export class ProductComponent {
   constructor(private mainhttp: HttprequestService, private route: ActivatedRoute , private router: Router){}
 
   ngOnInit(){
-    
     this.getCategory()
 
     this.route.queryParams.subscribe(params => {
