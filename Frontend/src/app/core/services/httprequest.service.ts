@@ -50,11 +50,11 @@ export class HttprequestService {
   }
 
   getProductByCategory(categoryId:number): Observable<any> {
-    return this.http.get(`https://localhost:7165/api/Products/category/${categoryId}`)
+    return this.http.get(`https://localhost:7165/ProductComplete/category/${categoryId}`)
   }
 
   getProductByName(name:string): Observable<any> {
-    return this.http.get(`https://localhost:7165/api/Products/name/${name}`)
+    return this.http.get(`https://localhost:7165/ProductComplete/name/${name}`)
   }
 
   getLast12Product(): Observable<any> {

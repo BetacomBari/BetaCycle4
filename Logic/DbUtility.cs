@@ -645,14 +645,15 @@ namespace SqlManager.BLogic
         }
         #endregion
 
-        #region GetProductComplete
-        internal List<ProductC> GetProductComplete()
+        #region GetProductsByCategoryId
+        internal List<ProductC> GetProductsByCategoryId(int categoryId)
         {
             List<ProductC> products = new List<ProductC>();
             try
             {
                 checkDbOpen();
-                sqlCmd.CommandText = "SELECT pr.[ProductID], pr.[Name], pr.[color], pr.[ListPrice], pr.[size], pr.[LargeImage], de.[Description], ca.[Name] as category, model.[Name] as model FROM [SalesLT].[Product] as pr INNER JOIN [SalesLT].[ProductModelProductDescription] as moDe ON moDe.ProductModelID = pr.ProductModelID INNER JOIN [SalesLT].ProductModel as model ON model.ProductModelID = pr.ProductModelID INNER JOIN  [SalesLT].[ProductDescription] as de ON de.ProductDescriptionID = moDe.ProductDescriptionID INNER JOIN [SalesLT].[ProductCategory] as ca ON ca.ProductCategoryID = pr.ProductCategoryID where moDe.Culture = 'en'\r\n";
+                sqlCmd.CommandText = "SELECT pr.[ProductID], pr.[Name], pr.[color], pr.[ListPrice], pr.[size], pr.[LargeImage], de.[Description], ca.[Name] as category, model.[Name] as model FROM [SalesLT].[Product] as pr INNER JOIN [SalesLT].[ProductModelProductDescription] as moDe ON moDe.ProductModelID = pr.ProductModelID INNER JOIN [SalesLT].ProductModel as model ON model.ProductModelID = pr.ProductModelID INNER JOIN  [SalesLT].[ProductDescription] as de ON de.ProductDescriptionID = moDe.ProductDescriptionID INNER JOIN [SalesLT].[ProductCategory] as ca ON ca.ProductCategoryID = pr.ProductCategoryID where (moDe.Culture = 'en') and (@name = ca.ProductCategoryID)";
+                sqlCmd.Parameters.AddWithValue("@name", categoryId);
                 sqlCmd.Connection = sqlCnn;
 
                 using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
@@ -700,7 +701,116 @@ namespace SqlManager.BLogic
         }
         #endregion
 
+        #region GetProductsByName
+        internal List<ProductC> GetProductsByName(string name)
+        {
+            List<ProductC> products = new List<ProductC>();
+            try
+            {
+                checkDbOpen();
+                sqlCmd.CommandText = "SELECT pr.[ProductID], pr.[Name], pr.[color], pr.[ListPrice], pr.[size], pr.[LargeImage], de.[Description], ca.[Name] as category, model.[Name] as model FROM [SalesLT].[Product] as pr INNER JOIN [SalesLT].[ProductModelProductDescription] as moDe ON moDe.ProductModelID = pr.ProductModelID INNER JOIN [SalesLT].ProductModel as model ON model.ProductModelID = pr.ProductModelID INNER JOIN  [SalesLT].[ProductDescription] as de ON de.ProductDescriptionID = moDe.ProductDescriptionID INNER JOIN [SalesLT].[ProductCategory] as ca ON ca.ProductCategoryID = pr.ProductCategoryID where (moDe.Culture = 'en') and (pr.Name  like  '%' + @name + '%')";
+                sqlCmd.Parameters.AddWithValue("@name",  name );
+                sqlCmd.Connection = sqlCnn;
 
+                using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
+                {
+                    if (sqlReader.HasRows)
+                    {
+                        while (sqlReader.Read())
+                        {
+                            ProductC productComplete = new();
+                            productComplete.ProductID = Convert.ToInt16(sqlReader["ProductID"]);
+                            productComplete.Name = sqlReader["Name"].ToString();
+                            productComplete.color = sqlReader["color"].ToString();
+                            productComplete.ListPrice = Convert.ToDecimal(sqlReader["ListPrice"]);
+                            productComplete.size = sqlReader["size"].ToString();
+
+                            if (!sqlReader.IsDBNull(sqlReader.GetOrdinal("LargeImage")))
+                            {
+                                byte[] largeImageBytes = (byte[])sqlReader["LargeImage"];
+                                productComplete.LargeImage = Convert.ToBase64String(largeImageBytes);
+                            }
+                            else
+                            {
+                                productComplete.LargeImage = null;
+                            }
+
+                            productComplete.Description = sqlReader["Description"].ToString();
+                            productComplete.category = sqlReader["category"].ToString();
+                            productComplete.model = sqlReader["model"].ToString();
+
+                            products.Add(productComplete);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            finally
+            {
+                checkDbClose();
+            }
+
+            return products;
+        }
+        #endregion
+
+        #region GetProductComplete
+        internal List<ProductC> GetProductComplete()
+        {
+            List<ProductC> products = new List<ProductC>();
+            try
+            {
+                checkDbOpen();
+                sqlCmd.CommandText = "SELECT pr.[ProductID], pr.[Name], pr.[color], pr.[ListPrice], pr.[size], pr.[LargeImage], de.[Description], ca.[Name] as category, model.[Name] as model FROM [SalesLT].[Product] as pr INNER JOIN [SalesLT].[ProductModelProductDescription] as moDe ON moDe.ProductModelID = pr.ProductModelID INNER JOIN [SalesLT].ProductModel as model ON model.ProductModelID = pr.ProductModelID INNER JOIN  [SalesLT].[ProductDescription] as de ON de.ProductDescriptionID = moDe.ProductDescriptionID INNER JOIN [SalesLT].[ProductCategory] as ca ON ca.ProductCategoryID = pr.ProductCategoryID where moDe.Culture = 'en'\r\n";
+                sqlCmd.Connection = sqlCnn;
+
+                using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
+                {
+                    if (sqlReader.HasRows)
+                    {
+                        while (sqlReader.Read())
+                        {
+                            ProductC productComplete = new();
+                            productComplete.ProductID = Convert.ToInt16(sqlReader["ProductID"]);
+                            productComplete.Name = sqlReader["Name"].ToString();
+                            productComplete.color = sqlReader["color"].ToString();
+                            productComplete.ListPrice = Convert.ToDecimal(sqlReader["ListPrice"]);
+                            productComplete.size = sqlReader["size"].ToString();
+
+                            if (!sqlReader.IsDBNull(sqlReader.GetOrdinal("LargeImage")))
+                            {
+                                byte[] largeImageBytes = (byte[])sqlReader["LargeImage"];
+                                productComplete.LargeImage = Convert.ToBase64String(largeImageBytes);
+                            }
+                            else
+                            {
+                                productComplete.LargeImage = null;
+                            }
+
+                            productComplete.Description = sqlReader["Description"].ToString();
+                            productComplete.category = sqlReader["category"].ToString();
+                            productComplete.model = sqlReader["model"].ToString();
+
+                            products.Add(productComplete);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            finally
+            {
+                checkDbClose();
+            }
+
+            return products;
+        }
+        #endregion
 
 
 
@@ -762,8 +872,8 @@ namespace SqlManager.BLogic
             {
                 checkDbOpen();
 
-                sqlCmd.CommandText = "SELECT * FROM [AdventureWorksLT2019].[SalesLT].[Product] WHERE [ProductCategoryID] = @categoryId";
-                sqlCmd.Parameters.AddWithValue("@categoryId", categoryId);
+                sqlCmd.CommandText = "SELECT * FROM [AdventureWorksLT2019].[SalesLT].[Product] WHERE [ProductCategoryID] = @name";
+                sqlCmd.Parameters.AddWithValue("@name", categoryId);
                 sqlCmd.Connection = sqlCnn;
 
                 using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())

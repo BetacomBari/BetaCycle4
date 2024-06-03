@@ -27,24 +27,24 @@ namespace BetaCycle4.Controllers
             _context = context;
         }
 
-        [HttpGet("category/{categoryId}")]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProductsByCategoryId(int categoryId)
-        {
-           
-            var sqlParametro = new SqlParameter("Category", categoryId);
-            return await _context.Products.FromSqlRaw($"SELECT * FROM [AdventureWorksLT2019].[SalesLT].[Product] WHERE [ProductCategoryID] = @Category", sqlParametro)
-                .ToListAsync();
-        }
+        //[HttpGet("category/{categoryId}")]
+        //public async Task<ActionResult<IEnumerable<Product>>> GetProductsByCategoryId(int categoryId)
+        //{
+
+        //    var sqlParametro = new SqlParameter("Category", categoryId);
+        //    return await _context.Products.FromSqlRaw($"SELECT * FROM [AdventureWorksLT2019].[SalesLT].[Product] WHERE [ProductCategoryID] = @Category", sqlParametro)
+        //        .ToListAsync();
+        //}
 
 
-        [HttpGet("name/{name}")]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProductsByName(string name)
-        {
-            var sqlParametro = new SqlParameter("Name", "%" + name + "%");
+        //[HttpGet("name/{name}")]
+        //public async Task<ActionResult<IEnumerable<Product>>> GetProductsByName(string name)
+        //{
+        //    var sqlParametro = new SqlParameter("Name", "%" + name + "%");
 
-            return await _context.Products.FromSqlRaw($"SELECT * FROM [AdventureWorksLT2019].[SalesLT].[Product] WHERE [Name] LIKE @Name", sqlParametro)
-                .ToListAsync();
-        }
+        //    return await _context.Products.FromSqlRaw($"SELECT * FROM [AdventureWorksLT2019].[SalesLT].[Product] WHERE [Name] LIKE @Name", sqlParametro)
+        //        .ToListAsync();
+        //}
 
         [Route("GetProductsByPage")]
         [HttpGet]
