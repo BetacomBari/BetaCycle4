@@ -18,9 +18,8 @@ import { Product } from '../../shared/models/product';
   styleUrl: './cart.component.css'
 })
 export class CartComponent {
-  products: Product[] = []
+  cartProducts: Product[] = []
   cartList: any[] = []
-  cartItems: Product[] = []
   userId: number[] = []
   jwtToken: string | null = "";
 
@@ -33,20 +32,26 @@ export class CartComponent {
 
     this.http.getCartProducts(this.userId).subscribe({
       next: (products) => {
-        // this.cartList.push(products)
         products.forEach((element: any) => {
           this.cartList.push(element)
           console.log(element)
         });
-        // const productRequest: any[] = [];
 
-        // products.forEach((element: any) => {
-        //   productRequest.push(this.http.getProductsForCart(element.productId))
-        // })
-        
+        this.cartList.forEach((element: any) =>{
+
+          this.http.getProductByID(element.productId).subscribe({
+            next: (product_name: any) => this.cartProducts.push(product_name)
+          })
+
+          
+
+        })
+        this.cartProducts.forEach(element =>{
+          console.log(element)
+        })
         console.log("Carrello ritirato con successo")
       }
-    })
+    })    
     
   }
 
