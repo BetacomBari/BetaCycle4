@@ -66,4 +66,5 @@ export class HttprequestService {
   getIdFromEmail(email: string): Observable<any>{
     return this.http.get(`https://localhost:7165/api/ShoppingCarts/${email}/1`)
   }
+  
 }
