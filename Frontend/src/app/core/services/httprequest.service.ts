@@ -63,17 +63,8 @@ export class HttprequestService {
     return this.http.get(`https://localhost:7165/api/Products/${productId}`)
   }
 
-  // getIdFromEmail(email: string): number{
-  //   return this.http.get(`https://localhost:7165/api/ShoppingCarts/${email}/1`)
-  // }
-
-  getIdFromEmail(email: string): Observable<number> {
-    return this.http.get<any>(`https://localhost:7165/api/ShoppingCarts/${email}/1`)
-      .pipe(map(responseData => {      
-            return responseData; // Already a number
-           })
-      );
+  getIdFromEmail(email: string): Observable<any>{
+    return this.http.get(`https://localhost:7165/api/ShoppingCarts/${email}/1`)
   }
-
-
+  
 }
