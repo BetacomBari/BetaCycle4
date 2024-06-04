@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 import { User } from '../../shared/models/user';
 import { AuthService } from './auth.service';
@@ -17,7 +17,7 @@ import { Credentials } from '../../shared/models/credentials';
 })
 export class HttprequestService {
   token: string = "niente";
-
+  id:number = -1;
   constructor(private http: HttpClient, private auth: AuthService) {}
 
   loginPostJwt(credentials: Credentials): Observable<any>
@@ -60,7 +60,17 @@ export class HttprequestService {
     return this.http.get(`https://localhost:7165/api/Products/${productId}`)
   }
 
-  getIdFromEmail(email: string): Observable<any>{
-    return this.http.get(`https://localhost:7165/api/ShoppingCarts/${email}/1`)
+  // getIdFromEmail(email: string): number{
+  //   return this.http.get(`https://localhost:7165/api/ShoppingCarts/${email}/1`)
+  // }
+
+  getIdFromEmail(email: string): Observable<number> {
+    return this.http.get<any>(`https://localhost:7165/api/ShoppingCarts/${email}/1`)
+      .pipe(map(responseData => {      
+            return responseData; // Already a number
+           })
+      );
   }
+
+
 }

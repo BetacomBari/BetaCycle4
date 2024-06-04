@@ -17,7 +17,8 @@ export class CartComponent {
 products: Product[] =[]
 cartList: any = []
 cartItems: Product[] = []
-userId: number = -1;
+userId_string: string = "-1";
+userId: number = -1
 jwtToken: string | null = "";
 
 constructor (private http: HttprequestService){
