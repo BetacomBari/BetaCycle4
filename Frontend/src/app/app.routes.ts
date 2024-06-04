@@ -11,6 +11,7 @@ import { ProductComponent } from './core/product/product.component';
 import { RecommandationsComponent } from './core/recommandations/recommandations.component';
 import { ChatComponent } from './chat/chat.component';
 
+import { CartComponent } from './features/cart/cart.component';
 
 export const routes: Routes = [
     {path:"", component:HomeComponent},
@@ -20,7 +21,11 @@ export const routes: Routes = [
     {path:"customer", component:CustomerComponent},
     {path:"reset", component: ResetComponent},
     {path:"product", component: ProductComponent},
+<<<<<<< HEAD
     {path:"recommandations", component: RecommandationsComponent},
     {path:"chat", component: ChatComponent}
+=======
+    {path:"cart", component: CartComponent}
+>>>>>>> Cart
 
 ];

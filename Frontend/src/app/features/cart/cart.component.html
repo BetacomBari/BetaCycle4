@@ -1,0 +1,51 @@
+<app-navbar></app-navbar>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-10 col-lg-8 py-5 ">
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="colorB" scope="col"></th>
+                        <th class="colorB" scope="col">Prodotto</th>
+                        <th class="colorB" scope="col">Prezzo</th>
+                        <th class="colorB" scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><img src="https://www.velo-de-ville.com/sites/default/files/styles/max_1300x1300/public/media-images/content/2023-09/vdv_website_ebikes_kategorien_suv_0.jpg?itok=r-2GKPqR" alt="" width="100px"></td>
+                        <td class="colorC align-middle">Mark</td>
+                        <td class="colorC align-middle">Otto</td>
+                        <td class="align-middle"><a><i class="bi bi-x-circle-fill text-danger"></i></a></td>
+
+                    </tr>
+                    <tr>
+                        <td><img src="https://www.velo-de-ville.com/sites/default/files/styles/max_1300x1300/public/media-images/content/2023-09/vdv_website_ebikes_kategorien_suv_0.jpg?itok=r-2GKPqR" alt="" width="100px"></td>
+                        <td class="colorC align-middle">Jacob</td>
+                        <td class="colorC align-middle">Thornton</td>
+                        <td class="align-middle"><a><i class="bi bi-x-circle-fill text-danger"></i></a></td>
+
+                    </tr>
+                    <tr>
+                        <td><img src="https://www.velo-de-ville.com/sites/default/files/styles/max_1300x1300/public/media-images/content/2023-09/vdv_website_ebikes_kategorien_suv_0.jpg?itok=r-2GKPqR" alt="" width="100px"></td>
+                        <td class="colorC align-middle">Larry</td>
+                        <td class="colorC align-middle">the Bird</td>
+                        <td class="align-middle"><a><i class="bi bi-x-circle-fill text-danger"></i></a></td>
+
+                    </tr>
+                </tbody>
+            </table>
+            <div>
+                <h5 class="text-end colorC align-middle me-5">Totale: 1000 €</h5>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="product-container">
+    <div *ngFor="let product of cartProducts">{{product.name}} - {{product.listPrice}}</div>
+    <div>Totale: {{totalPrice | number: '1.1-2'}}</div>
+</div>
+
+<app-footer></app-footer>

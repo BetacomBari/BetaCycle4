@@ -1,5 +1,5 @@
 import { HttpRequest, HttpStatusCode } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { HttprequestService } from '../services/httprequest.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
@@ -12,17 +12,20 @@ import { ResetPasswordService } from '../services/reset-password.service';
 import { AuthService } from '../services/auth.service';
 import { CustomerRegister } from '../../shared/models/CustomerRegister';
 import { Credentials } from '../../shared/models/credentials';
+import { FooterComponent } from '../footer/footer.component';
 
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterModule, CommonModule, FormsModule, RouterModule, UserCardComponent, NavbarComponent],
+  imports: [RouterModule, CommonModule, FormsModule, RouterModule, UserCardComponent, NavbarComponent, FooterComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
+
 export class LoginComponent {
 
+  @Output() sentEmail = new EventEmitter<string>();
   type: string = "password";
   isText: boolean = false;
   eyeIcon: string = "fa-eye-slash"
@@ -36,16 +39,19 @@ export class LoginComponent {
   loginCredentials: Credentials = new Credentials()
   errorMessage: string[] = []
   successMessage: string | null = null;
+  decodedToken?: { [key: string]: string };
 
-  constructor(private http: HttprequestService, private resetService: ResetPasswordService, public authStatus: AuthService, private route: ActivatedRoute) { }
+ 
+
+  constructor(private http: HttprequestService, private resetService: ResetPasswordService, public authStatus: AuthService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       this.successMessage = params['message'];
-    });
+    }); 
   }
-  
-  login(email: HTMLInputElement, password: HTMLInputElement){
+
+  login(email: HTMLInputElement, password: HTMLInputElement) {
     if (email.value != "" && password.value != "") {
       this.loginCredentials.EmailAddress = email.value.trim()
       this.loginCredentials.Password = password.value
@@ -58,20 +64,21 @@ export class LoginComponent {
           this.jwtToken = resp.body.token;
           localStorage.setItem('jwtToken', this.jwtToken)
           this.authStatus.setJwtLoginStatus(true, this.jwtToken);
+          this.router.navigate(['/'], { queryParams: { message: 'Login effettuato con successo.' } })
         },
         error: (error: any) => {
           this.authStatus.setJwtLoginStatus(false);
           this.errorMessage = []
           if (error.error.message == "passwordError") {
             this.errorMessage.push("Password non valida.")
-            console.log(this.errorMessage);          
-          } else if(error.error.message == "registratiNuovamente"){
+            console.log(this.errorMessage);
+          } else if (error.error.message == "registratiNuovamente") {
             this.errorMessage.push("Necessaria nuova registrazione per aggiornamento interno.")
-            console.log(this.errorMessage);                     
+            console.log(this.errorMessage);
           } else if (error.error.message == "emailError") {
             this.errorMessage.push("Email non registrata.")
-            console.log(this.errorMessage);          
-          } else{
+            console.log(this.errorMessage);
+          } else {
             this.errorMessage.push("Errore generico.")
             console.log(this.errorMessage);
           }
@@ -80,7 +87,7 @@ export class LoginComponent {
     } else {
       this.errorMessage = []
       this.errorMessage.push("I campi non possono essere vuoti")
-            console.log(this.errorMessage);
+      console.log(this.errorMessage);
     }
   }
 
@@ -107,7 +114,7 @@ export class LoginComponent {
     })
   }
 
-  
+
   checkValidEmailForReset(event: string) {
     const value = event;
     //const pattern = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,3}$/;
@@ -116,7 +123,7 @@ export class LoginComponent {
     console.log(this.isEmailForResetValid);
     return this.isEmailForResetValid;
   }
-  
+
   confirmToSend() {
     if (this.checkValidEmailForReset(this.resetPassword)) {
       console.log(this.resetPassword);
@@ -124,17 +131,16 @@ export class LoginComponent {
 
       // API call
       this.resetService.sendResetPasswordLink(this.resetPassword)
-      .subscribe({
-        next: (res) => {
-          this.resetPassword = "";
-          const buttonRef = document.getElementById("closeBtn");
-          buttonRef?.click();
-          console.log("Email inviata correttamente")
-        },
-        error: (err) => {
-          console.log(err);
-        }
-      })
+        .subscribe({
+          next: (res) => {
+            this.resetPassword = "";
+            const buttonRef = document.getElementById("closeBtn");
+            buttonRef?.click();
+          },
+          error: (err) => {
+            console.log(err);
+          }
+        })
     }
   }
 }

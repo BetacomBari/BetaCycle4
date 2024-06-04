@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BetaCycle4.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BetaCycle4.Controllers
 {
@@ -14,11 +15,36 @@ namespace BetaCycle4.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly AdventureWorksLt2019Context _context;
+        private int lastId = 0;
 
         public ProductsController(AdventureWorksLt2019Context context)
         {
             _context = context;
         }
+
+        [Route("GetProductsByPage")]
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Product>>> GetProductsByPage()
+        {
+            int rowPage = 12;
+
+            var page = await _context.Products.FromSql($"SELECT TOP 12 * FROM [SalesLT].[Product] ORDER BY ProductID DESC")
+                .Take( rowPage )
+                .ToListAsync();
+            return page;
+        }
+
+        //[Route("GetProductsByPage")]
+        //[HttpGet]
+        //public async Task<ActionResult<IEnumerable<Product>>> GetProductsByCategory()
+        //{
+        //    int rowPage = 12;
+
+        //    var page = await _context.Products.FromSql($"SELECT TOP 12 * FROM [SalesLT].[Product] ORDER BY ProductID DESC")
+        //        .Take(rowPage)
+        //        .ToListAsync();
+        //    return page;
+        //}
 
         // GET: api/Products
         [HttpGet]
@@ -43,6 +69,7 @@ namespace BetaCycle4.Controllers
 
         // PUT: api/Products/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProduct(int id, Product product)
         {
@@ -74,6 +101,7 @@ namespace BetaCycle4.Controllers
 
         // POST: api/Products
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<Product>> PostProduct(Product product)
         {
@@ -85,6 +113,8 @@ namespace BetaCycle4.Controllers
 
         // DELETE: api/Products/5
         [HttpDelete("{id}")]
+        [Authorize]
+
         public async Task<IActionResult> DeleteProduct(int id)
         {
             var product = await _context.Products.FindAsync(id);

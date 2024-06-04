@@ -17,7 +17,8 @@ import { GooglePayButtonComponent } from '@google-pay/button-angular';
   imports: [RouterOutlet, NavbarComponent, LoginComponent, LogoutComponent, 
     UserCardComponent, SignupComponent, ReactiveFormsModule, GooglePayButtonModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
+  
 })
 export class AppComponent {
   title = 'betacycle';

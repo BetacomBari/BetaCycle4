@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 import { User } from '../../shared/models/user';
 import { AuthService } from './auth.service';
@@ -16,8 +16,11 @@ import { Credentials } from '../../shared/models/credentials';
   providedIn: 'root'
 })
 export class HttprequestService {
+  get(arg0: string) {
+    throw new Error('Method not implemented.');
+  }
   token: string = "niente";
-
+  id:number = -1;
   constructor(private http: HttpClient, private auth: AuthService) {}
 
   loginPostJwt(credentials: Credentials): Observable<any>
@@ -44,6 +47,10 @@ export class HttprequestService {
     return this.http.get(`https://localhost:7165/api/Products`)
   }
 
+  getLast12Product(): Observable<any> {
+    return this.http.get(`https://localhost:7165/api/Products/GetProductsByPage`)
+  }
+
   getProductByID(id:number): Observable<any> {
     return this.http.get(`https://localhost:7165/api/Products/${id}`)
   }
@@ -60,4 +67,17 @@ export class HttprequestService {
     return this.http.get(`http://127.0.0.1:5000/`)
   }
 
+
+  getCartProducts(customerId: number[]): Observable<any> {
+    return this.http.get(`https://localhost:7165/api/ShoppingCarts/${customerId}`)
+  }
+
+  getProductsForCart(productId: number): Observable<any>{
+    return this.http.get(`https://localhost:7165/api/Products/${productId}`)
+  }
+
+  getIdFromEmail(email: string): Observable<any>{
+    return this.http.get(`https://localhost:7165/api/ShoppingCarts/${email}/1`)
+  }
+  
 }
