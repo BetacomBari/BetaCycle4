@@ -6,9 +6,6 @@ import { FooterComponent } from '../../core/footer/footer.component';
 import { HttprequestService } from '../../core/services/httprequest.service';
 import { Product } from '../../shared/models/product';
 
-
-
-
 /////// NON TOCCARE KANE
 @Component({
   selector: 'app-cart',

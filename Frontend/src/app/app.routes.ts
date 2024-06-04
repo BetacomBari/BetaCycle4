@@ -8,6 +8,7 @@ import { HomeComponent } from './features/home/home.component';
 import { ResetComponent } from './core/reset/reset.component';
 import { ProductComponent } from './core/product/product.component';
 import { CartComponent } from './features/cart/cart.component';
+import { FaqComponent } from './features/faq/faq.component';
 
 export const routes: Routes = [
     {path:"", component:HomeComponent},
@@ -17,6 +18,7 @@ export const routes: Routes = [
     {path:"customer", component:CustomerComponent},
     {path:"reset", component: ResetComponent},
     {path:"product", component: ProductComponent},
-    {path:"cart", component: CartComponent}
+    {path:"cart", component: CartComponent},
+    {path:"faq", component: FaqComponent}
 
 ];
