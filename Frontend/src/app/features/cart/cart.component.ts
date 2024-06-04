@@ -22,6 +22,7 @@ export class CartComponent {
   cartList: any[] = []
   userId: number[] = []
   jwtToken: string | null = "";
+  totalPrice: number = 0;
 
   constructor(private http: HttprequestService) {
     this.jwtToken = localStorage.getItem("jwtToken")
@@ -37,22 +38,18 @@ export class CartComponent {
           console.log(element)
         });
 
-        this.cartList.forEach((element: any) =>{
+        this.cartList.forEach((element: any) => {
 
           this.http.getProductByID(element.productId).subscribe({
-            next: (product_name: any) => this.cartProducts.push(product_name)
+            next: ((product_name: any) => {
+              this.cartProducts.push(product_name);
+              this.totalPrice += product_name.listPrice        
+            })
           })
-
-          
-
         })
-        this.cartProducts.forEach(element =>{
-          console.log(element)
-        })
-        console.log("Carrello ritirato con successo")
-      }
-    })    
-    
+        console.log(this.cartProducts);
+      }})
+      console.log("Carrello ritirato con successo");
   }
 
   decodeBase64Url(str: string): string {
@@ -81,14 +78,14 @@ export class CartComponent {
       const decodedPayload = this.parseJson(this.decodeBase64Url(parts[1]));
 
       this.http.getIdFromEmail(decodedPayload.unique_name)
-      .subscribe({
-        next: (response) => {
-          this.userId.push(parseInt(response, 10))
-        },
-        error: (error) => {
-          console.error('Error fetching ID:', error);
-        }
-      });
+        .subscribe({
+          next: (response) => {
+            this.userId.push(parseInt(response, 10))
+          },
+          error: (error) => {
+            console.error('Error fetching ID:', error);
+          }
+        });
 
       // console.log('Header:', decodedHeader);
       // console.log('Payload:', decodedPayload);
