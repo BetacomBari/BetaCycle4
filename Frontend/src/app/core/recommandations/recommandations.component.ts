@@ -16,7 +16,8 @@ export class RecommandationsComponent {
   product:any = []
   product_id?:number
   jwtToken: string = "";
-  userId: number = -1;
+  userId: number[] = [];
+  lastItemBoughtId: number = -1
 
   constructor(private mainhttp: HttprequestService){}
 

@@ -21,11 +21,8 @@ export const routes: Routes = [
     {path:"customer", component:CustomerComponent},
     {path:"reset", component: ResetComponent},
     {path:"product", component: ProductComponent},
-<<<<<<< HEAD
     {path:"recommandations", component: RecommandationsComponent},
-    {path:"chat", component: ChatComponent}
-=======
+    {path:"chat", component: ChatComponent},
     {path:"cart", component: CartComponent}
->>>>>>> Cart
 
 ];
