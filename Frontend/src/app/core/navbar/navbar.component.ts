@@ -15,20 +15,25 @@ declare var handleSignOut: any;
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
-export class NavbarComponent {
-  
-  constructor(public authStatus: AuthService, private router: Router,) { }
 
-handleSignOut() {
-  handleSignOut();
-  localStorage.removeItem("jwtToken")
-  sessionStorage.removeItem("loggedInUser");
-  this.router.navigate(["/login"]).then(() => {
-    window.location.reload();
-  });
-  localStorage.removeItem("loggedInUser");
-  this.router.navigate(["/login"]).then(() => {
-    window.location.reload();
-  });
-}
+export class NavbarComponent implements OnInit {
+  imageUrl: string = "";
+  @Input() decodedEmail: string = '';
+
+  constructor(public authStatus: AuthService, private router: Router,) { }
+  ngOnInit() {
+    this.imageUrl = '/assets/logo.png';
+  }
+  handleSignOut() {
+    handleSignOut();
+    localStorage.removeItem("jwtToken")
+    sessionStorage.removeItem("loggedInUser");
+    this.router.navigate(["/login"]).then(() => {
+      window.location.reload();
+    });
+    localStorage.removeItem("loggedInUser");
+    this.router.navigate(["/login"]).then(() => {
+      window.location.reload();
+    });
+  }
 }

@@ -21,6 +21,7 @@ using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pag
 using Microsoft.Identity.Client.Platforms.Features.DesktopOs.Kerberos;
 using System.Net;
 using System.Net.Mail;
+using Microsoft.IdentityModel.Tokens;
 
 
 namespace SqlManager.BLogic
@@ -659,13 +660,22 @@ namespace SqlManager.BLogic
                 {
                     if (sqlReader.HasRows)
                     {
-                        ProductCategory category = new ProductCategory();
                         while (sqlReader.Read())
                         {
-                            category.ProductCategoryId = Convert.ToInt16(sqlReader["ProductCategoryId"]);
-                            category.ParentProductCategoryId = Convert.ToInt16(sqlReader["ParentProductCategoryId"]);
+                            ProductCategory category = new ProductCategory();
+                            category.ProductCategoryId = Convert.ToInt16(sqlReader["ProductCategoryID"]);
                             category.Name = sqlReader["Name"].ToString();
-                            category.Rowguid = (Guid)sqlReader["Rowguid"];
+
+                            if (sqlReader["ParentProductCategoryID"].ToString().IsNullOrEmpty())
+                            {
+                                category.ParentProductCategoryId = 0;
+                            }
+                            else
+                            {
+                                category.ParentProductCategoryId = Convert.ToInt16(sqlReader["ParentProductCategoryID"]);
+                            }
+
+                            category.Rowguid = (Guid)sqlReader["rowguid"];
                             category.ModifiedDate = Convert.ToDateTime(sqlReader["ModifiedDate"]);
 
                             allCategories.Add(category);
@@ -679,7 +689,7 @@ namespace SqlManager.BLogic
             }
             catch
             {
-
+                throw;
             }
 
 

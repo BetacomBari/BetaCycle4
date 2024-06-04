@@ -248,3 +248,15 @@ Situato in:    at Microsoft.Data.ProviderBase.DbConnectionPool.TryGetConnection(
    at BetaCycle4.Logger.DbTracer.checkDbOpen() in C:\Users\user\Desktop\zio cocco\webApp\Logger\DbTracer.cs:line 102
    at BetaCycle4.Logger.DbTracer.InsertError(String message, Int32 code, String location) in C:\Users\user\Desktop\zio cocco\webApp\Logger\DbTracer.cs:line 56
 ____________________________________________________________________________________________________
+Data: 03/06/2024 16:35:19 Provenienza: Microsoft.Data.SqlClient Messaggio: ExecuteNonQuery: Connection property has not been initialized.
+Situato in:    at Microsoft.Data.SqlClient.SqlCommand.ValidateCommand(Boolean isAsync, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String methodName)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at BetaCycle4.Logger.DbTracer.InsertError(String message, Int32 code, String location) in C:\Users\yuiam\OneDrive\Desktop\Stefano\GitProjects\BetaCycle4\Logger\DbTracer.cs:line 64
+____________________________________________________________________________________________________
+Data: 03/06/2024 16:41:45 Provenienza: Microsoft.Data.SqlClient Messaggio: ExecuteNonQuery: Connection property has not been initialized.
+Situato in:    at Microsoft.Data.SqlClient.SqlCommand.ValidateCommand(Boolean isAsync, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String methodName)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at BetaCycle4.Logger.DbTracer.InsertError(String message, Int32 code, String location) in C:\Users\yuiam\OneDrive\Desktop\Stefano\GitProjects\BetaCycle4\Logger\DbTracer.cs:line 64
+____________________________________________________________________________________________________

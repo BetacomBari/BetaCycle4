@@ -6,11 +6,12 @@ import { LoginComponent } from './core/login/login.component';
 import { CustomerComponent } from './features/admin/customer/customer.component';
 import { HomeComponent } from './features/home/home.component';
 import { ResetComponent } from './core/reset/reset.component';
-<<<<<<< HEAD
 import { PayWithGoogleComponent } from './core/pay-with-google/pay-with-google.component';
-=======
 import { ProductComponent } from './core/product/product.component';
->>>>>>> 58de71c94396aadc3c43c8e5e33268e99266a726
+import { RecommandationsComponent } from './core/recommandations/recommandations.component';
+import { ChatComponent } from './chat/chat.component';
+
+import { CartComponent } from './features/cart/cart.component';
 
 export const routes: Routes = [
     {path:"", component:HomeComponent},
@@ -19,10 +20,9 @@ export const routes: Routes = [
     {path:"login", component:LoginComponent},
     {path:"customer", component:CustomerComponent},
     {path:"reset", component: ResetComponent},
-<<<<<<< HEAD
-    {path:"payment", component:PayWithGoogleComponent}
-=======
-    {path:"product", component: ProductComponent}
+    {path:"product", component: ProductComponent},
+    {path:"recommandations", component: RecommandationsComponent},
+    {path:"chat", component: ChatComponent},
+    {path:"cart", component: CartComponent}
 
->>>>>>> 58de71c94396aadc3c43c8e5e33268e99266a726
 ];
