@@ -6,6 +6,10 @@ import { FooterComponent } from '../../core/footer/footer.component';
 import { HttprequestService } from '../../core/services/httprequest.service';
 import { Product } from '../../shared/models/product';
 
+
+
+
+/////// NON TOCCARE KANE
 @Component({
   selector: 'app-cart',
   standalone: true,
@@ -15,7 +19,7 @@ import { Product } from '../../shared/models/product';
 })
 export class CartComponent {
   products: Product[] = []
-  cartList: any = []
+  cartList: any[] = []
   cartItems: Product[] = []
   userId: number[] = []
   jwtToken: string | null = "";
@@ -29,19 +33,21 @@ export class CartComponent {
 
     this.http.getCartProducts(this.userId).subscribe({
       next: (products) => {
-        this.cartList.push(products)
-        this.cartList.forEach((element: any) => {
+        // this.cartList.push(products)
+        products.forEach((element: any) => {
+          this.cartList.push(element)
           console.log(element)
         });
-        // console.log(this.cartList[0])
-        const productRequest: any[] = [];
+        // const productRequest: any[] = [];
 
-        products.forEach((element: any) => {
-          productRequest.push(this.http.getProductsForCart(element.productId))
-        })
+        // products.forEach((element: any) => {
+        //   productRequest.push(this.http.getProductsForCart(element.productId))
+        // })
+        
         console.log("Carrello ritirato con successo")
       }
     })
+    
   }
 
   decodeBase64Url(str: string): string {
@@ -69,6 +75,15 @@ export class CartComponent {
       const decodedHeader = this.decodeBase64Url(parts[0]);
       const decodedPayload = this.parseJson(this.decodeBase64Url(parts[1]));
 
+      this.http.getIdFromEmail(decodedPayload.unique_name)
+      .subscribe({
+        next: (response) => {
+          this.userId.push(parseInt(response, 10))
+        },
+        error: (error) => {
+          console.error('Error fetching ID:', error);
+        }
+      });
 
       // console.log('Header:', decodedHeader);
       // console.log('Payload:', decodedPayload);
@@ -78,16 +93,7 @@ export class CartComponent {
     } catch (error) {
       console.error('Error decoding token:', error);
     }
-    this.http.getIdFromEmail("stefanonitti01@gmail.com")
-      .subscribe({
-        next: (response) => {
 
-          this.userId.push(parseInt(response, 10))
-        },
-        error: (error) => {
-          console.error('Error fetching ID:', error);
-        }
-      });
 
 
 
