@@ -59,4 +59,8 @@ export class HttprequestService {
   getProductsForCart(productId: number): Observable<any>{
     return this.http.get(`https://localhost:7165/api/Products/${productId}`)
   }
+
+  getIdFromEmail(email: string): Observable<any>{
+    return this.http.get(`https://localhost:7165/api/ShoppingCarts/${email}/1`)
+  }
 }

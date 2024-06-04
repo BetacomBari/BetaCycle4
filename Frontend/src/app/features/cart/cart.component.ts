@@ -17,7 +17,7 @@ export class CartComponent {
 products: Product[] =[]
 cartList: any = []
 cartItems: Product[] = []
-userId: number = 1;
+userId: number = -1;
 jwtToken: string | null = "";
 
 constructor (private http: HttprequestService){
@@ -102,6 +102,8 @@ try {
   const parts = this.splitToken(this.jwtToken);
   const decodedHeader = this.decodeBase64Url(parts[0]);
   const decodedPayload = this.parseJson(this.decodeBase64Url(parts[1]));
+
+  this.userId = this.http.getIdFromEmail(decodedPayload.unique_name);
 
   console.log('Header:', decodedHeader);
   console.log('Payload:', decodedPayload);
