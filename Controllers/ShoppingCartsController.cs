@@ -37,6 +37,7 @@ namespace BetaCycle4.Controllers
         {
             return _cartUtilityCredentials.SelectIdCustomerNew(email);
         }
+
         
         
         [HttpGet("{id}")]
@@ -52,17 +53,11 @@ namespace BetaCycle4.Controllers
             return await _context.ShoppingCart.FromSqlRaw($"SELECT * FROM [dbo].[ShoppingCart] WHERE CustomerID = @id", parameter).ToListAsync();
         }
 
-        //[HttpGet("{id}")]
-        //public async List<ShoppingCart> GetShoppingCartElements(int id)
-        //{
-        //    ShoppingCart prodotto = null;
-        //    List<ShoppingCart> listaProdotti = new();
-        //    while (reader.Read())
-        //    {
-        //        prodotto = new ShoppingCart();
-
-        //    }
-        //}
+        [HttpGet("{id_user}/last")]
+        public ActionResult<int> GetLastItemBoughtFromUser(int id_user)
+        {
+            return _cartUtilityCredentials.lastItemBoughtByCustomerId(id_user);
+        }
 
         // PUT: api/ShoppingCarts/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
