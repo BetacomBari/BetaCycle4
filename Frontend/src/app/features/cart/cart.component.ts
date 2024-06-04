@@ -5,7 +5,11 @@ import { NavbarComponent } from '../../core/navbar/navbar.component';
 import { FooterComponent } from '../../core/footer/footer.component';
 import { HttprequestService } from '../../core/services/httprequest.service';
 import { Product } from '../../shared/models/product';
-import { CartProduct } from '../../shared/models/cartProduct';
+
+
+
+
+/////// NON TOCCARE KANE
 @Component({
   selector: 'app-cart',
   standalone: true,
@@ -14,110 +18,93 @@ import { CartProduct } from '../../shared/models/cartProduct';
   styleUrl: './cart.component.css'
 })
 export class CartComponent {
-products: Product[] =[]
-cartList: any = []
-cartItems: Product[] = []
-userId_string: string = "-1";
-userId: number = -1
-jwtToken: string | null = "";
+  cartProducts: Product[] = []
+  cartList: any[] = []
+  userId: number[] = []
+  jwtToken: string | null = "";
 
-constructor (private http: HttprequestService){
-  this.jwtToken = localStorage.getItem("jwtToken")
-}
+  constructor(private http: HttprequestService) {
+    this.jwtToken = localStorage.getItem("jwtToken")
+  }
 
-// ngOnInit() {
-//   this.http.getCartProducts(this.userId).subscribe({
-//     next: (products: Product) => {
-//       this.cartList = products;
-//       console.log(this.cartList)
-//     }
-//   })
-//   console.log("Carrello ritirato con successo");
-//   console.log(this.cartList[0]);
-// }
-// ngOnInit(){
-//   this.http.getCartProducts(this.userId).subscribe({
-//     next: (products: Product[]) => {
-//       this.cartList = products
+  ngOnInit() {
+    this.getDecodeToken();
 
-//       const productRequest:any[] = [];
+    this.http.getCartProducts(this.userId).subscribe({
+      next: (products) => {
+        products.forEach((element: any) => {
+          this.cartList.push(element)
+          console.log(element)
+        });
 
-//       products.forEach(element => {
-//         productRequest.push(this.http.getProductsForCart(element.productId))
-//       })
-//         })
-//         console.log("Carrello ritirato con successo")
-//         console.log(this.cartItems[1].name)
-//       }
+        this.cartList.forEach((element: any) =>{
 
-//   this.cartList.forEach(element => {
-//     this.http.getProductsForCart(element.productId).subscribe({
-//       next: (product: any) => {
-//         this.cartItems.push(product)
-//       }
-//     })
-// })
-// }
+          this.http.getProductByID(element.productId).subscribe({
+            next: (product_name: any) => this.cartProducts.push(product_name)
+          })
 
+          
 
+        })
+        this.cartProducts.forEach(element =>{
+          console.log(element)
+        })
+        console.log("Carrello ritirato con successo")
+      }
+    })    
+    
+  }
 
-ngOnInit(){
-  this.getDecodeToken();
-  this.http.getCartProducts(this.userId).subscribe({
-    next: (products) => {
-      this.cartList.push(products)
-      this.cartList.forEach((element: any) => {
-        console.log(element)
-      });
-      // console.log(this.cartList[0])
-      const productRequest: any[] = [];
-
-      products.forEach((element: any) => {
-        productRequest.push(this.http.getProductsForCart(element.productId))
-      })
-      console.log("Carrello ritirato con successo")
-    }
-  })
-}
-decodeBase64Url(str: string): string {
-  // Replace non-URL-safe characters with URL-safe equivalents
-  return decodeURIComponent(atob(str.replace(/-/g, '+').replace(/_/g, '/')));
-} parseJson(str: string): any {
-  try {
+  decodeBase64Url(str: string): string {
+    // Replace non-URL-safe characters with URL-safe equivalents
+    return decodeURIComponent(atob(str.replace(/-/g, '+').replace(/_/g, '/')));
+  } parseJson(str: string): any {
+    try {
       return JSON.parse(str);
-  } catch (error) {
+    } catch (error) {
       throw new Error('Invalid JWT payload');
+    }
   }
-}
-splitToken(token: string | null): string[] {
-  if (!token || token.length < 3) {
+  splitToken(token: string | null): string[] {
+    if (!token || token.length < 3) {
       throw new Error('Invalid JWT token');
+    }
+    return token.split('.');
   }
-  return token.split('.');
-}
 
-// FUNZIONI PER LA DECODIFICA DEL TOKEN
+  // FUNZIONI PER LA DECODIFICA DEL TOKEN
 
-getDecodeToken() {
-try {
-  const parts = this.splitToken(this.jwtToken);
-  const decodedHeader = this.decodeBase64Url(parts[0]);
-  const decodedPayload = this.parseJson(this.decodeBase64Url(parts[1]));
+  getDecodeToken() {
+    try {
+      const parts = this.splitToken(this.jwtToken);
+      const decodedHeader = this.decodeBase64Url(parts[0]);
+      const decodedPayload = this.parseJson(this.decodeBase64Url(parts[1]));
 
-  this.userId = this.http.getIdFromEmail(decodedPayload.unique_name);
+      this.http.getIdFromEmail(decodedPayload.unique_name)
+      .subscribe({
+        next: (response) => {
+          this.userId.push(parseInt(response, 10))
+        },
+        error: (error) => {
+          console.error('Error fetching ID:', error);
+        }
+      });
 
-  console.log('Header:', decodedHeader);
-  console.log('Payload:', decodedPayload);
+      // console.log('Header:', decodedHeader);
+      // console.log('Payload:', decodedPayload);
+      // Access specific claims from payload (e.g., username)
+      const username = decodedPayload.sub; // Assuming 'sub' holds username
+      // console.log('Username:', decodedPayload.unique_name);
+    } catch (error) {
+      console.error('Error decoding token:', error);
+    }
 
-  // Access specific claims from payload (e.g., username)
-  const username = decodedPayload.sub; // Assuming 'sub' holds username
-  // console.log('Username:', decodedPayload.unique_name);
-} catch (error) {
-  console.error('Error decoding token:', error);
-}
-}
 
-//
+
+
+  }
+
+  //
 
 }
 
