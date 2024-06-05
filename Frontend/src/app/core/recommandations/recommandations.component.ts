@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Renderer2 } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -27,6 +27,7 @@ export class RecommandationsComponent {
   user_id_map : number[] = []
   myvar:any
   data:number = -1
+  htmlToAdd:string = '';
 
 
   constructor(private mainhttp: HttprequestService){}
@@ -42,8 +43,8 @@ export class RecommandationsComponent {
     // console.log("Length: " +this.userId.length)
     // console.log("CnnId:")
     // console.log(this.lastItemBoughtId)
-    
-    
+    console.log(this.product);
+ 
   }
 
   getRecommandForUserByLastItemBought(userId: number[]){
@@ -163,11 +164,23 @@ export class RecommandationsComponent {
         this.mainhttp.getRecommandations(this.lastItemBoughtId).subscribe({
           next: (Data: any) => {
             console.log("Try to print");
-            console.log(Data)
-
             this.product = Data
             console.log("Recom for id: " + this.product_id)
             console.log(this.product);
+            
+            
+            this.htmlToAdd = this.product;
+            
+  
+
+            ///////////////
+            return `
+            <h1>product</h1>
+            `
+            
+            ///////////////
+
+
           },
           error: (error: any) => {
             console.log(error);
