@@ -36,12 +36,12 @@ namespace BetaCycle4.Controllers
 
         ////GET: api/ShoppingCarts/5
         [HttpGet("{email}/1")]
-        public  ActionResult<int> GetIdByEmail(string email)
+        public ActionResult<int> GetIdByEmail(string email)
         {
             return _cartUtilityCredentials.SelectIdCustomerNew(email);
         }
-        
-        
+
+
         [HttpGet("{id}")]
         public async Task<ActionResult<IEnumerable<ShoppingCart>>> GetShoppingCart(int id)
         {
@@ -109,18 +109,18 @@ namespace BetaCycle4.Controllers
             return CreatedAtAction("GetShoppingCart", new { id = shoppingCart.ShoppingId }, shoppingCart);
         }
 
-        [HttpPost("{shoppingCart")]
-        public async Task<IActionResult> BuyingCompleted(List<ShoppingCart> shoppingCart)
+        [HttpPut("{shoppingCart}/1")]
+        public async Task<IActionResult> BuyingCompleted(List<int> shoppingCartIds)
         {
-            foreach(ShoppingCart product in shoppingCart){
-               var productToModify = await _context.ShoppingCart.FindAsync(product.ShoppingId);
+            foreach(int productId in shoppingCartIds){
+               var productToModify = await _context.ShoppingCart.FindAsync(productId);
                 if (productToModify != null)
                 {
                     productToModify.IsCompleted = true;
-                    _context.ShoppingCart.Update(productToModify);
+                    _context.Update(productToModify);
                     _context.SaveChangesAsync();
                 }
-                else return NotFound();
+                else return NotFound(); 
             }
             return Ok();
         }
