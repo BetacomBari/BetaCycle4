@@ -99,6 +99,7 @@ body {
   padding-right: 10px;
 }
 
+
 @media screen and (max-width: 767px) {
   .menu-button {
     transition: .3s;
@@ -285,4 +286,21 @@ body {
 .btnCart:hover{
   color: #126879;
 
+}
+
+.cardHome {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cardHome:hover {
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.cardHome:hover .divImg img {
+  transform: scale(1.1);
+}
+
+.divImg img {
+  transition: transform 0.3s ease;
 }

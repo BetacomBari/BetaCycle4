@@ -1,67 +1,73 @@
 {
-  "hash": "9a857655",
-  "configHash": "ca40f2b9",
-  "lockfileHash": "08ac92f9",
-  "browserHash": "f662c76c",
+  "hash": "8ed290e0",
+  "configHash": "fff8bc67",
+  "lockfileHash": "d03da76a",
+  "browserHash": "63f51278",
   "optimized": {
     "@angular/common": {
       "src": "../../../../../node_modules/@angular/common/fesm2022/common.mjs",
       "file": "@angular_common.js",
-      "fileHash": "90cc1f0c",
+      "fileHash": "f92e5720",
       "needsInterop": false
     },
     "@angular/common/http": {
       "src": "../../../../../node_modules/@angular/common/fesm2022/http.mjs",
       "file": "@angular_common_http.js",
-      "fileHash": "f801be9f",
+      "fileHash": "9d65c331",
       "needsInterop": false
     },
     "@angular/core": {
       "src": "../../../../../node_modules/@angular/core/fesm2022/core.mjs",
       "file": "@angular_core.js",
-      "fileHash": "2a4bb1dd",
+      "fileHash": "b46fd16c",
       "needsInterop": false
     },
     "@angular/forms": {
       "src": "../../../../../node_modules/@angular/forms/fesm2022/forms.mjs",
       "file": "@angular_forms.js",
-      "fileHash": "cfeceed6",
+      "fileHash": "0d22ed62",
       "needsInterop": false
     },
     "@angular/platform-browser": {
       "src": "../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
       "file": "@angular_platform-browser.js",
-      "fileHash": "c2220a3a",
+      "fileHash": "7b58812b",
       "needsInterop": false
     },
     "@angular/router": {
       "src": "../../../../../node_modules/@angular/router/fesm2022/router.mjs",
       "file": "@angular_router.js",
-      "fileHash": "7211d085",
+      "fileHash": "0ccacf3b",
       "needsInterop": false
     },
     "swiper/element/bundle": {
       "src": "../../../../../node_modules/swiper/swiper-element-bundle.mjs",
       "file": "swiper_element_bundle.js",
-      "fileHash": "ce421c34",
+      "fileHash": "a9c2da6e",
       "needsInterop": false
+    },
+    "aos": {
+      "src": "../../../../../node_modules/aos/dist/aos.js",
+      "file": "aos.js",
+      "fileHash": "8ce44ff7",
+      "needsInterop": true
     }
   },
   "chunks": {
-    "chunk-4DVLBDCM": {
-      "file": "chunk-4DVLBDCM.js"
+    "chunk-2ZUTQJTS": {
+      "file": "chunk-2ZUTQJTS.js"
     },
-    "chunk-EM2UWXFF": {
-      "file": "chunk-EM2UWXFF.js"
+    "chunk-QVYNNXAE": {
+      "file": "chunk-QVYNNXAE.js"
     },
-    "chunk-XZG52OV6": {
-      "file": "chunk-XZG52OV6.js"
+    "chunk-G3QHPO5O": {
+      "file": "chunk-G3QHPO5O.js"
     },
-    "chunk-WETU6YCY": {
-      "file": "chunk-WETU6YCY.js"
+    "chunk-2I3ZEVRS": {
+      "file": "chunk-2I3ZEVRS.js"
     },
-    "chunk-J4B6MK7R": {
-      "file": "chunk-J4B6MK7R.js"
+    "chunk-WKYGNSYM": {
+      "file": "chunk-WKYGNSYM.js"
     }
   }
 }

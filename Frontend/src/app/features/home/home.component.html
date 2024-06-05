@@ -9,17 +9,17 @@
 </div> -->
 
 
-<div class="w-100 ">
+<div data-aos="fade-right" class="w-100 ">
     <div class="start-page w-100 d-flex align-items-center z-n1">
         <div class="container z-0">
             <div class="row flex-column justify-content-center align-items-center ">
                 <div class="col-12 col-md-9 col-lg-6 text-center bg-search z-1">
-                    <h1 class="display-1 mt-5 titleHome">Betacycle</h1>
+                    <h1  class="display-1 mt-5 titleHome">Betacycle</h1>
 
                     <!--! message -->
                     <div class="row justify-content-center">
                         <div *ngIf="successMessage != null" class="col-12 col-md-12 col-lg-7">
-                            <div class="alert alert-success" role="alert">
+                            <div class="p-1 alert alert-success" role="alert">
                                 <p class="m-0">{{successMessage}}</p>
                             </div>
                         </div>
@@ -33,41 +33,47 @@
 
 <!--! carosello articolo -->
 
-<div class="container  containerCarosello mt-5" *ngIf="products.length > 0">
+<div data-aos="fade-left" class="container  containerCarosello mt-2" *ngIf="products.length > 0">
     <div class="row ">
         <div class="col-12">
-            <swiper-container class="mySwiper py-3" pagination="false" effect="coverflow" grab-cursor="true"
-                centered-slides="true" slides-per-view="auto" coverflow-effect-rotate="50" coverflow-effect-stretch="0"
-                coverflow-effect-depth="100" coverflow-effect-modifier="1" coverflow-effect-slide-shadows="true">
-
-                <swiper-slide  *ngFor="let p of products">
-                    <div class="card cardHome w-100">
-                        <div class="divImg d-flex flex-column justify-content-center align-items-center p-2">
-                            <img class="imgCardHome" [src]="getDecodedImage(p.largeImage)" alt="">
-                        </div>
-                        <h5 class="card-title ms-3 titleCard">{{p.name}} </h5>
-                        <h5 class="card-title ms-3 titleCard2"> {{p.listPrice}} €</h5>
-
-                        <p class="card-text"></p>
+            <swiper-container class="mySwiper p-0" pagination="false" space-between="30"
+            
+            [breakpoints]="{
+                '640': { 'slidesPerView': 1 },
+                '768': { 'slidesPerView': 3 },
+                '1024': { 'slidesPerView': 4 }
+              }">
+            
+            <swiper-slide class="altezzacarosello px-2 py-4" *ngFor="let p of products">
+                <div class="card overflow-hidden cardHome h-100 w-100 d-flex justify-content-evenly">
+                    <div class="divImg d-flex flex-column justify-content-center align-items-center p-2">
+                        <img class="imgCardHome" [src]="getDecodedImage(p.largeImage)" alt="">
                     </div>
-                </swiper-slide>
+                    <h5 class="card-title ms-3 titleCard text-truncate">{{p.name}} </h5>
+                    
+                    <h5 class="card-title ms-3 titleCard2 "> {{p.listPrice}} €</h5>
+                    <button (click)="goDetail(p.productId)" class=" p-0 mx-3 menu-button3">Dettaglio</button>
 
-            </swiper-container>
+                    <p class="card-text"></p>
+                </div>
+            </swiper-slide>
+
+          </swiper-container>
         </div>
     </div>
 </div>
 
 
-<header class="container my-5">
+<header   class="container mb-5 mt-2">
     <div class="row">
         <div class="col-12 flex-column flex-md-row annuncio2 d-flex align-items-center justify-content-center">
             <div class="col-12 col-md-5">
-                <h1 class="display-1 mt-5 titleHome">Chi siamo?</h1>
+                <h1 data-aos="fade-right" class="display-1 mt-5 titleHome">Chi siamo?</h1>
             </div>
 
 
-            <div class="col-12 col-md-5 didascalia d-flex align-items-center px-4">
-                <p class="serif fs-5" data-aos="zoom-in-left ">Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+            <div data-aos="fade-left" class="col-12 col-md-5 didascalia d-flex align-items-center px-4">
+                <p class="serif fs-5" data-aos="zoom-in-left">Lorem ipsum dolor, sit amet consectetur adipisicing elit.
                     Illo facilis laudantium autem odio dolorum necessitatibus quia similique accusamus quaerat porro
                     itaque repudiandae natus, illum cum perspiciatis veritatis distinctio, ipsam esse.</p>
             </div>
@@ -83,3 +89,14 @@
 </header>
 
 <app-footer></app-footer>
+ <!-- Initialize Swiper -->
+ <script>
+    var swiper = new Swiper(".mySwiper", {
+      slidesPerView: 3,
+      spaceBetween: 30,
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
+    });
+  </script>

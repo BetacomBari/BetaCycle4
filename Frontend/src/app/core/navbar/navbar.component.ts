@@ -7,6 +7,7 @@ import { UserCardComponent } from '../user-card/user-card.component';
 import { AuthService } from '../services/auth.service';
 declare var handleSignOut: any;
 declare var handleSignOut: any;
+import * as AOS from 'aos';
 
 @Component({
   selector: 'app-navbar',
@@ -21,7 +22,10 @@ export class NavbarComponent implements OnInit {
 
   constructor(public authStatus: AuthService, private router: Router) { }
   ngOnInit() {
+    AOS.init();
+
     this.imageUrl = '/assets/logo.png';
+
   }
 
   search(inputSearch: HTMLInputElement) {
