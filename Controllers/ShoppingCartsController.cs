@@ -52,7 +52,7 @@ namespace BetaCycle4.Controllers
             //    return NotFound();
             //}
             var parameter = new SqlParameter("id", id);
-            return await _context.ShoppingCart.FromSqlRaw($"SELECT * FROM [dbo].[ShoppingCart] WHERE CustomerID = @id", parameter).ToListAsync();
+            return await _context.ShoppingCart.FromSqlRaw($"SELECT * FROM [dbo].[ShoppingCart] WHERE CustomerID = @id AND IsCompleted = 0", parameter).ToListAsync();
         }
 
         //[HttpGet("{id}")]
@@ -107,6 +107,22 @@ namespace BetaCycle4.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetShoppingCart", new { id = shoppingCart.ShoppingId }, shoppingCart);
+        }
+
+        [HttpPost("{shoppingCart")]
+        public async Task<IActionResult> BuyingCompleted(List<ShoppingCart> shoppingCart)
+        {
+            foreach(ShoppingCart product in shoppingCart){
+               var productToModify = await _context.ShoppingCart.FindAsync(product.ShoppingId);
+                if (productToModify != null)
+                {
+                    productToModify.IsCompleted = true;
+                    _context.ShoppingCart.Update(productToModify);
+                    _context.SaveChangesAsync();
+                }
+                else return NotFound();
+            }
+            return Ok();
         }
 
         // DELETE: api/ShoppingCarts/5
