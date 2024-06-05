@@ -15,7 +15,7 @@ namespace BetaCycle4.Logger
        FINE ESEMPIO
 
         COMANDO:
-         _dbtracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
+         _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
 */
         #endregion
 
@@ -34,9 +34,9 @@ namespace BetaCycle4.Logger
             {
                 sqlCnn.ConnectionString = "Data Source=.\\SQLEXPRESS;Initial Catalog=AdventureWorksLT2019;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
             }
-            catch (Exception e) //Qualsiasi errore che avviene durante la comunicazione col db, lo scrivo su file
+            catch (Exception ex) //Qualsiasi errore che avviene durante la comunicazione col db, lo scrivo su file
             {
-                PrintError(e.Source, e.Message, e.StackTrace);
+                PrintError(ex.Source, ex.Message, ex.StackTrace);
             }
         }
         #endregion
@@ -63,9 +63,9 @@ namespace BetaCycle4.Logger
 
                 sqlCmd.ExecuteNonQuery();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                PrintError(e.Source, e.Message, e.StackTrace);
+                PrintError(ex.Source, ex.Message, ex.StackTrace);
             }
 
             checkDbClose();

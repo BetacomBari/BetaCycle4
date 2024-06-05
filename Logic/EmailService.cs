@@ -3,16 +3,19 @@ using MimeKit;
 using System.Net.Mail;
 using MailKit.Net.Smtp;
 using SmtpClient = MailKit.Net.Smtp.SmtpClient;
+using BetaCycle4.Logger;
 
 
 namespace BetaCycle4.Logic
 {
     public class EmailService: IEmailService
     {
+        private readonly DbTracer _dbTracer;
         private readonly IConfiguration _config;
 
-        public EmailService(IConfiguration configuration) 
+        public EmailService(IConfiguration configuration, DbTracer dbTracer) 
         {
+            _dbTracer = dbTracer;
             _config = configuration;
         }
 
@@ -38,7 +41,7 @@ namespace BetaCycle4.Logic
                 }
                 catch (Exception ex) 
                 {
-                    throw;
+                    _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
                 }
                 finally
                 {

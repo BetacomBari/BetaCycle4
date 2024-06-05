@@ -23,6 +23,7 @@ export class HomeComponent {
   constructor(private route: ActivatedRoute, private mainhttp: HttprequestService){}
 
   ngOnInit() {
+    console.log(localStorage.getItem("jwtToken"))
     this.getLast12Product()
     this.route.queryParams.subscribe(params => {
       this.successMessage = params['message'];

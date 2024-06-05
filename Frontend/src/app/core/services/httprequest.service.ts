@@ -16,6 +16,9 @@ import { Credentials } from '../../shared/models/credentials';
   providedIn: 'root'
 })
 export class HttprequestService {
+  get(arg0: string) {
+    throw new Error('Method not implemented.');
+  }
   token: string = "niente";
 
   constructor(private http: HttpClient, private auth: AuthService) {}
@@ -52,7 +55,16 @@ export class HttprequestService {
     return this.http.get(`https://localhost:7165/api/Products/${id}`)
   }
 
-  getCartProducts(id: number): Observable<any> {
-    return this.http.get(`https://localhost:7165/api/ShoppingCarts/${id}`)
+  getCartProducts(customerId: number[]): Observable<any> {
+    return this.http.get(`https://localhost:7165/api/ShoppingCarts/${customerId}`)
   }
+
+  getProductsForCart(productId: number): Observable<any>{
+    return this.http.get(`https://localhost:7165/api/Products/${productId}`)
+  }
+
+  getIdFromEmail(email: string): Observable<any>{
+    return this.http.get(`https://localhost:7165/api/ShoppingCarts/${email}/1`)
+  }
+  
 }

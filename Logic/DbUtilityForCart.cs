@@ -1,13 +1,16 @@
 ﻿using BetaCycle4.Logger;
 using BetaCycle4.Logic.Authentication.EncryptionWithSha256;
 using BetaCycle4.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Data.SqlClient;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using System.Net.Mail;
 
 namespace BetaCycle4.Logic
 {
     public class DbUtilityForCart
     {
+        private DbTracer _dbTracer = new DbTracer();
         SqlConnection sqlCnn = new();
         SqlCommand sqlCmd = new();
         public bool IsDbStatusValid = false;
@@ -16,6 +19,7 @@ namespace BetaCycle4.Logic
         #region COSTRUTTORE SqlConnectionString DB
         public DbUtilityForCart(string sqlConnectionString)
         {
+
             sqlCnn.ConnectionString = sqlConnectionString;
             try
             {
@@ -28,10 +32,9 @@ namespace BetaCycle4.Logic
                 }
 
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                DbTracer error = new DbTracer();
-                error.InsertError(e.Message, e.HResult, e.StackTrace);
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             {
@@ -67,9 +70,9 @@ namespace BetaCycle4.Logic
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             {
@@ -96,7 +99,7 @@ namespace BetaCycle4.Logic
             }
             catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             {
@@ -121,7 +124,7 @@ namespace BetaCycle4.Logic
             }
             catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             {
@@ -146,7 +149,7 @@ namespace BetaCycle4.Logic
             }
             catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             {
@@ -176,15 +179,15 @@ namespace BetaCycle4.Logic
                             product.Name = sqlReader["Name"].ToString();
                             product.Color = sqlReader["Color"].ToString();
                             product.Size = sqlReader["Size"].ToString();
-
+                            product.ListPrice = Convert.ToDecimal(sqlReader["ListPrice"]);
 
                         }
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             {
@@ -196,17 +199,30 @@ namespace BetaCycle4.Logic
 
         #endregion
 
+        internal void CreateOrder(List<int> productsToSell)
+        {
+            List<Product> products = new();
 
+            //Devo ricercare i prodotti da aggiungere al carrello prima
+            foreach(int productId in productsToSell)
+            {
+                Product singleProduct = new Product();
+                singleProduct = GetProductInfo(productId);
+                if (singleProduct != null) products.Add(singleProduct);
+                else break;
+            }
+        }
 
         #region SelectID By curtomerNew
         internal int SelectIdCustomerNew(string EmailAddress)
         {
-            int id = 0;
+            int id = -1;
             try
             {
                 checkDbOpen();
-                sqlCmd.CommandText = "SELECT CustomerId FROM CustomerNew WHERE EmailAddress = @EmailAddress";
-                sqlCmd.Parameters.AddWithValue("@EmailAddress", EmailAddress);
+                string emailAddressEncrypt = EncryptionSHA256.sha256Encrypt(EmailAddress);
+                sqlCmd.CommandText = "SELECT Id FROM [dbo].[Credentials] WHERE EmailAddressEncrypt = @EmailAddress";
+                sqlCmd.Parameters.AddWithValue("@EmailAddress", emailAddressEncrypt);
                 sqlCmd.Connection = sqlCnn;
 
                 using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
@@ -215,14 +231,14 @@ namespace BetaCycle4.Logic
                     {
                         while (sqlReader.Read())
                         {
-                            id = Convert.ToInt16(sqlReader["CustomerId"]);
+                            id = Convert.ToInt32(sqlReader["Id"]);
                         }
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             {
@@ -255,9 +271,9 @@ namespace BetaCycle4.Logic
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             {
