@@ -38,8 +38,8 @@
                 <img src="assets/triste.png" alt="" width="100px">
             </div>
         </div>
-        <div data-aos="fade-up" *ngFor="let p of product " class="col-12 col-md-4 col-lg-3 d-flex justify-content-center my-3">
-            <div class="card cardHome d-flex justify-content-evenly ">
+        <div *ngFor="let p of product " class="col-12 col-md-4 col-lg-3 d-flex justify-content-center my-3">
+            <div class="card cardHome overflow-hidden d-flex justify-content-evenly ">
                 <div class="divImg d-flex flex-column justify-content-center align-items-center p-2">
                     <img class="imgCardHome" [src]="getDecodedImage(p.largeImage)" alt="">
                 </div>
