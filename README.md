@@ -1,0 +1,161 @@
+# Program Class
+
+**Purpose:** Serves as the entry point for the application.
+
+**Functionality:**
+- Configures dependency injection container, middleware, and application settings.
+- Starts the web application.
+
+**Services:**
+- Registers various services like `DbTracer`, `JwtSettings`, `EmailService`, and database context (`AdventureWorksLt2019Context`).
+
+**Additional Notes:**
+- Implements basic and JWT authentication.
+- Uses Swagger for API documentation.
+
+# HttpRequestService Class
+
+**Purpose:** Handles HTTP requests to interact with a backend server.
+
+**Functionality:**
+- Implements methods for user authentication, customer management, product management, and shopping cart operations.
+
+**Methods:**
+- Includes methods like `loginPostJwt`, `register`, `getCustomer`, `getProduct`, etc.
+- Each method corresponds to an HTTP endpoint on the backend server.
+
+**Dependencies:**
+- Relies on `HttpClient` for making HTTP requests and `AuthService` for authentication.
+
+
+# DbUtilityForCart Class
+
+**Purpose:** Manages database operations related to shopping cart functionality.
+
+**Functionality:**
+- Implements CRUD operations for shopping cart items.
+- Handles database connections and executes SQL commands.
+
+**Methods:**
+- Includes methods like `GetCartByCustomerId`, `AddProductToCart`, `BuyProductInYourCart`, etc.
+
+**Dependencies:**
+- Relies on `SqlConnection` and `SqlCommand` for database operations.
+
+# Customer and CustomerNew Classes
+
+**Purpose:** Represent customer data within the application.
+
+**Functionality:**
+- Store information about customers such as name, email, and contact details.
+- `CustomerNew` likely extends `Customer` with additional properties.
+
+**Properties:**
+- Include attributes like `CustomerId`, `Name`, `EmailAddress`, etc.
+
+**Associations:**
+- `Customer` class likely has associations with other entities like `CustomerAddress` and `SalesOrderHeader`.
+
+# CredentialDB Class
+
+**Purpose:** Represents user credentials stored in the database.
+
+**Functionality:**
+- Stores encrypted email addresses, hashed passwords, and password reset tokens.
+
+**Properties:**
+- Includes attributes like `EmailAddressEncrypt`, `PasswordHash`, `ResetPasswordToken`, etc.
+
+# LogError Class
+
+**Purpose:** Models errors that occur within the application.
+
+**Functionality:**
+- Captures details about errors such as error message, code, and location.
+
+**Properties:**
+- Includes attributes like `Id`, `ErrorMessage`, `ErrorCode`, `ErrorDate`, etc.
+
+
+# Controllers
+
+## CustomersController
+
+**Purpose:** Manages HTTP requests related to customers in the web API.
+
+**Functionality:**
+- Supports CRUD operations on customer data.
+- Implements endpoints for retrieving, creating, updating, and deleting customers.
+
+**Methods:**
+- Includes methods like `GetCustomers`, `GetCustomer`, `PostCustomer`, `PutCustomer`, `DeleteCustomer`, etc.
+
+**Security:**
+- Requires authorization for most methods.
+- Handles error handling for concurrency exceptions during updates.
+
+## CustomersNewController
+
+**Purpose:** Handles HTTP requests related to customer data in the web API.
+
+**Functionality:**
+- Provides endpoints for CRUD operations on a newer version of customer data.
+- Introduces functionality for sending password reset emails and resetting passwords.
+
+**Methods:**
+- Includes methods like `GetCustomerNews`, `GetCustomerNew`, `PostCustomerNew`, `PutCustomerNew`, `send-reset-email`, `reset-password`, etc.
+
+**Security:**
+- Requires authorization for most methods.
+- Implements password reset functionality securely.
+
+## LoginController
+
+**Purpose:** Manages login functionality for the web API.
+
+**Functionality:**
+- Validates user credentials and generates JWT tokens for successful logins.
+- Supports user accounts stored in multiple databases.
+
+**Methods:**
+- Includes methods like `Login`, `GenerateJwtToken`, `CheckEmailDbAWLT2019`, `CheckEmailDbCustomerCredentials`, etc.
+
+**Security:**
+- Implements basic and JWT authentication.
+- Handles error logging and response generation for login requests.
+
+
+# `DbUtility` Class Summary
+
+The `DbUtility` class is a utility for managing database operations using SQL Server. It handles the connection and SQL commands required to interact with the database. The main functionalities of this class include:
+
+## Credential Management
+- **Update Credential ID**: Updates the credential ID.
+- **Check Email Existence**: Checks if an email exists in the customer credential database.
+- **Retrieve Credentials**: Retrieves credentials using an encrypted email.
+- **Insert and Update Credentials**: Inserts and updates credential information in the database.
+- **Retrieve Password Hash and Salt**: Retrieves the password hash and salt for an encrypted email.
+- **Manage Password Reset Tokens**: Handles password reset tokens.
+
+# `DbUtilityForCart` Class Summary
+
+The `DbUtilityForCart` class is a utility for managing shopping cart operations using SQL Server. It handles the connection and SQL commands required to interact with the database. The main functionalities of this class include:
+
+## Constructor
+- **Initialize Connection**: Initializes the database connection using a connection string and checks the connection status.
+
+## Shopping Cart Management
+- **Get Cart by Customer ID**: Retrieves the products in the shopping cart for a given customer.
+- **Add Product to Cart**: Adds a product to the customer's shopping cart.
+- **Purchase Products in Cart**: Marks the products in the customer's cart as purchased.
+- **Delete Product from Cart**: Deletes a product from the customer's shopping cart.
+
+## Product Information
+- **Get Product Information**: Retrieves detailed information about a product using its ID.
+
+## Customer Information
+- **Select Customer ID**: Retrieves the customer ID using the encrypted email address.
+- **Select Address ID**: Retrieves the address ID associated with the customer ID.
+
+## Database Connection Management
+- **Check Database Open/Close**: Checks and manages the database connection state.
