@@ -185,3 +185,31 @@ The logic of the chatbot is found in `app.js`. The chatbot, named Yoghi, initial
 ## Connect to the Website
 We use Flask (`app.py`) to create our API. With `@app.get("/")`, we return our webpage's template, and with `@app.post("/predict")`, we predict the response to the question asked, based on the logic and training part.
 
+
+
+
+*RECOMMENDER SYSTEM
+
+**Data Pre-processing
+We are going to use a technique called colaborative filtering to generate recommendations for users. This technique is based on the premise that similar people like similar things.
+
+First we need to create the dataset, so we have generate 1000 rows with CustomerId, ProductId and a generic rate value from 0 to 5 `recommenderSystem.py`
+
+Then we transform our data into a user-item matrix, also known as a "utility" matrix. In this matrix, rows represent users and columns represent item bought. The beauty of collaborative filtering is that it doesn't require any information about the users or the item user to generate recommendations.
+
+The `create_X()` function outputs a sparse matrix $X$ with four mapper dictionaries:
+
+- **customer_mapper**: maps user id to user index
+- **product_mapper**: maps movie id to movie index
+- **customer_inv_mapper**: maps user index to user id
+- **product_inv_mapper**: maps movie index to movie id
+
+We need these dictionaries because they map which row/column of the utility matrix corresponds to which user/movie id.
+
+### Evaluating sparsity
+
+Here, we calculate sparsity by dividing the number of stored elements by total number of elements. The number of stored (non-empty) elements in our matrix ([nnz](https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.csr_matrix.nnz.html)) is equivalent to the number of ratings in our dataset.
+
+###Item-item Recommendations with k-Nearest Neighbors
+We are going to find the $k$ product that have the most similar user engagement vectors for product $i$.
+![Alt text](relative%20path/to/img.jpg?raw=true "Title")
