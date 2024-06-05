@@ -1,3 +1,4 @@
+using BetaCycle4.Logger;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
@@ -17,9 +18,11 @@ namespace BetaCycle4.Logic
             {
                 return Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
             }
-            catch (RegexMatchTimeoutException)
+            catch (RegexMatchTimeoutException ex)
             {
-                return false;
+                DbTracer dbTracer = new DbTracer();
+                dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
+                throw;
             }
         }
         //

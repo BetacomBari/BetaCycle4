@@ -1,3 +1,4 @@
+using BetaCycle4.Logger;
 using BetaCycle4.Logic;
 using BetaCycle4.Logic.Authentication.EncryptionWithSha256;
 using BetaCycle4.Logic.Register;
@@ -17,11 +18,13 @@ namespace BetaCycle4.Controllers
         DbUtility dbUtilityCredentials = new("Data Source=.\\SQLEXPRESS;Initial Catalog=CustomerCredentials;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
 
         private readonly AdventureWorksLt2019Context _context;
+        private readonly DbTracer _dbTracer;
         private readonly IConfiguration _config;
         private readonly IEmailService _emailService;
 
-        public CustomerRegisterController(AdventureWorksLt2019Context context)
+        public CustomerRegisterController(AdventureWorksLt2019Context context, DbTracer dbTracer)
         {
+            _dbTracer = dbTracer;
             _context = context;
         }
 
@@ -34,7 +37,7 @@ namespace BetaCycle4.Controllers
 
             try
             {
-                CustomersNewController customersNewController = new CustomersNewController(_context, _config, _emailService);
+                CustomersNewController customersNewController = new CustomersNewController(_context, _config, _emailService, _dbTracer);
 
                 #region VERIFICHE CAMPI
                 //VERIFY CUSTOMER NEW
@@ -212,7 +215,7 @@ namespace BetaCycle4.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
                 throw;
             }
         }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BetaCycle4.Models;
 using Microsoft.AspNetCore.Authorization;
+using BetaCycle4.Logger;
 
 namespace BetaCycle4.Controllers
 {
@@ -14,12 +15,14 @@ namespace BetaCycle4.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
+        private readonly DbTracer _dbTracer;
         private readonly AdventureWorksLt2019Context _context;
         private int lastId = 0;
 
-        public ProductsController(AdventureWorksLt2019Context context)
+        public ProductsController(AdventureWorksLt2019Context context, DbTracer dbTracer)
         {
             _context = context;
+            _dbTracer = dbTracer;
         }
 
         [Route("GetProductsByPage")]
@@ -84,7 +87,7 @@ namespace BetaCycle4.Controllers
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException ex)
             {
                 if (!ProductExists(id))
                 {
@@ -92,7 +95,7 @@ namespace BetaCycle4.Controllers
                 }
                 else
                 {
-                    throw;
+                    _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
                 }
             }
 

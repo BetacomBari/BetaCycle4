@@ -12,6 +12,7 @@ using System.Security.Cryptography;
 using BetaCycle4.Logic;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using Microsoft.AspNetCore.Authorization;
+using BetaCycle4.Logger;
 
 namespace BetaCycle4.Controllers
 {
@@ -20,14 +21,16 @@ namespace BetaCycle4.Controllers
     public class CustomersNewController : ControllerBase
     {
         private readonly AdventureWorksLt2019Context _context;
+        private readonly DbTracer _dbTracer;
         private readonly IConfiguration _config;
         private readonly IEmailService _emailService;
 
-        public CustomersNewController(AdventureWorksLt2019Context context, IConfiguration config, IEmailService emailService)
+        public CustomersNewController(AdventureWorksLt2019Context context, IConfiguration config, IEmailService emailService, DbTracer dbTracer)
         {
             _context = context;
             _config = config;
             _emailService = emailService;
+            _dbTracer = dbTracer;
         }
 
         // GET: api/CustomerNews
@@ -72,7 +75,7 @@ namespace BetaCycle4.Controllers
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException ex)
             {
                 if (!CustomerNewExists(id))
                 {
@@ -80,7 +83,7 @@ namespace BetaCycle4.Controllers
                 }
                 else
                 {
-                    throw;
+                    _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
                 }
             }
 

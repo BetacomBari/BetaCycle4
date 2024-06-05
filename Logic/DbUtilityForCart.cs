@@ -9,6 +9,7 @@ namespace BetaCycle4.Logic
 {
     public class DbUtilityForCart
     {
+        private DbTracer _dbTracer = new DbTracer();
         SqlConnection sqlCnn = new();
         SqlCommand sqlCmd = new();
         public bool IsDbStatusValid = false;
@@ -17,6 +18,7 @@ namespace BetaCycle4.Logic
         #region COSTRUTTORE SqlConnectionString DB
         public DbUtilityForCart(string sqlConnectionString)
         {
+
             sqlCnn.ConnectionString = sqlConnectionString;
             try
             {
@@ -29,10 +31,9 @@ namespace BetaCycle4.Logic
                 }
 
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                DbTracer error = new DbTracer();
-                error.InsertError(e.Message, e.HResult, e.StackTrace);
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             {
@@ -68,9 +69,9 @@ namespace BetaCycle4.Logic
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             {
@@ -97,7 +98,7 @@ namespace BetaCycle4.Logic
             }
             catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             {
@@ -122,7 +123,7 @@ namespace BetaCycle4.Logic
             }
             catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             {
@@ -147,7 +148,7 @@ namespace BetaCycle4.Logic
             }
             catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             {
@@ -183,9 +184,9 @@ namespace BetaCycle4.Logic
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             {
@@ -222,9 +223,9 @@ namespace BetaCycle4.Logic
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             {
@@ -257,9 +258,9 @@ namespace BetaCycle4.Logic
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             {

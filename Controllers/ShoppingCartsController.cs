@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using BetaCycle4.Models;
 using Microsoft.Data.SqlClient;
 using BetaCycle4.Logic;
+using BetaCycle4.Logger;
 
 namespace BetaCycle4.Controllers
 {
@@ -16,12 +17,14 @@ namespace BetaCycle4.Controllers
     public class ShoppingCartsController : ControllerBase
     {
         private readonly AdventureWorksLt2019Context _context;
+        private readonly DbTracer _dbTracer;
         DbUtilityForCart _cartUtility = new("Data Source=.\\SQLEXPRESS;Initial Catalog=AdventureWorksLT2019;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
         DbUtilityForCart _cartUtilityCredentials = new("Data Source=.\\SQLEXPRESS;Initial Catalog=CustomerCredentials;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
 
-        public ShoppingCartsController(AdventureWorksLt2019Context context)
+        public ShoppingCartsController(AdventureWorksLt2019Context context, DbTracer dbTracer)
         {
             _context = context;
+            _dbTracer = dbTracer;
         }
 
         // GET: api/ShoppingCarts
@@ -80,7 +83,7 @@ namespace BetaCycle4.Controllers
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException ex)
             {
                 if (!ShoppingCartExists(id))
                 {
@@ -88,7 +91,7 @@ namespace BetaCycle4.Controllers
                 }
                 else
                 {
-                    throw;
+                    _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
                 }
             }
 
