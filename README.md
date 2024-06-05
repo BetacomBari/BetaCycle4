@@ -212,4 +212,6 @@ Here, we calculate sparsity by dividing the number of stored elements by total n
 
 ###Item-item Recommendations with k-Nearest Neighbors
 We are going to find the $k$ product that have the most similar user engagement vectors for product $i$.
+
 ![Alt text](./sparse_matrix.png/to/img.jpg?raw=true "Sparse Matrix")
+
