@@ -26,6 +26,7 @@ export class HomeComponent {
   ngOnInit() {
     AOS.init();
 
+    console.log(localStorage.getItem("jwtToken"))
     this.getLast12Product()
     this.route.queryParams.subscribe(params => {
       this.successMessage = params['message'];

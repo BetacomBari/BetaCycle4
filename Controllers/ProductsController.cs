@@ -9,6 +9,7 @@ using BetaCycle4.Models;
 using Microsoft.AspNetCore.Authorization;
 using SqlManager.BLogic;
 using Microsoft.Data.SqlClient;
+using BetaCycle4.Logger;
 
 namespace BetaCycle4.Controllers
 {
@@ -16,15 +17,14 @@ namespace BetaCycle4.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-
-        DbUtility dbUtilityLT2019 = new("Data Source=.\\SQLEXPRESS;Initial Catalog=AdventureWorksLT2019;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
-
+        private readonly DbTracer _dbTracer;
         private readonly AdventureWorksLt2019Context _context;
         private int lastId = 0;
 
-        public ProductsController(AdventureWorksLt2019Context context)
+        public ProductsController(AdventureWorksLt2019Context context, DbTracer dbTracer)
         {
             _context = context;
+            _dbTracer = dbTracer;
         }
 
         //[HttpGet("category/{categoryId}")]
@@ -96,7 +96,7 @@ namespace BetaCycle4.Controllers
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException ex)
             {
                 if (!ProductExists(id))
                 {
@@ -104,7 +104,7 @@ namespace BetaCycle4.Controllers
                 }
                 else
                 {
-                    throw;
+                    _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
                 }
             }
 

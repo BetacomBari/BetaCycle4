@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using BetaCycle4.Models;
 using WebAca5CodeFirst.Logic.Autentication.Basic;
 using Microsoft.AspNetCore.Authorization;
+using BetaCycle4.Logger;
 
 namespace BetaCycle4.Controllers
 {
@@ -15,11 +16,13 @@ namespace BetaCycle4.Controllers
     [ApiController]
     public class CustomersController : ControllerBase
     {
+        private readonly DbTracer _dbTracer;
         private readonly AdventureWorksLt2019Context _context;
 
-        public CustomersController(AdventureWorksLt2019Context context)
+        public CustomersController(AdventureWorksLt2019Context context, DbTracer dbTracer)
         {
             _context = context;
+            _dbTracer = dbTracer;
         }
 
         // GET: api/Customers
@@ -62,7 +65,7 @@ namespace BetaCycle4.Controllers
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException ex)
             {
                 if (!CustomerExists(id))
                 {
@@ -70,7 +73,7 @@ namespace BetaCycle4.Controllers
                 }
                 else
                 {
-                    throw;
+                    _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
                 }
             }
 

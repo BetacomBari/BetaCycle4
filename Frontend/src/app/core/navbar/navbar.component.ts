@@ -19,6 +19,7 @@ import * as AOS from 'aos';
 
 export class NavbarComponent implements OnInit {
   imageUrl: string = "";
+  @Input() decodedEmail: string = '';
 
   constructor(public authStatus: AuthService, private router: Router) { }
   ngOnInit() {
@@ -36,7 +37,6 @@ export class NavbarComponent implements OnInit {
         });
       });
   }
-
   handleSignOut() {
     handleSignOut();
     localStorage.removeItem("jwtToken")

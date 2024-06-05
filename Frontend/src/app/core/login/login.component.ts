@@ -1,5 +1,5 @@
 import { HttpRequest, HttpStatusCode } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { HttprequestService } from '../services/httprequest.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
@@ -22,8 +22,10 @@ import { FooterComponent } from '../footer/footer.component';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
+
 export class LoginComponent {
 
+  @Output() sentEmail = new EventEmitter<string>();
   type: string = "password";
   isText: boolean = false;
   eyeIcon: string = "fa-eye-slash"
@@ -37,13 +39,16 @@ export class LoginComponent {
   loginCredentials: Credentials = new Credentials()
   errorMessage: string[] = []
   successMessage: string | null = null;
+  decodedToken?: { [key: string]: string };
+
+ 
 
   constructor(private http: HttprequestService, private resetService: ResetPasswordService, public authStatus: AuthService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       this.successMessage = params['message'];
-    });
+    }); 
   }
 
   login(email: HTMLInputElement, password: HTMLInputElement) {

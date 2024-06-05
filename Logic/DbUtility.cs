@@ -28,6 +28,7 @@ namespace SqlManager.BLogic
 {
     internal class DbUtility
     {
+        private DbTracer _dbTracer = new DbTracer();
         SqlConnection sqlCnn = new();
         SqlCommand sqlCmd = new();
         public bool IsDbStatusValid = false;
@@ -36,6 +37,7 @@ namespace SqlManager.BLogic
         #region COSTRUTTORE SqlConnectionString DB
         public DbUtility(string sqlConnectionString)
         {
+
             sqlCnn.ConnectionString = sqlConnectionString;
             try
             {
@@ -48,10 +50,9 @@ namespace SqlManager.BLogic
                 }
 
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                DbTracer error = new DbTracer();
-                error.InsertError(e.Message, e.HResult, e.StackTrace);
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             {
@@ -79,7 +80,7 @@ namespace SqlManager.BLogic
             }
             catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             { checkDbClose(); }
@@ -116,9 +117,9 @@ namespace SqlManager.BLogic
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             {
@@ -175,9 +176,9 @@ namespace SqlManager.BLogic
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             {
@@ -214,7 +215,7 @@ namespace SqlManager.BLogic
             }
             catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             { checkDbClose(); }
@@ -249,7 +250,7 @@ namespace SqlManager.BLogic
             }
             catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             { checkDbClose(); }
@@ -287,9 +288,9 @@ namespace SqlManager.BLogic
                 }
                 checkDbClose();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             {
@@ -323,7 +324,7 @@ namespace SqlManager.BLogic
             }
             catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             { checkDbClose(); }
@@ -351,7 +352,7 @@ namespace SqlManager.BLogic
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"ERRORE: {ex.Message}");
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
                 return update = 0;
             }
             finally
@@ -377,6 +378,7 @@ namespace SqlManager.BLogic
             }
             catch (Exception ex)
             {
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
                 Console.WriteLine($"ERRORE: {ex.Message}");
             }
             finally
@@ -411,9 +413,9 @@ namespace SqlManager.BLogic
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             {
@@ -448,9 +450,9 @@ namespace SqlManager.BLogic
                 }
 
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             {
@@ -483,9 +485,9 @@ namespace SqlManager.BLogic
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             {
@@ -518,9 +520,9 @@ namespace SqlManager.BLogic
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             {
@@ -554,6 +556,7 @@ namespace SqlManager.BLogic
             }
             catch (Exception ex)
             {
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
                 return addressInsert = 0;
                 throw;
             }
@@ -584,7 +587,7 @@ namespace SqlManager.BLogic
             }
             catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             { checkDbClose(); }
@@ -609,6 +612,7 @@ namespace SqlManager.BLogic
             }
             catch (Exception ex)
             {
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
                 Console.WriteLine($"ERRORE: {ex.Message}");
                 return delete = 0;
             }
@@ -635,6 +639,7 @@ namespace SqlManager.BLogic
             }
             catch (Exception ex)
             {
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
                 Console.WriteLine($"ERRORE: {ex.Message}");
                 return update = 0;
             }
@@ -911,9 +916,9 @@ namespace SqlManager.BLogic
                     }
                 }
             }
-            catch
+            catch(Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
 
 
@@ -967,9 +972,9 @@ namespace SqlManager.BLogic
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             {
@@ -1027,9 +1032,9 @@ namespace SqlManager.BLogic
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             {

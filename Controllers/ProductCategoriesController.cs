@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BetaCycle4.Models;
 using SqlManager.BLogic;
+using BetaCycle4.Logger;
 
 namespace BetaCycle4.Controllers
 {
@@ -14,13 +15,15 @@ namespace BetaCycle4.Controllers
     [ApiController]
     public class ProductCategoriesController : ControllerBase
     {
+        private readonly DbTracer _dbTracer;
         private readonly AdventureWorksLt2019Context _context;
 
         DbUtility dbUtilityLT2019 = new("Data Source=.\\SQLEXPRESS;Initial Catalog=AdventureWorksLT2019;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
 
-        public ProductCategoriesController(AdventureWorksLt2019Context context)
+        public ProductCategoriesController(AdventureWorksLt2019Context context, DbTracer dbTracer)
         {
             _context = context;
+            _dbTracer = dbTracer;
         }
 
         // GET: api/ProductCategories
@@ -58,21 +61,21 @@ namespace BetaCycle4.Controllers
 
         //    _context.Entry(productCategory).State = EntityState.Modified;
 
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!ProductCategoryExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
+            //try
+            //{
+            //    await _context.SaveChangesAsync();
+            //}
+            //catch (DbUpdateConcurrencyException ex)
+            //{
+            //    if (!ProductCategoryExists(id))
+            //    {
+            //        return NotFound();
+            //    }
+            //    else
+            //    {
+            //        _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
+            //    }
+            //}
 
         //    return NoContent();
         //}
