@@ -1,6 +1,7 @@
 ﻿using BetaCycle4.Logger;
 using BetaCycle4.Logic.Authentication.EncryptionWithSha256;
 using BetaCycle4.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Data.SqlClient;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using System.Net.Mail;
@@ -178,7 +179,7 @@ namespace BetaCycle4.Logic
                             product.Name = sqlReader["Name"].ToString();
                             product.Color = sqlReader["Color"].ToString();
                             product.Size = sqlReader["Size"].ToString();
-
+                            product.ListPrice = Convert.ToDecimal(sqlReader["ListPrice"]);
 
                         }
                     }
@@ -198,7 +199,19 @@ namespace BetaCycle4.Logic
 
         #endregion
 
+        internal void CreateOrder(List<int> productsToSell)
+        {
+            List<Product> products = new();
 
+            //Devo ricercare i prodotti da aggiungere al carrello prima
+            foreach(int productId in productsToSell)
+            {
+                Product singleProduct = new Product();
+                singleProduct = GetProductInfo(productId);
+                if (singleProduct != null) products.Add(singleProduct);
+                else break;
+            }
+        }
 
         #region SelectID By curtomerNew
         internal int SelectIdCustomerNew(string EmailAddress)

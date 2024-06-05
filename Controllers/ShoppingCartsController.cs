@@ -112,6 +112,7 @@ namespace BetaCycle4.Controllers
         [HttpPut("{shoppingCart}/1")]
         public async Task<IActionResult> BuyingCompleted(List<int> shoppingCartIds)
         {
+            List<int> productsToPass = new();
             foreach(int productId in shoppingCartIds){
                var productToModify = await _context.ShoppingCart.FindAsync(productId);
                 if (productToModify != null)
@@ -119,9 +120,11 @@ namespace BetaCycle4.Controllers
                     productToModify.IsCompleted = true;
                     _context.Update(productToModify);
                     _context.SaveChangesAsync();
+                    productsToPass.Add(productId);
                 }
                 else return NotFound(); 
             }
+            _cartUtility.CreateOrder(productsToPass);
             return Ok();
         }
 
