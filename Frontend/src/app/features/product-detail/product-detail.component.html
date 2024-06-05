@@ -1,2 +1,23 @@
 <app-navbar></app-navbar>
+
+
+<div class="container my-5">
+    <div class="row mt-5 vh-60">
+      <div class="col-12 col-lg-6 d-flex justify-content-center align-items-center ">
+        <img [src]="getDecodedImage(product.largeImage)" alt="" class="product-image">
+      </div>
+      <div class="col-12 col-lg-6 vh-60  d-flex flex-column justify-content-center px-3">
+        <h1 class="product-title ">{{ product.name }}</h1>
+        <p class="product-cat mb-0">CATEGORIA: {{ product.category }} </p>
+        <p class="product-description m-0 mt-2">Size: {{ product.size }}</p>
+        <p class="product-description ">Colore: {{ product.color }}</p>
+        <p class="product-description ">{{ product.description }}</p>
+        <p class="product-price ">{{ product.listPrice }} €</p>
+        <button class="btn btndetail mt-3 ms-auto">Aggiungi al Carrello</button>
+      </div>
+    </div>
+  </div>
+  
+
+
 <app-footer></app-footer>
