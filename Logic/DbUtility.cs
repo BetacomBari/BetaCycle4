@@ -825,7 +825,7 @@ namespace SqlManager.BLogic
             try
             {
                 checkDbOpen();
-                sqlCmd.CommandText = "SELECT pr.[ProductID], pr.[Name], pr.[color], pr.[ListPrice], pr.[size], pr.[LargeImage], de.[Description], ca.[Name] as category, model.[Name] as model FROM [SalesLT].[Product] as pr INNER JOIN [SalesLT].[ProductModelProductDescription] as moDe ON moDe.ProductModelID = pr.ProductModelID INNER JOIN [SalesLT].ProductModel as model ON model.ProductModelID = pr.ProductModelID INNER JOIN  [SalesLT].[ProductDescription] as de ON de.ProductDescriptionID = moDe.ProductDescriptionID INNER JOIN [SalesLT].[ProductCategory] as ca ON ca.ProductCategoryID = pr.ProductCategoryID where moDe.Culture = 'en'\r\n";
+                sqlCmd.CommandText = "SELECT pr.[ProductID], pr.[Name], pr.[color], pr.[ListPrice], pr.[size], pr.[LargeImage], de.[Description], ca.[Name] as category, model.[Name] as model FROM [SalesLT].[Product] as pr INNER JOIN [SalesLT].[ProductModelProductDescription] as moDe ON moDe.ProductModelID = pr.ProductModelID INNER JOIN [SalesLT].ProductModel as model ON model.ProductModelID = pr.ProductModelID INNER JOIN  [SalesLT].[ProductDescription] as de ON de.ProductDescriptionID = moDe.ProductDescriptionID INNER JOIN [SalesLT].[ProductCategory] as ca ON ca.ProductCategoryID = pr.ProductCategoryID where moDe.Culture = 'en";
                 sqlCmd.Connection = sqlCnn;
 
                 using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
@@ -873,6 +873,62 @@ namespace SqlManager.BLogic
         }
         #endregion
 
+        #region GetProductsByPage
+        internal List<ProductC> GetProductsByPage(int offset)
+        {
+            List<ProductC > products = new();
+            try
+            {
+                checkDbOpen();
+                sqlCmd.CommandText = "SELECT pr.[ProductID], pr.[Name], pr.[color], pr.[ListPrice], pr.[size], pr.[LargeImage], de.[Description], ca.[Name] as category, model.[Name] as model FROM [SalesLT].[Product] as pr INNER JOIN [SalesLT].[ProductModelProductDescription] as moDe ON moDe.ProductModelID = pr.ProductModelID INNER JOIN [SalesLT].ProductModel as model ON model.ProductModelID = pr.ProductModelID INNER JOIN  [SalesLT].[ProductDescription] as de ON de.ProductDescriptionID = moDe.ProductDescriptionID INNER JOIN [SalesLT].[ProductCategory] as ca ON ca.ProductCategoryID = pr.ProductCategoryID where moDe.Culture = 'en' ORDER BY pr.[ProductID] OFFSET @offset ROWS FETCH NEXT 30 ROWS ONLY;";
+                sqlCmd.Parameters.AddWithValue("@offset", offset);
+                sqlCmd.Connection = sqlCnn;
+
+                using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
+                {
+                    if (sqlReader.HasRows)
+                    {
+                        while (sqlReader.Read())
+                        {
+                            ProductC productComplete = new();
+                            productComplete.ProductID = Convert.ToInt16(sqlReader["ProductID"]);
+                            productComplete.Name = sqlReader["Name"].ToString();
+                            productComplete.color = sqlReader["color"].ToString();
+                            productComplete.ListPrice = Convert.ToDecimal(sqlReader["ListPrice"]);
+                            productComplete.size = sqlReader["size"].ToString();
+
+                            if (!sqlReader.IsDBNull(sqlReader.GetOrdinal("LargeImage")))
+                            {
+                                byte[] largeImageBytes = (byte[])sqlReader["LargeImage"];
+                                productComplete.LargeImage = Convert.ToBase64String(largeImageBytes);
+                            }
+                            else
+                            {
+                                productComplete.LargeImage = null;
+                            }
+
+                            productComplete.Description = sqlReader["Description"].ToString();
+                            productComplete.category = sqlReader["category"].ToString();
+                            productComplete.model = sqlReader["model"].ToString();
+
+                            products.Add(productComplete);
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
+            }
+            finally
+            {
+                checkDbClose();
+            }
+
+            return products;
+        }
+        #endregion
 
 
         internal List<ProductCategory> getAllCategories()

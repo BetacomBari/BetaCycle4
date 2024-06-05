@@ -46,7 +46,7 @@ namespace BetaCycle4.Controllers
         //        .ToListAsync();
         //}
 
-        [Route("GetProductsByPage")]
+        [Route("GetLast12Products")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProductsByPage()
         {

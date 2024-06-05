@@ -8,7 +8,8 @@
     </div>
     <ul>
 
-        <li *ngFor="let c of category"><a class="pointer" (click)="getProductByCategory(c.productCategoryId)">{{c.name}}</a></li>
+        <li *ngFor="let c of category"><a class="pointer"
+                (click)="getProductByCategory(c.productCategoryId)">{{c.name}}</a></li>
 
     </ul>
 </div>
@@ -57,4 +58,26 @@
 
     </div>
 </section>
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-5 d-flex justify-content-center">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li *ngIf="offset != 0" class="page-item">
+                        <button (click)="getproductmeno30()" class="page-link text-black"
+                            aria-label="Previous">
+                            << Precedenti </button>
+                    </li>
+                    <li *ngIf="offset < maxOffset " class="page-item">
+                        <button (click)="getproductpiu30()" class="page-link text-black" aria-label="Next">
+                            Successivi >>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
 <app-footer></app-footer>

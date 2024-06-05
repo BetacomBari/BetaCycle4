@@ -41,3 +41,7 @@
     color: #3175a2;
     border: 2px solid ;
   }
+  
+  .borderdetail{
+    border-left: 2px solid #46a7e9;
+  }

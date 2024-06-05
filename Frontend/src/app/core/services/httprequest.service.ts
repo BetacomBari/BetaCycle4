@@ -52,6 +52,10 @@ export class HttprequestService {
     return this.http.get(`https://localhost:7165/ProductComplete`)
   }
 
+  getProductsByPage(offset: number): Observable<any> {
+    return this.http.get(`https://localhost:7165/ProductComplete/GetProductsByPage/${offset}`)
+  }
+
   getProductByCategory(categoryId:number): Observable<any> {
     return this.http.get(`https://localhost:7165/ProductComplete/category/${categoryId}`)
   }
@@ -61,7 +65,7 @@ export class HttprequestService {
   }
 
   getLast12Product(): Observable<any> {
-    return this.http.get(`https://localhost:7165/api/Products/GetProductsByPage`)
+    return this.http.get(`https://localhost:7165/api/Products/GetLast12Products`)
   }
 
   getProductByID(productId:number): Observable<any> {

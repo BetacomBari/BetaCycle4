@@ -38,6 +38,11 @@ namespace BetaCycle4.Controllers
 
         }
 
+        [HttpGet("GetProductsByPage/{offset}")]
+        public List<ProductC> GetProductsByPage(int offset)
+        {
 
+            return dbUtilityLT2019.GetProductsByPage(offset);
+        }
     }
 }

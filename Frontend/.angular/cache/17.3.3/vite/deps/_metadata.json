@@ -1,56 +1,56 @@
 {
-  "hash": "4f8b9c66",
-  "configHash": "e91a57c4",
-  "lockfileHash": "08ac92f9",
-  "browserHash": "c1cc7a39",
+  "hash": "8ed290e0",
+  "configHash": "fff8bc67",
+  "lockfileHash": "d03da76a",
+  "browserHash": "aebf4802",
   "optimized": {
     "@angular/common": {
       "src": "../../../../../node_modules/@angular/common/fesm2022/common.mjs",
       "file": "@angular_common.js",
-      "fileHash": "8850a63c",
+      "fileHash": "8fd262dc",
       "needsInterop": false
     },
     "@angular/common/http": {
       "src": "../../../../../node_modules/@angular/common/fesm2022/http.mjs",
       "file": "@angular_common_http.js",
-      "fileHash": "f1a24810",
+      "fileHash": "b899e1db",
       "needsInterop": false
     },
     "@angular/core": {
       "src": "../../../../../node_modules/@angular/core/fesm2022/core.mjs",
       "file": "@angular_core.js",
-      "fileHash": "44fbf787",
+      "fileHash": "dd5ac291",
       "needsInterop": false
     },
     "@angular/forms": {
       "src": "../../../../../node_modules/@angular/forms/fesm2022/forms.mjs",
       "file": "@angular_forms.js",
-      "fileHash": "e58eef3f",
+      "fileHash": "5dd8349b",
       "needsInterop": false
     },
     "@angular/platform-browser": {
       "src": "../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
       "file": "@angular_platform-browser.js",
-      "fileHash": "cacbc2ae",
+      "fileHash": "6bed2c11",
       "needsInterop": false
     },
     "@angular/router": {
       "src": "../../../../../node_modules/@angular/router/fesm2022/router.mjs",
       "file": "@angular_router.js",
-      "fileHash": "60ad0f64",
-      "needsInterop": false
-    },
-    "swiper/element/bundle": {
-      "src": "../../../../../node_modules/swiper/swiper-element-bundle.mjs",
-      "file": "swiper_element_bundle.js",
-      "fileHash": "2dc68d4c",
+      "fileHash": "bb5649eb",
       "needsInterop": false
     },
     "aos": {
       "src": "../../../../../node_modules/aos/dist/aos.js",
       "file": "aos.js",
-      "fileHash": "8ce44ff7",
+      "fileHash": "92bd4b0b",
       "needsInterop": true
+    },
+    "swiper/element/bundle": {
+      "src": "../../../../../node_modules/swiper/swiper-element-bundle.mjs",
+      "file": "swiper_element_bundle.js",
+      "fileHash": "1a0fc415",
+      "needsInterop": false
     }
   },
   "chunks": {
