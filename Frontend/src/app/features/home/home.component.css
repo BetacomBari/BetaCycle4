@@ -168,3 +168,87 @@ swiper-slide img {
   display: block;
   width: 100%;
 }
+
+
+/*! cardHome */
+
+.altezzacarosello{
+    height: 370px !important;
+
+}
+
+.cardHome{
+    border: 1px solid #587a80;
+    border-radius: 0;
+    transition: .5s;
+
+}
+
+.cardHome:hover{
+    transition: .5s;
+    border: 1px solid #2e4042;
+
+}
+
+.containerCarosello{
+    background-position:80%;
+    background-repeat: no-repeat;
+}
+
+
+.divImg{
+    width: 100%;
+    height: 180px;
+}
+
+.titleCard{
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size:x-large;
+    font-weight: 600;
+    color: #587a80;
+
+}
+
+.titleCard2{
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size:large;
+    font-weight: 550;
+    color: #19B0CE;
+
+}
+
+
+.menu-button3{
+    transition: .3s;
+    cursor: pointer;
+    background-color: #ffffff;
+    color: #435c61;
+    border: 2px solid #435c61;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .menu-button3:hover {
+    transition: .3s;
+    background-color: #435c61;
+    color: rgb(255, 255, 255);
+  }
+
+  .cardHome {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .cardHome:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  .cardHome:hover .divImg img {
+    transform: scale(1.1);
+  }
+  
+  .divImg img {
+    transition: transform 0.3s ease;
+  }
+
+  
+  

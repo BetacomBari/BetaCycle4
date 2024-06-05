@@ -1,52 +1,60 @@
 <app-navbar></app-navbar>
 <router-outlet></router-outlet>
 
-<!--! get 1 -->
-<div class="container border border-2 rounded border-danger my-5">
-    <div class="row">
-        <div class="col-12">
-            <h1 class="title text-center mt-4">VISUALIZZA PRODUCT</h1>
-        </div>
-        <div class="col-12 d-flex justify-content-center my-4">
-            <button class="btn btn-warning bgYellow me-4 text-danger" (click)="getProduct()">Mostra</button>
-        </div>
-        <div *ngFor="let p of product " class="col-4 d-flex justify-content-center my-3">
-            <div class="card cardStyle" style="width: 300px; height: 130px;">
-                <div class="card-body">
-                    <h6 class="card-subtitle mb-2 text-body-secondary text-warning">ID: {{p.productId}}</h6>
-                    <img [src]="getDecodedImage(p.largeImage)" alt="" width="300px">
-
-                    <h5 class="card-title text-danger">NOME COMPLETO: </h5>
-                    <h5 class="card-title text-danger">{{p.name}} PREZZO: {{p.listPrice}}</h5>
-
-                    <p class="card-text"></p>
-                </div>
-            </div>
-        </div>
+<div id="menu" class="menu" [class.open]="isOpen">
+    <div class="d-flex justify-content-end m-2">
+        <h5 class="me-auto text-white">Categorie</h5>
+        <a (click)="toggleMenu()" class="text-end pointer"><i class="bi bi-x-circle-fill text-white"></i></a>
     </div>
+    <ul>
+
+        <li *ngFor="let c of category"><a class="pointer" (click)="getProductByCategory(c.productCategoryId)">{{c.name}}</a></li>
+
+    </ul>
 </div>
 
-<!--! get ID -->
-<div class="container border border-2 rounded border-danger my-5">
-    <div class="row">
-        <div class="col-12">
-            <h1 class="title text-center mt-4">VISUALIZZA PRODUCT BY ID</h1>
-        </div>
-        <div class="col-12 d-flex justify-content-center my-4">
-            <input class="form-control border-2 border-danger w-25" placeholder="Inserisci l'id" type="number" #id>
-            <button class="btn btn-warning bgYellow me-4 text-danger" (click)="getProductById(id)">Mostra</button>
-        </div>
-        <div *ngIf="productById" class="col-4 d-flex justify-content-center my-3">
-            <div class="card cardStyle" style="width: 300px; height: 130px;">
-                <div class="card-body">
-                    <h6 class="card-subtitle mb-2 text-body-secondary text-warning">ID: {{productById.productId}}</h6>
+<button (click)="toggleMenu()" class="menu-button fs-5 z-2">Categorie</button>
+<a href="/product" class="menu-button2 fs-5 text-decoration-none z-2">Tutti gli articoli</a>
 
-                    <h5 class="card-title text-danger">NOME COMPLETO: </h5>
-                    <h5 class="card-title text-danger">{{productById.name}} PREZZO: {{productById.listPrice}}</h5>
 
-                    <p class="card-text"></p>
-                </div>
-            </div>
+
+
+
+<section class="container-fluid mt-5 fixed-top z-1">
+    <div class="row bg-white borderTitle">
+        <div class="col-12 my-3 mt-md-4 mb-md-1">
+            <h1 class="text-center title fs-1 mb-0">I NOSTRI PRODOTTI</h1>
         </div>
     </div>
-</div>
+</section>
+
+<section class="container containerCard z-0">
+    <div class="row justify-content-venly">
+        <div *ngIf="product.length == 0" class="vh-70 d-flex flex-column justify-content-center">
+            <div>
+                <h2 class="text-center title">NESSUN ARTICOLO TROVATO</h2>
+            </div>
+            <div class="d-flex justify-content-center ">
+                <img src="assets/triste.png" alt="" width="100px">
+            </div>
+        </div>
+        <div *ngFor="let p of product " class="col-12 col-md-4 col-lg-3 d-flex justify-content-center my-3">
+            <div class="card cardHome overflow-hidden d-flex justify-content-evenly ">
+                <div class="divImg d-flex flex-column justify-content-center align-items-center p-2">
+                    <img class="imgCardHome" [src]="getDecodedImage(p.largeImage)" alt="">
+                </div>
+                <h5 class="card-title ms-3 titleCard text-truncate">{{p.name}}</h5>
+                <h6 class="card-title ms-3 titleCard fw-bold ">{{p.category}}</h6>
+                <div class="d-flex">
+                    <h5 class="card-title text-end ms-3 mb-0 titleCard2 pt-2"> {{p.listPrice}} €</h5>
+                    <button class="ms-auto me-4 p-0  btnCart"><i class="bi bi-cart-plus cart fs-4"></i></button>
+                </div>
+                <button (click)="goDetail(p.productID)" class=" p-0 mx-3 menu-button3">Dettaglio</button>
+
+                <p class="card-text"></p>
+            </div>
+        </div>
+
+    </div>
+</section>
+<app-footer></app-footer>

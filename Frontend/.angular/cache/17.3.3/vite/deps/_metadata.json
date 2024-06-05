@@ -45,23 +45,29 @@
       "file": "swiper_element_bundle.js",
       "fileHash": "2dc68d4c",
       "needsInterop": false
+    },
+    "aos": {
+      "src": "../../../../../node_modules/aos/dist/aos.js",
+      "file": "aos.js",
+      "fileHash": "8ce44ff7",
+      "needsInterop": true
     }
   },
   "chunks": {
-    "chunk-4DVLBDCM": {
-      "file": "chunk-4DVLBDCM.js"
+    "chunk-2ZUTQJTS": {
+      "file": "chunk-2ZUTQJTS.js"
     },
-    "chunk-EM2UWXFF": {
-      "file": "chunk-EM2UWXFF.js"
+    "chunk-QVYNNXAE": {
+      "file": "chunk-QVYNNXAE.js"
     },
-    "chunk-XZG52OV6": {
-      "file": "chunk-XZG52OV6.js"
+    "chunk-G3QHPO5O": {
+      "file": "chunk-G3QHPO5O.js"
     },
-    "chunk-WETU6YCY": {
-      "file": "chunk-WETU6YCY.js"
+    "chunk-2I3ZEVRS": {
+      "file": "chunk-2I3ZEVRS.js"
     },
-    "chunk-J4B6MK7R": {
-      "file": "chunk-J4B6MK7R.js"
+    "chunk-WKYGNSYM": {
+      "file": "chunk-WKYGNSYM.js"
     }
   }
 }

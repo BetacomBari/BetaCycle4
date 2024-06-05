@@ -650,6 +650,230 @@ namespace SqlManager.BLogic
         }
         #endregion
 
+        #region GetProductsByCategoryId
+        internal List<ProductC> GetProductsByCategoryId(int categoryId)
+        {
+            List<ProductC> products = new List<ProductC>();
+            try
+            {
+                checkDbOpen();
+                sqlCmd.CommandText = "SELECT pr.[ProductID], pr.[Name], pr.[color], pr.[ListPrice], pr.[size], pr.[LargeImage], de.[Description], ca.[Name] as category, model.[Name] as model FROM [SalesLT].[Product] as pr INNER JOIN [SalesLT].[ProductModelProductDescription] as moDe ON moDe.ProductModelID = pr.ProductModelID INNER JOIN [SalesLT].ProductModel as model ON model.ProductModelID = pr.ProductModelID INNER JOIN  [SalesLT].[ProductDescription] as de ON de.ProductDescriptionID = moDe.ProductDescriptionID INNER JOIN [SalesLT].[ProductCategory] as ca ON ca.ProductCategoryID = pr.ProductCategoryID where (moDe.Culture = 'en') and (@productId = ca.ProductCategoryID)";
+                sqlCmd.Parameters.AddWithValue("@productId", categoryId);
+                sqlCmd.Connection = sqlCnn;
+
+                using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
+                {
+                    if (sqlReader.HasRows)
+                    {
+                        while (sqlReader.Read())
+                        {
+                            ProductC productComplete = new();
+                            productComplete.ProductID = Convert.ToInt16(sqlReader["ProductID"]);
+                            productComplete.Name = sqlReader["Name"].ToString();
+                            productComplete.color = sqlReader["color"].ToString();
+                            productComplete.ListPrice = Convert.ToDecimal(sqlReader["ListPrice"]);
+                            productComplete.size = sqlReader["size"].ToString();
+
+                            if (!sqlReader.IsDBNull(sqlReader.GetOrdinal("LargeImage")))
+                            {
+                                byte[] largeImageBytes = (byte[])sqlReader["LargeImage"];
+                                productComplete.LargeImage = Convert.ToBase64String(largeImageBytes);
+                            }
+                            else
+                            {
+                                productComplete.LargeImage = null; 
+                            }
+
+                            productComplete.Description = sqlReader["Description"].ToString();
+                            productComplete.category = sqlReader["category"].ToString();
+                            productComplete.model = sqlReader["model"].ToString();
+
+                            products.Add(productComplete);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            finally
+            {
+                checkDbClose();
+            }
+
+            return products;
+        }
+        #endregion
+
+        #region GetProductsByName
+        internal List<ProductC> GetProductsByName(string name)
+        {
+            List<ProductC> products = new List<ProductC>();
+            try
+            {
+                checkDbOpen();
+                sqlCmd.CommandText = "SELECT pr.[ProductID], pr.[Name], pr.[color], pr.[ListPrice], pr.[size], pr.[LargeImage], de.[Description], ca.[Name] as category, model.[Name] as model FROM [SalesLT].[Product] as pr INNER JOIN [SalesLT].[ProductModelProductDescription] as moDe ON moDe.ProductModelID = pr.ProductModelID INNER JOIN [SalesLT].ProductModel as model ON model.ProductModelID = pr.ProductModelID INNER JOIN  [SalesLT].[ProductDescription] as de ON de.ProductDescriptionID = moDe.ProductDescriptionID INNER JOIN [SalesLT].[ProductCategory] as ca ON ca.ProductCategoryID = pr.ProductCategoryID where (moDe.Culture = 'en') and (pr.Name  like  '%' + @productId + '%')";
+                sqlCmd.Parameters.AddWithValue("@productId",  name );
+                sqlCmd.Connection = sqlCnn;
+
+                using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
+                {
+                    if (sqlReader.HasRows)
+                    {
+                        while (sqlReader.Read())
+                        {
+                            ProductC productComplete = new();
+                            productComplete.ProductID = Convert.ToInt16(sqlReader["ProductID"]);
+                            productComplete.Name = sqlReader["Name"].ToString();
+                            productComplete.color = sqlReader["color"].ToString();
+                            productComplete.ListPrice = Convert.ToDecimal(sqlReader["ListPrice"]);
+                            productComplete.size = sqlReader["size"].ToString();
+
+                            if (!sqlReader.IsDBNull(sqlReader.GetOrdinal("LargeImage")))
+                            {
+                                byte[] largeImageBytes = (byte[])sqlReader["LargeImage"];
+                                productComplete.LargeImage = Convert.ToBase64String(largeImageBytes);
+                            }
+                            else
+                            {
+                                productComplete.LargeImage = null;
+                            }
+
+                            productComplete.Description = sqlReader["Description"].ToString();
+                            productComplete.category = sqlReader["category"].ToString();
+                            productComplete.model = sqlReader["model"].ToString();
+
+                            products.Add(productComplete);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            finally
+            {
+                checkDbClose();
+            }
+
+            return products;
+        }
+        #endregion
+
+        #region GetProductForDetail
+        internal ProductC GetProductForDetail(int productId)
+        {
+            ProductC productComplete = new();
+            try
+            {
+                checkDbOpen();
+                sqlCmd.CommandText = "SELECT pr.[ProductID], pr.[Name], pr.[color], pr.[ListPrice], pr.[size], pr.[LargeImage], de.[Description], ca.[Name] as category, model.[Name] as model FROM [SalesLT].[Product] as pr INNER JOIN [SalesLT].[ProductModelProductDescription] as moDe ON moDe.ProductModelID = pr.ProductModelID INNER JOIN [SalesLT].ProductModel as model ON model.ProductModelID = pr.ProductModelID INNER JOIN  [SalesLT].[ProductDescription] as de ON de.ProductDescriptionID = moDe.ProductDescriptionID INNER JOIN [SalesLT].[ProductCategory] as ca ON ca.ProductCategoryID = pr.ProductCategoryID where (moDe.Culture = 'en') and (pr.ProductID = @productId)";
+                sqlCmd.Parameters.AddWithValue("@productId", productId);
+                sqlCmd.Connection = sqlCnn;
+
+                using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
+                {
+                    if (sqlReader.HasRows)
+                    {
+                        while (sqlReader.Read())
+                        {
+
+                            productComplete.ProductID = Convert.ToInt16(sqlReader["ProductID"]);
+                            productComplete.Name = sqlReader["Name"].ToString();
+                            productComplete.color = sqlReader["color"].ToString();
+                            productComplete.ListPrice = Convert.ToDecimal(sqlReader["ListPrice"]);
+                            productComplete.size = sqlReader["size"].ToString();
+
+                            if (!sqlReader.IsDBNull(sqlReader.GetOrdinal("LargeImage")))
+                            {
+                                byte[] largeImageBytes = (byte[])sqlReader["LargeImage"];
+                                productComplete.LargeImage = Convert.ToBase64String(largeImageBytes);
+                            }
+                            else
+                            {
+                                productComplete.LargeImage = null;
+                            }
+
+                            productComplete.Description = sqlReader["Description"].ToString();
+                            productComplete.category = sqlReader["category"].ToString();
+                            productComplete.model = sqlReader["model"].ToString();
+
+                            
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            finally
+            {
+                checkDbClose();
+            }
+
+            return productComplete;
+        }
+        #endregion
+
+        #region GetProductComplete
+        internal List<ProductC> GetProductComplete()
+        {
+            List<ProductC> products = new List<ProductC>();
+            try
+            {
+                checkDbOpen();
+                sqlCmd.CommandText = "SELECT pr.[ProductID], pr.[Name], pr.[color], pr.[ListPrice], pr.[size], pr.[LargeImage], de.[Description], ca.[Name] as category, model.[Name] as model FROM [SalesLT].[Product] as pr INNER JOIN [SalesLT].[ProductModelProductDescription] as moDe ON moDe.ProductModelID = pr.ProductModelID INNER JOIN [SalesLT].ProductModel as model ON model.ProductModelID = pr.ProductModelID INNER JOIN  [SalesLT].[ProductDescription] as de ON de.ProductDescriptionID = moDe.ProductDescriptionID INNER JOIN [SalesLT].[ProductCategory] as ca ON ca.ProductCategoryID = pr.ProductCategoryID where moDe.Culture = 'en'\r\n";
+                sqlCmd.Connection = sqlCnn;
+
+                using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
+                {
+                    if (sqlReader.HasRows)
+                    {
+                        while (sqlReader.Read())
+                        {
+                            ProductC productComplete = new();
+                            productComplete.ProductID = Convert.ToInt16(sqlReader["ProductID"]);
+                            productComplete.Name = sqlReader["Name"].ToString();
+                            productComplete.color = sqlReader["color"].ToString();
+                            productComplete.ListPrice = Convert.ToDecimal(sqlReader["ListPrice"]);
+                            productComplete.size = sqlReader["size"].ToString();
+
+                            if (!sqlReader.IsDBNull(sqlReader.GetOrdinal("LargeImage")))
+                            {
+                                byte[] largeImageBytes = (byte[])sqlReader["LargeImage"];
+                                productComplete.LargeImage = Convert.ToBase64String(largeImageBytes);
+                            }
+                            else
+                            {
+                                productComplete.LargeImage = null;
+                            }
+
+                            productComplete.Description = sqlReader["Description"].ToString();
+                            productComplete.category = sqlReader["category"].ToString();
+                            productComplete.model = sqlReader["model"].ToString();
+
+                            products.Add(productComplete);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            finally
+            {
+                checkDbClose();
+            }
+
+            return products;
+        }
+        #endregion
+
+
 
         internal List<ProductCategory> getAllCategories()
         {
@@ -702,24 +926,24 @@ namespace SqlManager.BLogic
             return allCategories;
         }
 
-        internal List<Product> getAllProductFromCategoryId(string categoryId)
+        internal List<Product> getAllProductFromCategoryId(int categoryId)
         {
             List<Product> allProductsByCategoryId = new();
             try
             {
                 checkDbOpen();
 
-                sqlCmd.CommandText = "SELECT * FROM [AdventureWorksLT2019].[SalesLT].[Product] WHERE [ProductCategoryID] = @categoryId";
-                sqlCmd.Parameters.AddWithValue("@categoryId", categoryId);
+                sqlCmd.CommandText = "SELECT * FROM [AdventureWorksLT2019].[SalesLT].[Product] WHERE [ProductCategoryID] = @productId";
+                sqlCmd.Parameters.AddWithValue("@productId", categoryId);
                 sqlCmd.Connection = sqlCnn;
 
                 using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
                 {
                     if (sqlReader.HasRows)
                     {
-                        Product product = new Product();
                         while (sqlReader.Read())
                         {
+                        Product product = new Product();
                             product.ProductId = Convert.ToInt16(sqlReader["ProductId"]);
                             product.Name = sqlReader["Name"].ToString();
                             product.ProductNumber = sqlReader["ProductNumber"].ToString();
@@ -727,25 +951,24 @@ namespace SqlManager.BLogic
                             product.StandardCost = Convert.ToInt16(sqlReader["StandardCost"]);
                             product.ListPrice = Convert.ToInt16(sqlReader["ListPrice"]);
                             product.Size = sqlReader["Size"].ToString();
-                            product.Weight = Convert.ToDecimal(sqlReader["Weight"]);
+                            //product.Weight = Convert.ToDecimal(sqlReader["Weight"]);
                             product.ProductCategoryId = Convert.ToInt16(sqlReader["ProductCategoryId"]);
                             product.ProductModelId = Convert.ToInt16(sqlReader["ProductModelId"]);
                             product.SellStartDate = Convert.ToDateTime(sqlReader["SellStartDate"]);
                             product.SellEndDate = Convert.ToDateTime(sqlReader["SellEndDate"]);
-                            product.DiscontinuedDate = Convert.ToDateTime(sqlReader["DiscontinuedDate"]);
-                            product.ThumbNailPhoto = [Convert.ToByte(sqlReader["ThumbNailPhoto"])];
+                            //product.DiscontinuedDate = Convert.ToDateTime(sqlReader["DiscontinuedDate"]);
+                            //product.ThumbNailPhoto = [Convert.ToByte(sqlReader["ThumbNailPhoto"])];
                             product.ThumbnailPhotoFileName = sqlReader["ThumbnailPhotoFileName"].ToString();
                             product.Rowguid = (Guid)sqlReader["Rowguid"];
                             product.ModifiedDate = Convert.ToDateTime(sqlReader["ModifiedDate"]);
-                            product.LargeImage = [Convert.ToByte(sqlReader["LargeImage"])];
+                            //product.LargeImage = [Convert.ToByte(sqlReader["LargeImage"])];
 
                             allProductsByCategoryId.Add(product);
                         }
-
                     }
                     else
                     {
-                        return null;
+                        return allProductsByCategoryId;
                     }
                 }
             }

@@ -7,6 +7,7 @@ import { UserCardComponent } from '../user-card/user-card.component';
 import { AuthService } from '../services/auth.service';
 declare var handleSignOut: any;
 declare var handleSignOut: any;
+import * as AOS from 'aos';
 
 @Component({
   selector: 'app-navbar',
@@ -20,9 +21,21 @@ export class NavbarComponent implements OnInit {
   imageUrl: string = "";
   @Input() decodedEmail: string = '';
 
-  constructor(public authStatus: AuthService, private router: Router,) { }
+  constructor(public authStatus: AuthService, private router: Router) { }
   ngOnInit() {
+    AOS.init();
+
     this.imageUrl = '/assets/logo.png';
+
+  }
+
+  search(inputSearch: HTMLInputElement) {
+    this.router.navigate(['/product'], { queryParams: { message: inputSearch.value.trim() } })
+      .then(() => {
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+          this.router.navigate(['/product'], { queryParams: { message: inputSearch.value.trim() } });
+        });
+      });
   }
   handleSignOut() {
     handleSignOut();
