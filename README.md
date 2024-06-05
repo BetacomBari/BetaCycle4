@@ -159,3 +159,29 @@ The `DbUtilityForCart` class is a utility for managing shopping cart operations 
 
 ## Database Connection Management
 - **Check Database Open/Close**: Checks and manages the database connection state.
+
+
+
+
+
+# AI CHATBOT
+# How Does It Work?
+
+## Define Intents
+We define our intents in `intents.json`, with tags and patterns. This helps in training the model.
+
+## NLTK
+We utilize the NLTK library to work with words (`nltk_utils.py`). Specifically, we use NLTK for tokenization and stemming the text.
+
+## Create Our Neural Network
+We employ a feed-forward neural network. The input layer is fully-connected with the number of patterns as its dimension, followed by 2 hidden layers, and an output layer with the number of classes as its dimension. We apply softmax to obtain the response, which is given if it has at least a 75% confidence according to the training part.
+
+## Training of the Model
+To train the model (`train.py`), we import the functions written in `nltk_utils.py`. PyTorch is used for training.
+
+## Chatbot
+The logic of the chatbot is found in `app.js`. The chatbot, named Yoghi, initially presents its capabilities with a welcome message. It then responds to typical questions one might ask a VPN service. If the message exceeds 100 characters or the question is outside its training scope, it replies with an error message.
+
+## Connect to the Website
+We use Flask (`app.py`) to create our API. With `@app.get("/")`, we return our webpage's template, and with `@app.post("/predict")`, we predict the response to the question asked, based on the logic and training part.
+
