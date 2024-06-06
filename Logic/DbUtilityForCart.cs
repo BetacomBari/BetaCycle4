@@ -242,7 +242,7 @@ namespace BetaCycle4.Logic
             {
                 checkDbOpen();
                 
-                sqlCmd.CommandText = "SELECT ProductId FROM[dbo].[ShoppingCart] WHERE CustomerID = @id LIMIT 1";
+                sqlCmd.CommandText = "SELECT TOP (1) ProductId FROM[dbo].[ShoppingCart] WHERE CustomerID = @id ORDER BY ProductId DESC";
                 sqlCmd.Parameters.AddWithValue("@id", id_user);
                 sqlCmd.Connection = sqlCnn;
 
@@ -268,6 +268,40 @@ namespace BetaCycle4.Logic
             }
 
             return id;
+        }
+
+        internal int fromIdToCnnId(int id) {
+            int cnn_id = -1;
+            try
+            {
+                checkDbOpen();
+
+                sqlCmd.CommandText = "SELECT CredentialsCnnId FROM [dbo].[Credentials] WHERE ID = @id ";
+                sqlCmd.Parameters.AddWithValue("@id", id);
+                sqlCmd.Connection = sqlCnn;
+
+
+                using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
+                {
+                    if (sqlReader.HasRows)
+                    {
+                        while (sqlReader.Read())
+                        {
+                            cnn_id = Convert.ToInt32(sqlReader["CredentialsCnnId"]);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            finally
+            {
+                checkDbClose();
+            }
+
+            return cnn_id;
         }
 
         #region SelectIDaddress
