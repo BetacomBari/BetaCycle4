@@ -31,6 +31,11 @@
     font-weight: 900;
 }
 
+.custom-placeholder::placeholder {
+    color: red !important; /* Colore del placeholder */
+    opacity: 1; /* Per alcuni browser, potrebbe essere necessario impostare l'opacità */
+}
+
 .register-page{
     background-image: url("https://www.gardatrentino.it/website_images/Outdoor/Bici/mountainbike/Percorsi/image-thumb__1085__header/GARDATRENTINO_WATCHSOME_MTB_TENNO_STRADA_DEL_PIL_02.jpg");
     background-position: center;

@@ -252,3 +252,15 @@ swiper-slide img {
 
   
   
+  .swiper-button-next,
+  .swiper-button-prev {
+      color: #000; /* Colore delle frecce */
+  }
+  
+  .swiper-button-next {
+      right: 10px;
+  }
+  
+  .swiper-button-prev {
+      left: 10px;
+  }

@@ -42,6 +42,10 @@
                 '640': { 'slidesPerView': 1 },
                 '768': { 'slidesPerView': 3 },
                 '1024': { 'slidesPerView': 4 }
+              }"
+              [navigation]="{
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev'
               }">
             
             <swiper-slide class="altezzacarosello px-2 py-4" *ngFor="let p of products">
@@ -78,13 +82,6 @@
                     itaque repudiandae natus, illum cum perspiciatis veritatis distinctio, ipsam esse.</p>
             </div>
         </div>
-
-        <!-- <div class="col-12 annuncio2 d-flex align-items-center justify-content-center my-5">
-            <div class="col-5 didascalia d-flex align-items-center px-4">
-                <h2 class="serif display-4" data-aos="zoom-in-left">dcgsadcjhavsdjchvasjc</h2>
-            </div>
-            <div class="col-5 sfondo" data-aos="zoom-in-down"></div>
-        </div> -->
     </div>
 </header>
 

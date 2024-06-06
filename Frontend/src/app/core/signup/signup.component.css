@@ -58,6 +58,21 @@
 
 }
 
+input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: rgb(30, 29, 29);
+}
+input::-moz-placeholder { /* Firefox 19+ */
+    color: rgb(30, 29, 29);
+}
+input:-ms-input-placeholder { /* IE 10+ */
+    color: rgb(30, 29, 29);
+
+}
+input:-moz-placeholder { /* Firefox 18- */
+    color: rgb(30, 29, 29);
+
+}
+
 .btn-register{
     transition: 0.5s;
     font-weight:500;
