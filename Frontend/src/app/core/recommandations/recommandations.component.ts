@@ -1,12 +1,10 @@
-import { Component, Renderer2 } from '@angular/core';
+import { Component} from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttprequestService } from '../services/httprequest.service';
-import { Observable } from 'rxjs';
-import {forkJoin} from 'rxjs';
-import e from 'express';
+
 
 
 @Component({
@@ -118,7 +116,7 @@ export class RecommandationsComponent {
       this.mainhttp.getIdFromEmail(decodedPayload.unique_name)
         .subscribe({
           next: (response) => {          
-            //this.id = response
+            
             console.log("id: " + this.id)
             this.userId.push(parseInt(response, 10))
           },
@@ -126,6 +124,9 @@ export class RecommandationsComponent {
             console.error('Error fetching ID:', error);
           }
         });
+
+        console.log("getIdFromEmail: " + this.id);
+        
 
       let id_cnn_dirty = await this.mainhttp.getCnnIdfromIdTry(this.id)
       this.cnn_id = parseInt(id_cnn_dirty.toString(), 10)
@@ -141,6 +142,8 @@ export class RecommandationsComponent {
             console.error('Error fetching ID:', error);
           }
         });
+
+        console.log("getCnnIdfromIdTry " + this.cnn_id);
 
         let id_last_item_dirty = await this.mainhttp.getLastItemBoughtByIdTry(this.cnn_id)
         this.lastItemBoughtId = parseInt(id_last_item_dirty.toString(), 10)
