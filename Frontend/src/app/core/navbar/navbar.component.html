@@ -1,37 +1,43 @@
 <router-outlet></router-outlet>
 
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg bg-grigio fixed-top"  data-aos="flip-down">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Navbar</a>
+      <a href="/"><img src={{imageUrl}} alt="Betacycle" class="ms-5 me-5" width="180px"></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="">Home</a>
+        <ul class="navbar-nav mx-auto mb-2 mb-lg-0 ps-4">
+
+          <li class="nav-item mx-2">
+            <a class="nav-link aNavbar active" aria-current="page" href="/">Home</a>
           </li>
-          <li  class="nav-item">
-            <a class="nav-link active" *ngIf="!authStatus.getLoginStatus()" href="/login">Login</a>
+          <li  class="nav-item mx-2" *ngIf="!authStatus.getLoginStatus()">
+            <a class="nav-link aNavbar active"  href="/login">Login</a>
           </li>
-          <li class="nav-item" >
-            <a class="nav-link active" *ngIf="!authStatus.getLoginStatus()" href="/signup">Registrati</a>
+          <li class="nav-item mx-2" *ngIf="!authStatus.getLoginStatus()">
+            <a class="nav-link aNavbar active"  href="/signup">Registrati</a>
           </li>
-          <li class="nav-item">
-            <button class="nav-link active" *ngIf="authStatus.getLoginStatus()" (click)="handleSignOut()">Logout</button>
+          <li class="nav-item mx-2" *ngIf="authStatus.getLoginStatus()">
+            <button class="nav-link aNavbar active"  (click)="handleSignOut()">Logout</button>
           </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="/customer">Customer</a>
+          <li class="nav-item mx-2">
+            <a class="nav-link aNavbar active" href="/customer">Customer</a>
           </li>
+<<<<<<< HEAD
           <li class="nav-item">
 <<<<<<< HEAD
             <a class="nav-link active" href="/payment">Payment</a>
 =======
             <a class="nav-link active" href="/product">Product</a>
 >>>>>>> 58de71c94396aadc3c43c8e5e33268e99266a726
+=======
+          <li class="nav-item mx-2">
+            <a class="nav-link aNavbar active" href="/product">Prodotti</a>
+>>>>>>> d3f155c7c5faecf8b6b633fd742bc92a96f0a0f0
           </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <!-- <li class="nav-item mx-2 dropdown">
+            <a class="nav-link aNavbar dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Dropdown
             </a>
             <ul class="dropdown-menu">
@@ -40,13 +46,17 @@
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="#">Something else here</a></li>
             </ul>
-          </li>
+          </li> -->
           
         </ul>
-        <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
+        <form class="d-flex align-items-center" role="search">
+          <input class="form-control me-2 inputSearch" type="search" placeholder="Cerca" aria-label="Search" #inputSearch>
+          <a (click)="search(inputSearch)" class="d-flex align-items-center" type="submit"><i class="bi bi-search fs-3 text-white mx-3"></i></a>
         </form>
+
+          <a *ngIf="authStatus.getLoginStatus()" href="/cart" class="nav-link aNavbar active" ><i class="bi bi-bag fs-4"></i></a>
+        
       </div>
     </div>
+    
   </nav>

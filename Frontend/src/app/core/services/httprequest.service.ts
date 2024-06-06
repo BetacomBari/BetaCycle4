@@ -7,7 +7,8 @@ import { User } from '../../shared/models/user';
 import { AuthService } from './auth.service';
 
 import { CustomerRegister } from '../../shared/models/CustomerRegister';
-import { Credentials } from '../../shared/models/Credentials';
+import { Credentials } from '../../shared/models/credentials';
+
 
 
 
@@ -16,6 +17,9 @@ import { Credentials } from '../../shared/models/Credentials';
   providedIn: 'root'
 })
 export class HttprequestService {
+  get(arg0: string) {
+    throw new Error('Method not implemented.');
+  }
   token: string = "niente";
 
   constructor(private http: HttpClient, private auth: AuthService) {}
@@ -40,11 +44,44 @@ export class HttprequestService {
     return this.http.get(`https://localhost:7165/api/Customers/${id}`)
   }
 
-  getProduct(): Observable<any> {
-    return this.http.get(`https://localhost:7165/api/Products`)
+  getCategory(): Observable<any> {
+    return this.http.get(`https://localhost:7165/category`)
   }
 
-  getProductByID(id:number): Observable<any> {
-    return this.http.get(`https://localhost:7165/api/Products/${id}`)
+  getProduct(): Observable<any> {
+    return this.http.get(`https://localhost:7165/ProductComplete`)
   }
+
+  getProductsByPage(offset: number): Observable<any> {
+    return this.http.get(`https://localhost:7165/ProductComplete/GetProductsByPage/${offset}`)
+  }
+
+  getProductByCategory(categoryId:number): Observable<any> {
+    return this.http.get(`https://localhost:7165/ProductComplete/category/${categoryId}`)
+  }
+
+  getProductByName(name:string): Observable<any> {
+    return this.http.get(`https://localhost:7165/ProductComplete/name/${name}`)
+  }
+
+  getLast12Product(): Observable<any> {
+    return this.http.get(`https://localhost:7165/api/Products/GetLast12Products`)
+  }
+
+  getProductByID(productId:number): Observable<any> {
+    return this.http.get(`https://localhost:7165/ProductComplete/detail/${productId}`)
+  }
+
+  getCartProducts(customerId: number[]): Observable<any> {
+    return this.http.get(`https://localhost:7165/api/ShoppingCarts/${customerId}`)
+  }
+
+  getProductsForCart(productId: number): Observable<any>{
+    return this.http.get(`https://localhost:7165/api/Products/${productId}`)
+  }
+
+  getIdFromEmail(email: string): Observable<any>{
+    return this.http.get(`https://localhost:7165/api/ShoppingCarts/${email}/1`)
+  }
+  
 }

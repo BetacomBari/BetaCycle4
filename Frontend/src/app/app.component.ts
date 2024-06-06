@@ -10,13 +10,15 @@ import { GooglePayButtonModule } from '@google-pay/button-angular';
 import { GooglePayButtonComponent } from '@google-pay/button-angular';
 
 
+
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, NavbarComponent, LoginComponent, LogoutComponent, 
     UserCardComponent, SignupComponent, ReactiveFormsModule, GooglePayButtonModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
+  
 })
 export class AppComponent {
   title = 'betacycle';

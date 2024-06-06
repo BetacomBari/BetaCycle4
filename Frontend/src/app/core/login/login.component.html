@@ -1,47 +1,125 @@
 <router-outlet></router-outlet>
-
 <app-navbar></app-navbar>
+<div class="container-fluid register-page d-flex justify-content-center align-items-center p-0  vh-90">
+    <div class="row w-100 justify-content-center h-100 align-items-center mt-5">
+        <div  class="col-12 flex-column h-100 flex-lg-row annuncio2 d-flex align-items-center justify-content-center">
+            <div data-aos="fade-left"
+                class="col-12 col-md-12 col-lg-5 didascalia d-flex align-items-center justify-content-center px-4 h-65sm">
+                <form class="d-flex flex-column align-items-center  " style="position: relative; z-index:1;">
 
-<div  class="outher">
-    <div class="container">
-        <div class ="row">
-         <div class="offset-md-2 col-lg-5 col-md-7 offset-lg-4 offset-md-3">
-            <div class="panel border bg-white">
-                <div class = "panel-heading">
-                    <h3 class = "pt3 font-weight-bold"> Login</h3>    
-                </div>
-                <div class="panel-body p-3">
-                    <form>
-                        <div class="form-group pt-3">
-                            <div class="input-field">
-                                <span class = "fa fa-user p-2"></span>
-                                <input type="text" placeholder="Email" #email>
+                    <h1 class="croissant title display-4 m-0">Login</h1>
+
+                    <div class="container-fluid ">
+                        <div class="row justify-content-center">
+
+                            <!--! message -->
+                            <div class="row justify-content-center d-lg-none p-0 m-0">
+                                <div *ngIf="successMessage != null" class="col-12 ">
+                                    <div class="alert alert-success p-0 p-md-3" role="alert">
+                                        <p class="m-0">{{successMessage}}</p>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group pt-3">
-                            <div class="input-field">
-                                <span class="fa-solid fa-lock"></span>
-                                <input [type]=type placeholder="Password" #password>
+
+                            <!--! errori -->
+                            <div class="row justify-content-center d-lg-none p-0 m-0">
+                                <div *ngIf="errorMessage.length != 0" class="col-12 ">
+                                    <div class="alert alert-danger p-0 p-md-3" role="alert">
+                                        <p class="m-0" *ngFor="let e of errorMessage">{{e}}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="EmailAddress" class="fs-5 label">Email:</label>
+                                <input class="w-100 scuro py-1 my-1" type="email" id="EmailAddress" #EmailAddress>
+
+                                <label for="Password" class="fs-5 label">Password:</label>
+                                <input class="w-100 scuro py-1 my-1" type="password" id="Password" #Password>
                                 <span (click)="hideShowPassword()" class="fa {{eyeIcon}}"></span>
+                                <div class="mt-2">
+                                    <a href="" id="forget" class=" text-decoration-none passwordDimenticarta p-1 "
+                                        data-bs-toggle="modal" data-bs-target="#exampleModal">Password dimenticata?</a>
+                                </div>                                
                             </div>
                         </div>
-                            <div class="form-inline fr mt4">
-                                <a id="forget" class="font-weight-bold" data-bs-toggle="modal" data-bs-target="#exampleModal">Forget password?</a>
-                            </div>
+                    </div>
 
-                            <button type="submit" class="btn btn-primary btn-block mt-4 w-100" (click)="login(email, password)">Login</button>
-                            <div class="text-center pt-4 text-muted">Don't have account? <a id="forget" routerLink="/signup">Sign up</a></div>
-                    </form>
-                </div>
-                <!--
-                    <div class="mx-3 my-2 py-2 bordert">
-                    <div class="text-center py3">
-                        <a href="https://www.google.com" target="_blank" class="px-2"> <img src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-suite-everything-you-need-know-about-google-newest-0.png" alt=""> </a>
+                    <div class="w-75 d-flex justify-content-evenly">
+                        <button type="submit" class="btn-register mt-md-4 px-3 py-2 w-auto"
+                            (click)="login(EmailAddress, Password)">Login</button>
+                    </div>
+                    <a class="text-decoration-none" id="forget" routerLink="/signup">
+                        <div class="btn-register mt-2 mt-md-4 px-3 py-2 w-auto text-decoration-none">Non hai un account?
+                            Registrati!</div>
+                    </a>
+                    
+                </form>
+            </div>
+
+            <div class="col-12 col-md-12 col-lg-5 d-none d-lg-block">
+                <img src="" alt="">
+                
+                <!--! message -->
+                <div class="row justify-content-center ">
+                    <div *ngIf="successMessage != null" class="col-12 ">
+                        <div class="alert alert-success m-5" role="alert">
+                            <p class="m-0">{{successMessage}}</p>
+                        </div>
                     </div>
                 </div>
-                -->
-                <!-- CODE FROM GOOGLE  (data-login_uri="https://localhost:4200/navbar")-->
-                <div id="g_id_onload"
+
+                <!--! errori -->
+                <div class="row justify-content-center d-none d-lg-block">
+                    <div *ngIf="errorMessage.length != 0" class="col-12 ">
+                        <div class="alert alert-danger m-5" role="alert">
+                            <p class="m-0" *ngFor="let e of errorMessage">{{e}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <!-- <div class="col-12 col-md-9 col-lg-9 card-register w-100 h-100 d-flex flex-column justify-content-center">
+        </div> -->
+    </div>
+</div>
+
+<app-footer></app-footer>
+
+<!-- FORGET PASSWORD    -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="modal-title" id="exampleModalLabel"> <span style="font-size: 25px;font-weight:700">Hai
+                        dimenticato la password?</span><br>
+                    <small>Fornisci la tua e-mail e ti invieremo il collegamento per il ripristino.</small>
+                </p>
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group pt-3">
+                    <div class="input-field"> <span class="fa fa-user p-2"></span> <input [(ngModel)]="resetPassword"
+                            (ngModelChange)="checkValidEmailForReset($event)" type="text" placeholder="Email"> </div>
+                    <small *ngIf="!resetPassword" class="text-danger">*Email is required*</small>
+                    <small *ngIf="!isEmailForResetValid && resetPassword " class="text-danger">*Email is
+                        invalid*</small>
+                </div>
+                <div class="modal-footer">
+                    <button id="closeBtn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" (click)="confirmToSend()" class="btn btn-primary">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--! CODE FROM GOOGLE  (data-login_uri="https://localhost:4200/navbar")-->
+    <!-- <div id="g_id_onload"
                     data-client_id="236179809361-r91sb4haj3rafbdp66g5jdq9446bv86p.apps.googleusercontent.com"
                     data-context="use"
                     data-ux_mode="popup" 
@@ -58,48 +136,5 @@
                     data-text="signin_with"
                     data-size="large"
                     data-logo_alignment="left">
-                </div>
-                <!-- CODE FROM GOOGLE END -->
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<ng-container *ngIf="userProfile"> 
-        <div> Welcome {{userProfile.name}}</div>    
-        <app-user-card [userProfile]="userProfile"></app-user-card>
-        <button type="submit" class="btn btn-primary btn-block mt-4 w-50" (click)="writeInDb()">Register to DB</button>
-        <!-- now we need to register the email of the user to our db -->
-        <!-- <button id="signout-button" (click)="handleSignOut()">Sign Out</button> -->
-</ng-container>
-
-<ng-container *ngIf="authStatus.getLoginStatus()">
-    <div> Welcome {{email_toShow}}</div>   
-</ng-container>
-
-<!-- FORGET PASSWORD    -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-      <div class="modal-content">
-          <div class="modal-header">
-              <p class="modal-title" id="exampleModalLabel" > <span style="font-size: 25px;font-weight:700">Forget your password?</span><br>
-                  <small>Please provide your E-mail we will send the reset link</small></p>
-
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-
-          </div>
-
-          <div class="modal-body">
-              <div class="form-group pt-3">
-                  <div class="input-field"> <span class="fa fa-user p-2"></span> <input [(ngModel)]="resetPassword" (ngModelChange)="checkValidEmailForReset($event)" type="text" placeholder="Email"> </div>
-              <small *ngIf="!resetPassword" class="text-danger">*Email is required*</small>
-              <small *ngIf="!isEmailForResetValid && resetPassword " class="text-danger">*Email is invalid*</small>
-          </div>
-          <div class="modal-footer">
-              <button id="closeBtn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" (click)="confirmToSend()" class="btn btn-primary">Send</button>
-          </div>
-      </div>
-  </div>
-</div> 
+                </div> -->
+    <!--! CODE FROM GOOGLE END -->

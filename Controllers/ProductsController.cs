@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,6 +6,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BetaCycle4.Models;
+using Microsoft.AspNetCore.Authorization;
+using SqlManager.BLogic;
+using Microsoft.Data.SqlClient;
+using BetaCycle4.Logger;
 
 namespace BetaCycle4.Controllers
 {
@@ -13,12 +17,46 @@ namespace BetaCycle4.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
+        private readonly DbTracer _dbTracer;
         private readonly AdventureWorksLt2019Context _context;
+        private int lastId = 0;
 
-        public ProductsController(AdventureWorksLt2019Context context)
+        public ProductsController(AdventureWorksLt2019Context context, DbTracer dbTracer)
         {
             _context = context;
+            _dbTracer = dbTracer;
         }
+
+        //[HttpGet("category/{categoryId}")]
+        //public async Task<ActionResult<IEnumerable<Product>>> GetProductsByCategoryId(int categoryId)
+        //{
+
+        //    var sqlParametro = new SqlParameter("Category", categoryId);
+        //    return await _context.Products.FromSqlRaw($"SELECT * FROM [AdventureWorksLT2019].[SalesLT].[Product] WHERE [ProductCategoryID] = @Category", sqlParametro)
+        //        .ToListAsync();
+        //}
+
+
+        //[HttpGet("name/{name}")]
+        //public async Task<ActionResult<IEnumerable<Product>>> GetProductsByName(string name)
+        //{
+        //    var sqlParametro = new SqlParameter("Name", "%" + name + "%");
+
+        //    return await _context.Products.FromSqlRaw($"SELECT * FROM [AdventureWorksLT2019].[SalesLT].[Product] WHERE [Name] LIKE @Name", sqlParametro)
+        //        .ToListAsync();
+        //}
+
+        [Route("GetLast12Products")]
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Product>>> GetProductsByPage()
+        {
+            int rowPage = 12;
+  
+            return await _context.Products.FromSql($"SELECT TOP 12 * FROM [SalesLT].[Product] ORDER BY ProductID DESC")
+                .Take( rowPage )
+                .ToListAsync();
+        }
+
 
         // GET: api/Products
         [HttpGet]
@@ -43,6 +81,7 @@ namespace BetaCycle4.Controllers
 
         // PUT: api/Products/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProduct(int id, Product product)
         {
@@ -57,7 +96,7 @@ namespace BetaCycle4.Controllers
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException ex)
             {
                 if (!ProductExists(id))
                 {
@@ -65,7 +104,7 @@ namespace BetaCycle4.Controllers
                 }
                 else
                 {
-                    throw;
+                    _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
                 }
             }
 
@@ -74,6 +113,7 @@ namespace BetaCycle4.Controllers
 
         // POST: api/Products
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<Product>> PostProduct(Product product)
         {
@@ -85,6 +125,8 @@ namespace BetaCycle4.Controllers
 
         // DELETE: api/Products/5
         [HttpDelete("{id}")]
+        [Authorize]
+
         public async Task<IActionResult> DeleteProduct(int id)
         {
             var product = await _context.Products.FindAsync(id);

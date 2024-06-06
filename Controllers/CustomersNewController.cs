@@ -11,6 +11,8 @@ using Microsoft.Identity.Client.Platforms.Features.DesktopOs.Kerberos;
 using System.Security.Cryptography;
 using BetaCycle4.Logic;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using Microsoft.AspNetCore.Authorization;
+using BetaCycle4.Logger;
 
 namespace BetaCycle4.Controllers
 {
@@ -19,17 +21,20 @@ namespace BetaCycle4.Controllers
     public class CustomersNewController : ControllerBase
     {
         private readonly AdventureWorksLt2019Context _context;
+        private readonly DbTracer _dbTracer;
         private readonly IConfiguration _config;
         private readonly IEmailService _emailService;
 
-        public CustomerNewController(AdventureWorksLt2019Context context, IConfiguration config, IEmailService emailService)
+        public CustomersNewController(AdventureWorksLt2019Context context, IConfiguration config, IEmailService emailService, DbTracer dbTracer)
         {
             _context = context;
             _config = config;
             _emailService = emailService;
+            _dbTracer = dbTracer;
         }
 
         // GET: api/CustomerNews
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CustomerNew>>> GetCustomerNews()
         {
@@ -37,6 +42,8 @@ namespace BetaCycle4.Controllers
         }
 
         // GET: api/CustomerNews/5
+        [Authorize]
+
         [HttpGet("{id}")]
         public async Task<ActionResult<CustomerNew>> GetCustomerNew(int id)
         {
@@ -52,6 +59,8 @@ namespace BetaCycle4.Controllers
 
         // PUT: api/CustomerNews/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
+
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCustomerNew(int id, CustomerNew customerNew)
         {
@@ -66,7 +75,7 @@ namespace BetaCycle4.Controllers
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException ex)
             {
                 if (!CustomerNewExists(id))
                 {
@@ -74,7 +83,7 @@ namespace BetaCycle4.Controllers
                 }
                 else
                 {
-                    throw;
+                    _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
                 }
             }
 
@@ -83,6 +92,8 @@ namespace BetaCycle4.Controllers
 
         // POST: api/CustomerNews
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
+
         [HttpPost] 
         public async Task<ActionResult<CustomerNew>> PostCustomerNew(CustomerNew customerNew)
         {
@@ -94,20 +105,22 @@ namespace BetaCycle4.Controllers
         }
 
         // DELETE: api/CustomerNews/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCustomerNew(int id)
-        {
-            var customerNew = await _context.CustomerNews.FindAsync(id);
-            if (customerNew == null)
-            {
-                return NotFound();
-            }
+        //[Authorize]
 
-            _context.CustomerNews.Remove(customerNew);
-            await _context.SaveChangesAsync();
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> DeleteCustomerNew(int id)
+        //{
+        //    var customerNew = await _context.CustomerNews.FindAsync(id);
+        //    if (customerNew == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return NoContent();
-        }
+        //    _context.CustomerNews.Remove(customerNew);
+        //    await _context.SaveChangesAsync();
+
+        //    return NoContent();
+        //}
 
         private bool CustomerNewExists(int id)
         {

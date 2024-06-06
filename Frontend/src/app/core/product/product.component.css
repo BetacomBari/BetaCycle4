@@ -1,0 +1,306 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+.titleCard {
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 800;
+  color: rgb(85, 85, 85);
+}
+
+.titleCard2{
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 800;
+  color: #19B0CE;
+}
+
+.menu {
+  width: 250px;
+  height: 100%;
+  background-color: #333;
+  position: fixed;
+  top: 0;
+  left: -250px;
+  transition: left 0.3s;
+  z-index: 10;
+  overflow-x: hidden;
+  padding-top: 60px;
+}
+
+.menu ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.menu ul li {
+  padding: 8px 16px;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.menu ul li a {
+  color: white;
+  text-decoration: none;
+  display: block;
+}
+
+.menu ul li a:hover {
+  background-color: #575757;
+}
+
+
+
+.menu-button:hover {
+  transition: .3s;
+  background-color: #435c61;
+  color: rgb(255, 255, 255);
+}
+
+.menu-button3:hover {
+  transition: .3s;
+  background-color: #435c61;
+  color: rgb(255, 255, 255);
+}
+
+.menu-button:focus {
+  outline: none;
+}
+
+.menu-button2:hover {
+  transition: .3s;
+  background-color: #435c61;
+  color: rgb(255, 255, 255);
+}
+
+.menu-button2:focus {
+  outline: none;
+}
+
+
+.menu.open {
+  left: 0;
+}
+
+.title {
+  color: #19B0CE;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 600;
+}
+
+.menu-button3{
+  transition: .3s;
+  cursor: pointer;
+  background-color: #ffffff;
+  color: #435c61;
+  border: 2px solid #435c61;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+
+@media screen and (max-width: 767px) {
+  .menu-button {
+    transition: .3s;
+    cursor: pointer;
+    background-color: #587a80;
+    color: white;
+    border: none;
+    padding-left: 10px;
+    padding-right: 10px;
+    position: fixed;
+    top: 100px;
+    left: 20px;
+    z-index: 2;
+  }
+
+  .menu-button2 {
+    transition: .3s;
+    cursor: pointer;
+    background-color: #587a80;
+    color: white;
+    border: none;
+    padding-left: 10px;
+    padding-right: 10px;
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    z-index: 2;
+  }
+
+  .cardHome {
+    border: 1px solid #587a80;
+    border-radius: 0;
+    transition: .5s;
+    height: 400px;
+    width: 100%;
+
+  }
+
+  .divImg {
+    width: 100%;
+    height: 200px;
+
+  }
+
+  .imgCardHome {
+    width: 95%;
+  }
+
+  .borderTitle {
+    padding-bottom: 30px;
+    border-bottom: 2px solid #587a80;
+
+  }
+
+}
+
+
+
+@media screen and (min-width: 767px) and (max-width: 1200px) {
+  .menu-button {
+    transition: .3s;
+    cursor: pointer;
+    background-color: #587a80;
+    color: white;
+    border: none;
+    padding-left: 10px;
+    padding-right: 10px;
+    position: fixed;
+    top: 80px;
+    left: 20px;
+    z-index: 2;
+  }
+
+  .menu-button2 {
+    transition: .3s;
+    cursor: pointer;
+    background-color: #587a80;
+    color: white;
+    border: none;
+    padding-left: 10px;
+    padding-right: 10px;
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 2;
+  }
+
+  .borderTitle {
+    border-bottom: 2px solid #587a80;
+  }
+
+  .cardHome {
+    border: 1px solid #587a80;
+    border-radius: 0;
+    transition: .5s;
+    height: 350px;
+    width: 100%;
+
+  }
+
+  .divImg {
+    width: 100%;
+    height: 200px;
+
+  }
+
+  .imgCardHome {
+    width: 95%;
+  }
+
+}
+
+
+@media screen and (min-width: 1200px) {
+  .divImg {
+    width: 100%;
+    height: 200px;
+
+  }
+
+  .cardHome {
+    border: 1px solid #587a80;
+    border-radius: 0;
+
+    height: 350px;
+    width: 100%;
+
+  }
+
+  .menu-button {
+    transition: .3s;
+    cursor: pointer;
+    background-color: #587a80;
+    color: white;
+    border: none;
+    padding-left: 10px;
+    padding-right: 10px;
+    position: fixed;
+    top: 80px;
+    left: 20px;
+    z-index: 2;
+  }
+
+  .menu-button2 {
+    transition: .3s;
+    cursor: pointer;
+    background-color: #587a80;
+    color: white;
+    border: none;
+    padding-left: 10px;
+    padding-right: 10px;
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 2;
+  }
+
+
+  .borderTitle {
+    border-bottom: 2px solid #587a80;
+  }
+
+}
+
+.containerCard {
+  margin-top: 150px;
+}
+
+.vh-70 {
+  height: 70vh;
+}
+
+.cardHome:hover {
+  border: 1px solid #19B0CE;
+
+}
+
+.btnCart{
+  color: #19B0CE;
+  border: none;
+  background: none;
+}
+
+.btnCart:hover{
+  color: #126879;
+
+}
+
+.cardHome {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cardHome:hover {
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.cardHome:hover .divImg img {
+  transform: scale(1.1);
+}
+
+.divImg img {
+  transition: transform 0.3s ease;
+}

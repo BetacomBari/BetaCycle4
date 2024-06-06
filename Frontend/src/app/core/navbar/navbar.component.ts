@@ -7,6 +7,7 @@ import { UserCardComponent } from '../user-card/user-card.component';
 import { AuthService } from '../services/auth.service';
 declare var handleSignOut: any;
 declare var handleSignOut: any;
+import * as AOS from 'aos';
 
 @Component({
   selector: 'app-navbar',
@@ -15,20 +16,37 @@ declare var handleSignOut: any;
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
-export class NavbarComponent {
-  
-  constructor(public authStatus: AuthService, private router: Router,) { }
 
-handleSignOut() {
-  handleSignOut();
-  localStorage.removeItem("jwtToken")
-  sessionStorage.removeItem("loggedInUser");
-  this.router.navigate(["/login"]).then(() => {
-    window.location.reload();
-  });
-  localStorage.removeItem("loggedInUser");
-  this.router.navigate(["/login"]).then(() => {
-    window.location.reload();
-  });
-}
+export class NavbarComponent implements OnInit {
+  imageUrl: string = "";
+  @Input() decodedEmail: string = '';
+
+  constructor(public authStatus: AuthService, private router: Router) { }
+  ngOnInit() {
+    AOS.init();
+
+    this.imageUrl = '/assets/logo.png';
+
+  }
+
+  search(inputSearch: HTMLInputElement) {
+    this.router.navigate(['/product'], { queryParams: { message: inputSearch.value.trim() } })
+      .then(() => {
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+          this.router.navigate(['/product'], { queryParams: { message: inputSearch.value.trim() } });
+        });
+      });
+  }
+  handleSignOut() {
+    handleSignOut();
+    localStorage.removeItem("jwtToken")
+    sessionStorage.removeItem("loggedInUser");
+    this.router.navigate(["/login"]).then(() => {
+      window.location.reload();
+    });
+    localStorage.removeItem("loggedInUser");
+    this.router.navigate(["/login"]).then(() => {
+      window.location.reload();
+    });
+  }
 }

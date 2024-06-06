@@ -21,12 +21,14 @@ using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pag
 using Microsoft.Identity.Client.Platforms.Features.DesktopOs.Kerberos;
 using System.Net;
 using System.Net.Mail;
+using Microsoft.IdentityModel.Tokens;
 
 
 namespace SqlManager.BLogic
 {
     internal class DbUtility
     {
+        private DbTracer _dbTracer = new DbTracer();
         SqlConnection sqlCnn = new();
         SqlCommand sqlCmd = new();
         public bool IsDbStatusValid = false;
@@ -35,6 +37,7 @@ namespace SqlManager.BLogic
         #region COSTRUTTORE SqlConnectionString DB
         public DbUtility(string sqlConnectionString)
         {
+
             sqlCnn.ConnectionString = sqlConnectionString;
             try
             {
@@ -47,10 +50,9 @@ namespace SqlManager.BLogic
                 }
 
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                DbTracer error = new DbTracer();
-                error.InsertError(e.Message, e.HResult, e.StackTrace);
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             {
@@ -78,7 +80,7 @@ namespace SqlManager.BLogic
             }
             catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             { checkDbClose(); }
@@ -115,9 +117,9 @@ namespace SqlManager.BLogic
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             {
@@ -174,9 +176,9 @@ namespace SqlManager.BLogic
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             {
@@ -213,7 +215,7 @@ namespace SqlManager.BLogic
             }
             catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             { checkDbClose(); }
@@ -248,7 +250,7 @@ namespace SqlManager.BLogic
             }
             catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             { checkDbClose(); }
@@ -286,9 +288,9 @@ namespace SqlManager.BLogic
                 }
                 checkDbClose();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             {
@@ -322,7 +324,7 @@ namespace SqlManager.BLogic
             }
             catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             { checkDbClose(); }
@@ -350,7 +352,7 @@ namespace SqlManager.BLogic
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"ERRORE: {ex.Message}");
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
                 return update = 0;
             }
             finally
@@ -376,6 +378,7 @@ namespace SqlManager.BLogic
             }
             catch (Exception ex)
             {
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
                 Console.WriteLine($"ERRORE: {ex.Message}");
             }
             finally
@@ -410,9 +413,9 @@ namespace SqlManager.BLogic
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             {
@@ -447,9 +450,9 @@ namespace SqlManager.BLogic
                 }
 
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             {
@@ -482,9 +485,9 @@ namespace SqlManager.BLogic
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             {
@@ -517,9 +520,9 @@ namespace SqlManager.BLogic
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             {
@@ -553,6 +556,7 @@ namespace SqlManager.BLogic
             }
             catch (Exception ex)
             {
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
                 return addressInsert = 0;
                 throw;
             }
@@ -583,7 +587,7 @@ namespace SqlManager.BLogic
             }
             catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             { checkDbClose(); }
@@ -608,6 +612,7 @@ namespace SqlManager.BLogic
             }
             catch (Exception ex)
             {
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
                 Console.WriteLine($"ERRORE: {ex.Message}");
                 return delete = 0;
             }
@@ -634,6 +639,7 @@ namespace SqlManager.BLogic
             }
             catch (Exception ex)
             {
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
                 Console.WriteLine($"ERRORE: {ex.Message}");
                 return update = 0;
             }
@@ -641,6 +647,286 @@ namespace SqlManager.BLogic
             { checkDbClose(); }
 
             return update;
+        }
+        #endregion
+
+        #region GetProductsByCategoryId
+        internal List<ProductC> GetProductsByCategoryId(int categoryId)
+        {
+            List<ProductC> products = new List<ProductC>();
+            try
+            {
+                checkDbOpen();
+                sqlCmd.CommandText = "SELECT pr.[ProductID], pr.[Name], pr.[color], pr.[ListPrice], pr.[size], pr.[LargeImage], de.[Description], ca.[Name] as category, model.[Name] as model FROM [SalesLT].[Product] as pr INNER JOIN [SalesLT].[ProductModelProductDescription] as moDe ON moDe.ProductModelID = pr.ProductModelID INNER JOIN [SalesLT].ProductModel as model ON model.ProductModelID = pr.ProductModelID INNER JOIN  [SalesLT].[ProductDescription] as de ON de.ProductDescriptionID = moDe.ProductDescriptionID INNER JOIN [SalesLT].[ProductCategory] as ca ON ca.ProductCategoryID = pr.ProductCategoryID where (moDe.Culture = 'en') and (@productId = ca.ProductCategoryID)";
+                sqlCmd.Parameters.AddWithValue("@productId", categoryId);
+                sqlCmd.Connection = sqlCnn;
+
+                using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
+                {
+                    if (sqlReader.HasRows)
+                    {
+                        while (sqlReader.Read())
+                        {
+                            ProductC productComplete = new();
+                            productComplete.ProductID = Convert.ToInt16(sqlReader["ProductID"]);
+                            productComplete.Name = sqlReader["Name"].ToString();
+                            productComplete.color = sqlReader["color"].ToString();
+                            productComplete.ListPrice = Convert.ToDecimal(sqlReader["ListPrice"]);
+                            productComplete.size = sqlReader["size"].ToString();
+
+                            if (!sqlReader.IsDBNull(sqlReader.GetOrdinal("LargeImage")))
+                            {
+                                byte[] largeImageBytes = (byte[])sqlReader["LargeImage"];
+                                productComplete.LargeImage = Convert.ToBase64String(largeImageBytes);
+                            }
+                            else
+                            {
+                                productComplete.LargeImage = null; 
+                            }
+
+                            productComplete.Description = sqlReader["Description"].ToString();
+                            productComplete.category = sqlReader["category"].ToString();
+                            productComplete.model = sqlReader["model"].ToString();
+
+                            products.Add(productComplete);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            finally
+            {
+                checkDbClose();
+            }
+
+            return products;
+        }
+        #endregion
+
+        #region GetProductsByName
+        internal List<ProductC> GetProductsByName(string name)
+        {
+            List<ProductC> products = new List<ProductC>();
+            try
+            {
+                checkDbOpen();
+                sqlCmd.CommandText = "SELECT pr.[ProductID], pr.[Name], pr.[color], pr.[ListPrice], pr.[size], pr.[LargeImage], de.[Description], ca.[Name] as category, model.[Name] as model FROM [SalesLT].[Product] as pr INNER JOIN [SalesLT].[ProductModelProductDescription] as moDe ON moDe.ProductModelID = pr.ProductModelID INNER JOIN [SalesLT].ProductModel as model ON model.ProductModelID = pr.ProductModelID INNER JOIN  [SalesLT].[ProductDescription] as de ON de.ProductDescriptionID = moDe.ProductDescriptionID INNER JOIN [SalesLT].[ProductCategory] as ca ON ca.ProductCategoryID = pr.ProductCategoryID where (moDe.Culture = 'en') and (pr.Name  like  '%' + @productId + '%')";
+                sqlCmd.Parameters.AddWithValue("@productId",  name );
+                sqlCmd.Connection = sqlCnn;
+
+                using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
+                {
+                    if (sqlReader.HasRows)
+                    {
+                        while (sqlReader.Read())
+                        {
+                            ProductC productComplete = new();
+                            productComplete.ProductID = Convert.ToInt16(sqlReader["ProductID"]);
+                            productComplete.Name = sqlReader["Name"].ToString();
+                            productComplete.color = sqlReader["color"].ToString();
+                            productComplete.ListPrice = Convert.ToDecimal(sqlReader["ListPrice"]);
+                            productComplete.size = sqlReader["size"].ToString();
+
+                            if (!sqlReader.IsDBNull(sqlReader.GetOrdinal("LargeImage")))
+                            {
+                                byte[] largeImageBytes = (byte[])sqlReader["LargeImage"];
+                                productComplete.LargeImage = Convert.ToBase64String(largeImageBytes);
+                            }
+                            else
+                            {
+                                productComplete.LargeImage = null;
+                            }
+
+                            productComplete.Description = sqlReader["Description"].ToString();
+                            productComplete.category = sqlReader["category"].ToString();
+                            productComplete.model = sqlReader["model"].ToString();
+
+                            products.Add(productComplete);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            finally
+            {
+                checkDbClose();
+            }
+
+            return products;
+        }
+        #endregion
+
+        #region GetProductForDetail
+        internal ProductC GetProductForDetail(int productId)
+        {
+            ProductC productComplete = new();
+            try
+            {
+                checkDbOpen();
+                sqlCmd.CommandText = "SELECT pr.[ProductID], pr.[Name], pr.[color], pr.[ListPrice], pr.[size], pr.[LargeImage], de.[Description], ca.[Name] as category, model.[Name] as model FROM [SalesLT].[Product] as pr INNER JOIN [SalesLT].[ProductModelProductDescription] as moDe ON moDe.ProductModelID = pr.ProductModelID INNER JOIN [SalesLT].ProductModel as model ON model.ProductModelID = pr.ProductModelID INNER JOIN  [SalesLT].[ProductDescription] as de ON de.ProductDescriptionID = moDe.ProductDescriptionID INNER JOIN [SalesLT].[ProductCategory] as ca ON ca.ProductCategoryID = pr.ProductCategoryID where (moDe.Culture = 'en') and (pr.ProductID = @productId)";
+                sqlCmd.Parameters.AddWithValue("@productId", productId);
+                sqlCmd.Connection = sqlCnn;
+
+                using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
+                {
+                    if (sqlReader.HasRows)
+                    {
+                        while (sqlReader.Read())
+                        {
+
+                            productComplete.ProductID = Convert.ToInt16(sqlReader["ProductID"]);
+                            productComplete.Name = sqlReader["Name"].ToString();
+                            productComplete.color = sqlReader["color"].ToString();
+                            productComplete.ListPrice = Convert.ToDecimal(sqlReader["ListPrice"]);
+                            productComplete.size = sqlReader["size"].ToString();
+
+                            if (!sqlReader.IsDBNull(sqlReader.GetOrdinal("LargeImage")))
+                            {
+                                byte[] largeImageBytes = (byte[])sqlReader["LargeImage"];
+                                productComplete.LargeImage = Convert.ToBase64String(largeImageBytes);
+                            }
+                            else
+                            {
+                                productComplete.LargeImage = null;
+                            }
+
+                            productComplete.Description = sqlReader["Description"].ToString();
+                            productComplete.category = sqlReader["category"].ToString();
+                            productComplete.model = sqlReader["model"].ToString();
+
+                            
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            finally
+            {
+                checkDbClose();
+            }
+
+            return productComplete;
+        }
+        #endregion
+
+        #region GetProductComplete
+        internal List<ProductC> GetProductComplete()
+        {
+            List<ProductC> products = new List<ProductC>();
+            try
+            {
+                checkDbOpen();
+                sqlCmd.CommandText = "SELECT pr.[ProductID], pr.[Name], pr.[color], pr.[ListPrice], pr.[size], pr.[LargeImage], de.[Description], ca.[Name] as category, model.[Name] as model FROM [SalesLT].[Product] as pr INNER JOIN [SalesLT].[ProductModelProductDescription] as moDe ON moDe.ProductModelID = pr.ProductModelID INNER JOIN [SalesLT].ProductModel as model ON model.ProductModelID = pr.ProductModelID INNER JOIN  [SalesLT].[ProductDescription] as de ON de.ProductDescriptionID = moDe.ProductDescriptionID INNER JOIN [SalesLT].[ProductCategory] as ca ON ca.ProductCategoryID = pr.ProductCategoryID where moDe.Culture = 'en";
+                sqlCmd.Connection = sqlCnn;
+
+                using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
+                {
+                    if (sqlReader.HasRows)
+                    {
+                        while (sqlReader.Read())
+                        {
+                            ProductC productComplete = new();
+                            productComplete.ProductID = Convert.ToInt16(sqlReader["ProductID"]);
+                            productComplete.Name = sqlReader["Name"].ToString();
+                            productComplete.color = sqlReader["color"].ToString();
+                            productComplete.ListPrice = Convert.ToDecimal(sqlReader["ListPrice"]);
+                            productComplete.size = sqlReader["size"].ToString();
+
+                            if (!sqlReader.IsDBNull(sqlReader.GetOrdinal("LargeImage")))
+                            {
+                                byte[] largeImageBytes = (byte[])sqlReader["LargeImage"];
+                                productComplete.LargeImage = Convert.ToBase64String(largeImageBytes);
+                            }
+                            else
+                            {
+                                productComplete.LargeImage = null;
+                            }
+
+                            productComplete.Description = sqlReader["Description"].ToString();
+                            productComplete.category = sqlReader["category"].ToString();
+                            productComplete.model = sqlReader["model"].ToString();
+
+                            products.Add(productComplete);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            finally
+            {
+                checkDbClose();
+            }
+
+            return products;
+        }
+        #endregion
+
+        #region GetProductsByPage
+        internal List<ProductC> GetProductsByPage(int offset)
+        {
+            List<ProductC > products = new();
+            try
+            {
+                checkDbOpen();
+                sqlCmd.CommandText = "SELECT pr.[ProductID], pr.[Name], pr.[color], pr.[ListPrice], pr.[size], pr.[LargeImage], de.[Description], ca.[Name] as category, model.[Name] as model FROM [SalesLT].[Product] as pr INNER JOIN [SalesLT].[ProductModelProductDescription] as moDe ON moDe.ProductModelID = pr.ProductModelID INNER JOIN [SalesLT].ProductModel as model ON model.ProductModelID = pr.ProductModelID INNER JOIN  [SalesLT].[ProductDescription] as de ON de.ProductDescriptionID = moDe.ProductDescriptionID INNER JOIN [SalesLT].[ProductCategory] as ca ON ca.ProductCategoryID = pr.ProductCategoryID where moDe.Culture = 'en' ORDER BY pr.[ProductID] OFFSET @offset ROWS FETCH NEXT 30 ROWS ONLY;";
+                sqlCmd.Parameters.AddWithValue("@offset", offset);
+                sqlCmd.Connection = sqlCnn;
+
+                using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
+                {
+                    if (sqlReader.HasRows)
+                    {
+                        while (sqlReader.Read())
+                        {
+                            ProductC productComplete = new();
+                            productComplete.ProductID = Convert.ToInt16(sqlReader["ProductID"]);
+                            productComplete.Name = sqlReader["Name"].ToString();
+                            productComplete.color = sqlReader["color"].ToString();
+                            productComplete.ListPrice = Convert.ToDecimal(sqlReader["ListPrice"]);
+                            productComplete.size = sqlReader["size"].ToString();
+
+                            if (!sqlReader.IsDBNull(sqlReader.GetOrdinal("LargeImage")))
+                            {
+                                byte[] largeImageBytes = (byte[])sqlReader["LargeImage"];
+                                productComplete.LargeImage = Convert.ToBase64String(largeImageBytes);
+                            }
+                            else
+                            {
+                                productComplete.LargeImage = null;
+                            }
+
+                            productComplete.Description = sqlReader["Description"].ToString();
+                            productComplete.category = sqlReader["category"].ToString();
+                            productComplete.model = sqlReader["model"].ToString();
+
+                            products.Add(productComplete);
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
+            }
+            finally
+            {
+                checkDbClose();
+            }
+
+            return products;
         }
         #endregion
 
@@ -659,13 +945,22 @@ namespace SqlManager.BLogic
                 {
                     if (sqlReader.HasRows)
                     {
-                        ProductCategory category = new ProductCategory();
                         while (sqlReader.Read())
                         {
-                            category.ProductCategoryId = Convert.ToInt16(sqlReader["ProductCategoryId"]);
-                            category.ParentProductCategoryId = Convert.ToInt16(sqlReader["ParentProductCategoryId"]);
+                            ProductCategory category = new ProductCategory();
+                            category.ProductCategoryId = Convert.ToInt16(sqlReader["ProductCategoryID"]);
                             category.Name = sqlReader["Name"].ToString();
-                            category.Rowguid = (Guid)sqlReader["Rowguid"];
+
+                            if (sqlReader["ParentProductCategoryID"].ToString().IsNullOrEmpty())
+                            {
+                                category.ParentProductCategoryId = 0;
+                            }
+                            else
+                            {
+                                category.ParentProductCategoryId = Convert.ToInt16(sqlReader["ParentProductCategoryID"]);
+                            }
+
+                            category.Rowguid = (Guid)sqlReader["rowguid"];
                             category.ModifiedDate = Convert.ToDateTime(sqlReader["ModifiedDate"]);
 
                             allCategories.Add(category);
@@ -677,9 +972,9 @@ namespace SqlManager.BLogic
                     }
                 }
             }
-            catch
+            catch(Exception ex)
             {
-
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
 
 
@@ -687,24 +982,24 @@ namespace SqlManager.BLogic
             return allCategories;
         }
 
-        internal List<Product> getAllProductFromCategoryId(string categoryId)
+        internal List<Product> getAllProductFromCategoryId(int categoryId)
         {
             List<Product> allProductsByCategoryId = new();
             try
             {
                 checkDbOpen();
 
-                sqlCmd.CommandText = "SELECT * FROM [AdventureWorksLT2019].[SalesLT].[Product] WHERE [ProductCategoryID] = @categoryId";
-                sqlCmd.Parameters.AddWithValue("@categoryId", categoryId);
+                sqlCmd.CommandText = "SELECT * FROM [AdventureWorksLT2019].[SalesLT].[Product] WHERE [ProductCategoryID] = @productId";
+                sqlCmd.Parameters.AddWithValue("@productId", categoryId);
                 sqlCmd.Connection = sqlCnn;
 
                 using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
                 {
                     if (sqlReader.HasRows)
                     {
-                        Product product = new Product();
                         while (sqlReader.Read())
                         {
+                        Product product = new Product();
                             product.ProductId = Convert.ToInt16(sqlReader["ProductId"]);
                             product.Name = sqlReader["Name"].ToString();
                             product.ProductNumber = sqlReader["ProductNumber"].ToString();
@@ -712,31 +1007,30 @@ namespace SqlManager.BLogic
                             product.StandardCost = Convert.ToInt16(sqlReader["StandardCost"]);
                             product.ListPrice = Convert.ToInt16(sqlReader["ListPrice"]);
                             product.Size = sqlReader["Size"].ToString();
-                            product.Weight = Convert.ToDecimal(sqlReader["Weight"]);
+                            //product.Weight = Convert.ToDecimal(sqlReader["Weight"]);
                             product.ProductCategoryId = Convert.ToInt16(sqlReader["ProductCategoryId"]);
                             product.ProductModelId = Convert.ToInt16(sqlReader["ProductModelId"]);
                             product.SellStartDate = Convert.ToDateTime(sqlReader["SellStartDate"]);
                             product.SellEndDate = Convert.ToDateTime(sqlReader["SellEndDate"]);
-                            product.DiscontinuedDate = Convert.ToDateTime(sqlReader["DiscontinuedDate"]);
-                            product.ThumbNailPhoto = [Convert.ToByte(sqlReader["ThumbNailPhoto"])];
+                            //product.DiscontinuedDate = Convert.ToDateTime(sqlReader["DiscontinuedDate"]);
+                            //product.ThumbNailPhoto = [Convert.ToByte(sqlReader["ThumbNailPhoto"])];
                             product.ThumbnailPhotoFileName = sqlReader["ThumbnailPhotoFileName"].ToString();
                             product.Rowguid = (Guid)sqlReader["Rowguid"];
                             product.ModifiedDate = Convert.ToDateTime(sqlReader["ModifiedDate"]);
-                            product.LargeImage = [Convert.ToByte(sqlReader["LargeImage"])];
+                            //product.LargeImage = [Convert.ToByte(sqlReader["LargeImage"])];
 
                             allProductsByCategoryId.Add(product);
                         }
-
                     }
                     else
                     {
-                        return null;
+                        return allProductsByCategoryId;
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             {
@@ -794,9 +1088,9 @@ namespace SqlManager.BLogic
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw;
+                _dbTracer.InsertError(ex.Message, ex.HResult, ex.StackTrace);
             }
             finally
             {

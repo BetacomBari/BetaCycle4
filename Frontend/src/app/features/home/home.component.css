@@ -1,0 +1,254 @@
+.sfondo-home{
+    background-color:var(--back);
+}
+
+.titleHome{
+color: rgb(255, 255, 255);
+font-weight: bold;
+
+}
+.animazione-spirale{
+width:15%;
+right:80px;
+top:170px;
+perspective:600px;
+}
+.animazione-spirale>.spirale{
+    width:100%;
+    position: relative;
+    animation:linear infinite 10s spirale;
+}
+@keyframes spirale {
+    0%{
+        transform: rotateY(0deg) skewX(10deg);
+    }
+    25%{
+        transform:rotateY(15deg)
+    }
+    50%{
+        transform: rotateY(0deg) skewX(10deg);
+    }
+    75%{
+        transform:rotateY(-15deg);
+    }
+    100%{
+        transform: rotateY(0deg) skewX(10deg);
+    }
+}
+
+.animazione-spirale>.pacco{
+    top:30px;
+    left:50%;
+    width:85%;
+    animation:linear infinite 5s pacco;
+}
+@keyframes pacco{
+    0%{
+        transform:rotateZ(0deg) translate(-40%);
+    }
+    25%{
+        transform:rotateZ(-8deg) translate(-40%);
+    }
+    50%{
+        transform:rotateZ(0deg) translate(-40%);
+    }
+    75%{
+        transform:rotateZ(5deg) translate(-40%);
+    }
+    100%{
+        transform:rotateZ(0deg) translate(-40%);
+    }
+}
+/* INIZIO HEADER */
+.vh-10{
+    height:10vh;
+}
+
+.serif{
+    color: #587a80;
+    font-weight: 600;
+}
+
+.annuncio1{
+    height:50vh;
+    background: url("https://contents.mediadecathlon.com/p2496635/k$583b7debfa7445d5a907cbcd44baf971/1800x0/3865pt2332/7729xcr4122/default.jpg?format=auto"),#9BCFC2;
+    background-attachment: fixed;
+    background-position:right;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color:#442D1B;
+}
+
+.annuncio2{
+    height:70vh;
+    background:url("https://contents.mediadecathlon.com/p2496635/k$583b7debfa7445d5a907cbcd44baf971/1800x0/3865pt2332/7729xcr4122/default.jpg?format=auto"),#E2F6FF ;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+.annuncio2>.sfondo{
+    height:50vh;
+    background-image: url("https://www.delta-informatica.com/wp-content/uploads/pagina-chi-siamo-come-crearla.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.annuncio2>.didascalia{
+    height:50vh;
+    background-color: white;
+    color:#442D1B;
+}
+
+
+@media screen and (max-width: 767px){
+    .start-page{
+        background-image: url('https://buycycle.com/img/sell_banner.jpg');
+       height:20vh;
+       background-repeat: no-repeat;
+       background-size:200%;
+       background-attachment:fixed;
+   }
+}
+
+
+
+@media screen and (min-width: 767px) and (max-width: 1200px){
+    .start-page{
+        background-image: url('https://buycycle.com/img/sell_banner.jpg');
+       height:20vh;
+       background-repeat: no-repeat;
+       background-size:200%;
+       background-attachment:fixed;
+   }
+}
+
+
+@media screen and (min-width: 1200px){
+    .start-page{
+        background-image: url('https://buycycle.com/img/sell_banner.jpg');
+       height:30vh;
+       background-repeat: no-repeat;
+       background-size:100%;
+       background-attachment:fixed;
+   }
+}
+
+
+/*! swiper */
+
+
+body {
+  position: relative;
+  height: 100%;
+}
+
+body {
+  background: #eee;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  color: #000;
+  margin: 0;
+  padding: 0;
+}
+
+swiper-container {
+  width: 100%;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+swiper-slide {
+  background-position: center;
+  background-size: cover;
+  width: 300px;
+  height: 300px;
+}
+
+swiper-slide img {
+  display: block;
+  width: 100%;
+}
+
+
+/*! cardHome */
+
+.altezzacarosello{
+    height: 370px !important;
+
+}
+
+.cardHome{
+    border: 1px solid #587a80;
+    border-radius: 0;
+    transition: .5s;
+
+}
+
+.cardHome:hover{
+    transition: .5s;
+    border: 1px solid #2e4042;
+
+}
+
+.containerCarosello{
+    background-position:80%;
+    background-repeat: no-repeat;
+}
+
+
+.divImg{
+    width: 100%;
+    height: 180px;
+}
+
+.titleCard{
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size:x-large;
+    font-weight: 600;
+    color: #587a80;
+
+}
+
+.titleCard2{
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size:large;
+    font-weight: 550;
+    color: #19B0CE;
+
+}
+
+
+.menu-button3{
+    transition: .3s;
+    cursor: pointer;
+    background-color: #ffffff;
+    color: #435c61;
+    border: 2px solid #435c61;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .menu-button3:hover {
+    transition: .3s;
+    background-color: #435c61;
+    color: rgb(255, 255, 255);
+  }
+
+  .cardHome {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .cardHome:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  .cardHome:hover .divImg img {
+    transform: scale(1.1);
+  }
+  
+  .divImg img {
+    transition: transform 0.3s ease;
+  }
+
+  
+  
