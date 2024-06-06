@@ -25,6 +25,7 @@ export const routes: Routes = [
     // {path:"payment", component:PayWithGoogleComponent},
     {path:"product", component: ProductComponent},
     {path:"product", component: ProductComponent},
-    {path:"cart", component: CartComponent}
+    {path:"cart", component: CartComponent},
+    {path:"detail", component: ProductDetailComponent},
 
 ]
