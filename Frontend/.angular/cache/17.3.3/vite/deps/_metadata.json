@@ -1,64 +1,79 @@
 {
-  "hash": "91c792ca",
-  "configHash": "922b7af5",
-  "lockfileHash": "9aa3856f",
-  "browserHash": "50f26b68",
+  "hash": "b42c8d91",
+  "configHash": "e016ceca",
+  "lockfileHash": "08ac92f9",
+  "browserHash": "1836aa48",
   "optimized": {
     "@angular/common": {
       "src": "../../../../../node_modules/@angular/common/fesm2022/common.mjs",
       "file": "@angular_common.js",
-      "fileHash": "d4900def",
+      "fileHash": "9857ef44",
       "needsInterop": false
     },
     "@angular/common/http": {
       "src": "../../../../../node_modules/@angular/common/fesm2022/http.mjs",
       "file": "@angular_common_http.js",
-      "fileHash": "9c9ef37f",
+      "fileHash": "ef3d015d",
       "needsInterop": false
     },
     "@angular/core": {
       "src": "../../../../../node_modules/@angular/core/fesm2022/core.mjs",
       "file": "@angular_core.js",
-      "fileHash": "ee7c3626",
+      "fileHash": "afb97696",
       "needsInterop": false
     },
     "@angular/forms": {
       "src": "../../../../../node_modules/@angular/forms/fesm2022/forms.mjs",
       "file": "@angular_forms.js",
-      "fileHash": "de8d189d",
+      "fileHash": "b71c3069",
       "needsInterop": false
     },
     "@angular/platform-browser": {
       "src": "../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
       "file": "@angular_platform-browser.js",
-      "fileHash": "f519b325",
+      "fileHash": "95a5569b",
       "needsInterop": false
     },
     "@angular/router": {
       "src": "../../../../../node_modules/@angular/router/fesm2022/router.mjs",
       "file": "@angular_router.js",
-      "fileHash": "38c58cd3",
+      "fileHash": "1eea32d9",
       "needsInterop": false
     },
     "@google-pay/button-angular": {
       "src": "../../../../../../../node_modules/@google-pay/button-angular/fesm2020/google-pay-button-angular.mjs",
       "file": "@google-pay_button-angular.js",
-      "fileHash": "019d4b4e",
+      "fileHash": "f9039e33",
+      "needsInterop": false
+    },
+    "swiper/element/bundle": {
+      "src": "../../../../../node_modules/swiper/swiper-element-bundle.mjs",
+      "file": "swiper_element_bundle.js",
+      "fileHash": "8833e481",
+      "needsInterop": false
+    },
+    "rxjs": {
+      "src": "../../../../../node_modules/rxjs/dist/esm5/index.js",
+      "file": "rxjs.js",
+      "fileHash": "82164c5c",
       "needsInterop": false
     }
   },
   "chunks": {
-    "chunk-4DVLBDCM": {
-      "file": "chunk-4DVLBDCM.js"
+    "chunk-T4CCOI7X": {
+      "file": "chunk-T4CCOI7X.js"
     },
-    "chunk-EM2UWXFF": {
-      "file": "chunk-EM2UWXFF.js"
+    "chunk-WBLUDWRS": {
+      "file": "chunk-WBLUDWRS.js"
     },
-    "chunk-XZG52OV6": {
-      "file": "chunk-XZG52OV6.js"
+    "chunk-XIIDFHXR": {
+      "file": "chunk-XIIDFHXR.js"
     },
-    "chunk-WETU6YCY": {
-      "file": "chunk-WETU6YCY.js"
+    "chunk-KBDOKLKO": {
+      "file": "chunk-KBDOKLKO.js"
+    },
+    "chunk-WSA2QMXP": {
+      "file": "chunk-WSA2QMXP.js"
     },
     "chunk-J4B6MK7R": {
       "file": "chunk-J4B6MK7R.js"
