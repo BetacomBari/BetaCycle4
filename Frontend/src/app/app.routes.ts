@@ -6,7 +6,7 @@ import { LoginComponent } from './core/login/login.component';
 import { CustomerComponent } from './features/admin/customer/customer.component';
 import { HomeComponent } from './features/home/home.component';
 import { ResetComponent } from './core/reset/reset.component';
-import { PayWithGoogleComponent } from './core/pay-with-google/pay-with-google.component';
+// import { PayWithGoogleComponent } from './core/pay-with-google/pay-with-google.component';
 import { ProductComponent } from './core/product/product.component';
 import { RecommandationsComponent } from './core/recommandations/recommandations.component';
 import { ChatComponent } from './chat/chat.component';
@@ -14,7 +14,6 @@ import { ChatComponent } from './chat/chat.component';
 import { CartComponent } from './features/cart/cart.component';
 import { FaqComponent } from './features/faq/faq.component';
 import { ProductDetailComponent } from './features/product-detail/product-detail.component';
->>>>>>> d3f155c7c5faecf8b6b633fd742bc92a96f0a0f0
 
 export const routes: Routes = [
     {path:"", component:HomeComponent},
@@ -23,14 +22,9 @@ export const routes: Routes = [
     {path:"login", component:LoginComponent},
     {path:"customer", component:CustomerComponent},
     {path:"reset", component: ResetComponent},
-<<<<<<< HEAD
-<<<<<<< HEAD
-    {path:"payment", component:PayWithGoogleComponent}
-=======
-    {path:"product", component: ProductComponent}
-=======
+    // {path:"payment", component:PayWithGoogleComponent},
+    {path:"product", component: ProductComponent},
     {path:"product", component: ProductComponent},
     {path:"cart", component: CartComponent}
->>>>>>>>> Temporary merge branch 2
 
-];
+]

@@ -131,19 +131,6 @@ export class LoginComponent {
 
       // API call
       this.resetService.sendResetPasswordLink(this.resetPassword)
-<<<<<<< HEAD
-      .subscribe({
-        next: (res) => {
-          this.resetPassword = "";
-          const buttonRef = document.getElementById("closeBtn");
-          buttonRef?.click();
-          console.log("Email inviata correttamente")
-        },
-        error: (err) => {
-          console.log(err);
-        }
-      })
-=======
         .subscribe({
           next: (res) => {
             this.resetPassword = "";
@@ -154,7 +141,6 @@ export class LoginComponent {
             console.log(err);
           }
         })
->>>>>>>>> Temporary merge branch 2
     }
   }
 }

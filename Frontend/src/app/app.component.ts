@@ -6,8 +6,8 @@ import { LogoutComponent } from './core/logout/logout.component';
 import { UserCardComponent } from './core/user-card/user-card.component';
 import { SignupComponent } from './core/signup/signup.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { GooglePayButtonModule } from '@google-pay/button-angular';
-import { GooglePayButtonComponent } from '@google-pay/button-angular';
+// import { GooglePayButtonModule } from '@google-pay/button-angular';
+// import { GooglePayButtonComponent } from '@google-pay/button-angular';
 
 
 
@@ -15,7 +15,7 @@ import { GooglePayButtonComponent } from '@google-pay/button-angular';
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, NavbarComponent, LoginComponent, LogoutComponent, 
-    UserCardComponent, SignupComponent, ReactiveFormsModule, GooglePayButtonModule],
+    UserCardComponent, SignupComponent, ReactiveFormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   
