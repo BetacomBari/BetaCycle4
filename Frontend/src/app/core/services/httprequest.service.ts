@@ -8,6 +8,7 @@ import { AuthService } from './auth.service';
 
 import { CustomerRegister } from '../../shared/models/CustomerRegister';
 import { Credentials } from '../../shared/models/credentials';
+import { lastValueFrom } from 'rxjs';
 
 
 
@@ -73,7 +74,7 @@ export class HttprequestService {
   }
 
   getRecommandations(product_id: number): Observable<any> {
-    return this.http.get(`http://127.0.0.1:5000/api/recommendations/${product_id}`)
+    return this.http.get(`http://127.0.0.1:5000/recommendations/${product_id}`)
   } 
 
   getRecommandations2(): Observable<any> {
@@ -95,6 +96,33 @@ export class HttprequestService {
 
   getIdFromEmail(email: string): Observable<any>{
     return this.http.get(`https://localhost:7165/api/ShoppingCarts/${email}/1`)
+  }
+
+  async getIdFromEmailTry(email: string){
+    return lastValueFrom(
+      this.http.get(`https://localhost:7165/api/ShoppingCarts/${email}/1`)
+    )     
+  }
+
+  getCnnIdfromId(id:number) : Observable<any>{
+    return this.http.get(`https://localhost:7165/api/ShoppingCarts/${id}/fromIdToCnn`)
+  }
+
+  getCnnIdfromIdTry(id:number){
+    return lastValueFrom(
+      this.http.get(`https://localhost:7165/api/ShoppingCarts/${id}/fromIdToCnn`)
+    )
+  }
+
+  getLastItemBoughtById(id_cnn:number): Observable<any>{
+    return this.http.get(`https://localhost:7165/api/ShoppingCarts/${id_cnn}/last`)
+  }
+
+  getLastItemBoughtByIdTry(id_cnn:number){
+    return lastValueFrom(
+      this.http.get(`https://localhost:7165/api/ShoppingCarts/${id_cnn}/last`)
+    )
+    
   }
   
 }

@@ -59,7 +59,13 @@ namespace BetaCycle4.Controllers
         [HttpGet("{id_user}/last")]
         public ActionResult<int> GetLastItemBoughtFromUser(int id_user)
         {
-            return _cartUtilityCredentials.lastItemBoughtByCustomerId(id_user);
+            return _cartUtility.lastItemBoughtByCustomerId(id_user);
+        }
+
+        [HttpGet("{id_user}/fromIdToCnn")]
+        public ActionResult<int> GetCnnIdFromId(int id_user)
+        {
+            return _cartUtilityCredentials.fromIdToCnnId(id_user);
         }
 
         // PUT: api/ShoppingCarts/5
