@@ -90,9 +90,10 @@ namespace BetaCycle4.Logic
             {
                 checkDbOpen();
 
-                sqlCmd.CommandText = "UPDATE [dbo].[ShoppingCart] SET CustomerId = @customerId ,ProductId=@productId";
+                sqlCmd.CommandText = "INSERT INTO [dbo].[ShoppingCart] (CustomerId, ProductId, IsCompleted, DateAdded) VALUES (@customerId, @productId, 0, @dateAdded";
                 sqlCmd.Parameters.AddWithValue("@customerId", customer.CustomerId);
                 sqlCmd.Parameters.AddWithValue("@productId", product.ProductId);
+                sqlCmd.Parameters.AddWithValue("@dateAdded", DateTime.Now);
                
                 sqlCmd.ExecuteNonQuery();
 
@@ -140,7 +141,7 @@ namespace BetaCycle4.Logic
             {
                 checkDbOpen();
 
-                sqlCmd.CommandText = "DELETE [dbo].[ShoppingCart] WHERE CustomerId = @customerId AND ProductId = @productId";
+                sqlCmd.CommandText = "DELETE FROM [dbo].[ShoppingCart] WHERE CustomerId = @customerId AND ProductId = @productId AND IsCompleted = 0";
                 sqlCmd.Parameters.AddWithValue("@customerId", customer.CustomerId);
                 sqlCmd.Parameters.AddWithValue("@productId", product.ProductId);
 
@@ -199,7 +200,7 @@ namespace BetaCycle4.Logic
 
         #endregion
 
-        internal void CreateOrder(List<int> productsToSell)
+        internal void CreateOrder(List<int> productsToSell, int customerId)
         {
             List<Product> products = new();
 
@@ -210,7 +211,60 @@ namespace BetaCycle4.Logic
                 singleProduct = GetProductInfo(productId);
                 if (singleProduct != null) products.Add(singleProduct);
                 else break;
+
+                //Dopodichè, inizio a creare l'header attraverso un altro metodo interno
+                CreateHeader(products, customerId);
             }
+        }
+
+        internal void CreateHeader(List<Product> allProducts, int customerId)
+        {
+            DateTime dueDate = new DateTime();
+            string shipMethod = "";
+            float subTotal = 0; //Da calcolare, inserire un iterazione dei prodotti passati prima della query in modo tale da ricavare il prezzo totale
+            float freight = 4.0;
+            float totalDue = 0; //da calcolare, sarà uguale al subtotal + taxamt che ho settato a 0 e la freight che ho settato a 4.0
+
+            //Creo l'header al quale andrò a dare i valori dopo, per poi creare un OrderDetail per ogni prodotto comprato e MI SALVO IL SALES ORDER ID
+            sqlCmd.CommandText = $"INSERT INTO [SalesLT].[SalesOrderHeader] (RevisionNumber, OrderDate, DueDate, Status, OnlineOrderFlag, CustomerId, ShipMethod, Subtotal, TaxAmt, Freight, TotalDue, ModifiedDate) VALUES (2, {DateTime.Now}, @dueDate, 1, 1, @customerId, @shipMethod, Subtotal, 0, @freight, @totalDue, {DateTime.Now})";
+            sqlCmd.Parameters.AddWithValue("@dueDate", dueDate);
+            sqlCmd.Parameters.AddWithValue("@customerId", customerId);
+            sqlCmd.Parameters.AddWithValue("@shipMethod", shipMethod);
+            sqlCmd.Parameters.AddWithValue("@subTotal", subTotal);
+            sqlCmd.Parameters.AddWithValue("@freight", freight);
+            sqlCmd.Parameters.AddWithValue("@totalDue", totalDue);
+
+            //Per salvarmi l'order, faccio una query che seleziona l'ID dell'header, ORDER BY ModifiedDate DESC e seleziono il TOP (1)
+
+            //Infine, creare una funzione internal che crea l'order detail iterando i prodotti, in allegato in commento i miei appunti:
+            /*
+             * ORDER DETAIL:
+OrderQty
+ProductId -> Passato
+UnitPrice -> Passato
+UnitPriceDiscount = 0
+LineTotal -> Calcolato
+ModifiedDate = DateTime.Now();
+
+ORDER HEADER
+RevisionNumber = 2 
+OrderDate = DateTime.Now();
+DueDate = DateTime.Now + 10 gg;
+Status = 1
+OnlineOrderFlag = 1
+CustomerId -> Passato
+ShipMethod = ""
+Subtotal -> Calcolato
+TaxAmt = 0
+Freight = Boh me lo invento
+TotalDue = Subtotal + TaxAmt + Freight
+ModifiedDate = DateTime.Now();
+             * 
+             * 
+             */
+
+
+
         }
 
         #region SelectID By curtomerNew
