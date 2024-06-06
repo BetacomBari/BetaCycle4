@@ -1,18 +1,17 @@
 import { Component } from '@angular/core';
 import { NavbarComponent } from '../../../core/navbar/navbar.component';
-import { HttprequestService } from '../../../core/services/httprequest.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { FooterComponent } from '../../../core/footer/footer.component';
+import { HttprequestService } from '../../../core/services/httprequest.service';
 
 @Component({
-  selector: 'app-customer',
+  selector: 'app-customer-new',
   standalone: true,
-  imports: [NavbarComponent, CommonModule, FormsModule, FooterComponent],
-  templateUrl: './customer.component.html',
-  styleUrl: './customer.component.css'
+  imports: [NavbarComponent, FormsModule, CommonModule],
+  templateUrl: './customer-new.component.html',
+  styleUrl: './customer-new.component.css'
 })
-export class CustomerComponent {
+export class CustomerNewComponent {
   customers: any[] = []
   customerByID: any[] = []
   customerDelete:any
@@ -21,12 +20,12 @@ export class CustomerComponent {
   constructor(private mainhttp: HttprequestService) { }
 
   ngOnInit(){
-    this.getCustomer()
+    this.getCustomerNew()
     console.log(this.customers);
     
   }
-  getCustomer() {
-    this.mainhttp.getCustomer().subscribe({
+  getCustomerNew() {
+    this.mainhttp.getCustomerNew().subscribe({
       next: (Data: any) => {
         this.customers = Data
         console.log(this.customers);     
@@ -44,15 +43,15 @@ export class CustomerComponent {
     // Mostra una finestra di dialogo di conferma all'utente
     if (confirm("Sei sicuro di voler eliminare il Customer con id  " + customerId + "?")) {
       // Se l'utente conferma, elimina il cliente
-      this.deleteCustomerByID(this.deleteCustomerID);
+      this.deleteCustomerNewByID(this.deleteCustomerID);
     } else {
       // Se l'utente annulla, resetta l'ID del cliente da eliminare
       this.deleteCustomerID = null;
     }
   }
 
-  deleteCustomerByID(id:number){
-    this.mainhttp.deleteCustomerByID(id).subscribe({
+  deleteCustomerNewByID(id:number){
+    this.mainhttp.deleteCustomerNewByID(id).subscribe({
       next: (data: any) => {
       this.deleteCustomerID = null;
         

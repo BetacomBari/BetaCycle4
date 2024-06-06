@@ -41,8 +41,26 @@ export class HttprequestService {
     return this.http.get(`https://localhost:7165/api/Customers`, {headers: this.auth.authJwtHeader} )
   }
 
+  deleteCustomerByID(id:number) {
+    this.token = String(localStorage.getItem('jwtToken'));
+    this.auth.setJwtLoginStatus(true, this.token)
+    return this.http.delete(`https://localhost:7165/api/Customers/${id}`, {headers: this.auth.authJwtHeader})
+  }
+
   getCustomerByID(id:number): Observable<any> {
     return this.http.get(`https://localhost:7165/api/Customers/${id}`)
+  }
+
+  getCustomerNew(): Observable<any> {  
+    this.token = String(localStorage.getItem('jwtToken'));
+    this.auth.setJwtLoginStatus(true, this.token)
+    return this.http.get(`https://localhost:7165/api/CustomersNew`, {headers: this.auth.authJwtHeader} )
+  }
+
+  deleteCustomerNewByID(id:number) {
+    this.token = String(localStorage.getItem('jwtToken'));
+    this.auth.setJwtLoginStatus(true, this.token)
+    return this.http.delete(`https://localhost:7165/api/CustomersNew/${id}`, {headers: this.auth.authJwtHeader})
   }
 
   getCategory(): Observable<any> {

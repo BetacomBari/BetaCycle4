@@ -14,6 +14,7 @@ import { ChatComponent } from './chat/chat.component';
 import { CartComponent } from './features/cart/cart.component';
 import { FaqComponent } from './features/faq/faq.component';
 import { ProductDetailComponent } from './features/product-detail/product-detail.component';
+import { CustomerNewComponent } from './features/admin/customer-new/customer-new.component';
 
 export const routes: Routes = [
     {path:"", component:HomeComponent},
@@ -21,6 +22,7 @@ export const routes: Routes = [
     {path:"signup", component:SignupComponent},
     {path:"login", component:LoginComponent},
     {path:"customer", component:CustomerComponent},
+    {path:"customerNew", component:CustomerNewComponent},
     {path:"reset", component: ResetComponent},
     {path:"chat", component: ChatComponent},
     {path:"recommandations", component: RecommandationsComponent},

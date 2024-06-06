@@ -93,7 +93,6 @@ namespace BetaCycle4.Controllers
         // POST: api/CustomerNews
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [Authorize]
-
         [HttpPost] 
         public async Task<ActionResult<CustomerNew>> PostCustomerNew(CustomerNew customerNew)
         {
@@ -104,23 +103,22 @@ namespace BetaCycle4.Controllers
             return CreatedAtAction("GetCustomerNew", new { id = customerNew.CustomerId }, customerNew);
         }
 
-        // DELETE: api/CustomerNews/5
-        //[Authorize]
+        //DELETE: api/CustomerNews/5
+        [Authorize]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCustomerNew(int id)
+        {
+            var customerNew = await _context.CustomerNews.FindAsync(id);
+            if (customerNew == null)
+            {
+                return NotFound();
+            }
 
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteCustomerNew(int id)
-        //{
-        //    var customerNew = await _context.CustomerNews.FindAsync(id);
-        //    if (customerNew == null)
-        //    {
-        //        return NotFound();
-        //    }
+            _context.CustomerNews.Remove(customerNew);
+            await _context.SaveChangesAsync();
 
-        //    _context.CustomerNews.Remove(customerNew);
-        //    await _context.SaveChangesAsync();
-
-        //    return NoContent();
-        //}
+            return NoContent();
+        }
 
         private bool CustomerNewExists(int id)
         {

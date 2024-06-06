@@ -7,7 +7,7 @@ public partial class CustomerNew
     [Key]
     public int CustomerId { get; set; }
 
-    public bool NameStyle { get; set; }
+    public string? NameStyle { get; set; }
 
     public string? Title { get; set; }
 

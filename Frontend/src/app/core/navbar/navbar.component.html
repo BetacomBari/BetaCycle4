@@ -24,6 +24,12 @@
           <li *ngIf="isAdmin" class="nav-item mx-2">
             <a class="nav-link aNavbar active" href="/customer">Customer</a>
           </li>
+          <li *ngIf="isAdmin" class="nav-item mx-2">
+            <a class="nav-link aNavbar active" href="/customerNew">CustomerNew</a>
+          </li>
+          <li class="nav-item mx-2"  *ngIf="authStatus.getLoginStatus()">
+            <a class="nav-link aNavbar active" href="/recommandations">Per te</a>
+          </li>
           <li class="nav-item mx-2">
             <a class="nav-link aNavbar active" href="/product">Prodotti</a>
           </li>          

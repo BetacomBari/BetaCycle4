@@ -1,0 +1,24 @@
+.title {
+    color: #19B0CE;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 600;
+  }
+  
+  .btn-unstyled {
+    background: none;
+    /* Rimuove il background */
+    border: none;
+    /* Rimuove il bordo */
+    padding: 0;
+    /* Rimuove il padding */
+    margin: 0;
+    /* Rimuove il margine */
+    font: inherit;
+    /* Inherit il font dal genitore */
+    color: inherit;
+    /* Inherit il colore dal genitore */
+    cursor: pointer;
+    /* Aggiunge il puntatore del mouse */
+    outline: inherit;
+    /* Mantiene l'outline */
+  }

@@ -34,6 +34,8 @@ namespace BetaCycle4.Controllers
         }
 
         // GET: api/Customers/5
+
+
         [HttpGet("{id}")]
         //[BasicAuthorizationAttributes]
         //[Authorize]
@@ -51,6 +53,7 @@ namespace BetaCycle4.Controllers
 
         // PUT: api/Customers/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCustomer(int id, Customer customer)
         {
@@ -83,6 +86,7 @@ namespace BetaCycle4.Controllers
         // POST: api/Customers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+
         public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
         {
             _context.Customers.Add(customer);
@@ -92,6 +96,8 @@ namespace BetaCycle4.Controllers
         }
 
         // DELETE: api/Customers/5
+
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCustomer(int id)
         {
