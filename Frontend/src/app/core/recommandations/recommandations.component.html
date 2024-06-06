@@ -1,0 +1,28 @@
+<app-navbar></app-navbar>
+<router-outlet></router-outlet>
+
+
+<div class="container border border-2 rounded border-danger my-5">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="title text-center mt-4">VISUALIZZA Recommendations</h1>
+        </div>
+        <input type="number" placeholder="recommendation for id" #product_id >
+        <div class="col-12 d-flex justify-content-center my-4">
+            <button class="btn btn-warning bgYellow me-4 text-danger" (click)="getRecommand(product_id)">Mostra</button>
+        </div>
+        <div *ngFor="let p of product " class="col-4 d-flex justify-content-center my-3">
+            <div class="card cardStyle" style="width: 300px; height: 130px;">
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-body-secondary text-warning">ID: {{p.productId}}</h6>
+                    
+
+                    <h5 class="card-title text-danger">NOME COMPLETO: </h5>
+                    <h5 class="card-title text-danger">{{p.name}} PREZZO: {{p.listPrice}}</h5>
+
+                    <p class="card-text"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

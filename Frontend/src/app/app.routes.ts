@@ -6,13 +6,11 @@ import { LoginComponent } from './core/login/login.component';
 import { CustomerComponent } from './features/admin/customer/customer.component';
 import { HomeComponent } from './features/home/home.component';
 import { ResetComponent } from './core/reset/reset.component';
-<<<<<<< HEAD
 import { PayWithGoogleComponent } from './core/pay-with-google/pay-with-google.component';
-=======
 import { ProductComponent } from './core/product/product.component';
-<<<<<<< HEAD
->>>>>>> 58de71c94396aadc3c43c8e5e33268e99266a726
-=======
+import { RecommandationsComponent } from './core/recommandations/recommandations.component';
+import { ChatComponent } from './chat/chat.component';
+
 import { CartComponent } from './features/cart/cart.component';
 import { FaqComponent } from './features/faq/faq.component';
 import { ProductDetailComponent } from './features/product-detail/product-detail.component';
@@ -32,11 +30,7 @@ export const routes: Routes = [
     {path:"product", component: ProductComponent}
 =======
     {path:"product", component: ProductComponent},
-    {path:"cart", component: CartComponent},
-    {path:"faq", component: FaqComponent},
-    {path:"detail", component: ProductDetailComponent},
     {path:"cart", component: CartComponent}
->>>>>>> d3f155c7c5faecf8b6b633fd742bc92a96f0a0f0
+>>>>>>>>> Temporary merge branch 2
 
->>>>>>> 58de71c94396aadc3c43c8e5e33268e99266a726
 ];

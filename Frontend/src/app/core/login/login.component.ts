@@ -154,7 +154,7 @@ export class LoginComponent {
             console.log(err);
           }
         })
->>>>>>> d3f155c7c5faecf8b6b633fd742bc92a96f0a0f0
+>>>>>>>>> Temporary merge branch 2
     }
   }
 }

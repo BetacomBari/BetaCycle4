@@ -127,7 +127,7 @@
       "needsInterop": false
     },
     "@google-pay/button-angular": {
-      "src": "../../../../../../../../node_modules/@google-pay/button-angular/fesm2020/google-pay-button-angular.mjs",
+      "src": "../../../../../../../node_modules/@google-pay/button-angular/fesm2020/google-pay-button-angular.mjs",
       "file": "@google-pay_button-angular.js",
       "fileHash": "84bef007",
 >>>>>>> Payment

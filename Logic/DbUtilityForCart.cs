@@ -3,8 +3,10 @@ using BetaCycle4.Logic.Authentication.EncryptionWithSha256;
 using BetaCycle4.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using System.Net.Mail;
+using static Community.CsharpSqlite.Sqlite3;
 
 namespace BetaCycle4.Logic
 {
@@ -248,6 +250,41 @@ namespace BetaCycle4.Logic
             return id;
         }
         #endregion
+
+        internal int lastItemBoughtByCustomerId(int id_user)
+        {
+            int id = -1;
+            try
+            {
+                checkDbOpen();
+                
+                sqlCmd.CommandText = "SELECT ProductId FROM[dbo].[ShoppingCart] WHERE CustomerID = @id LIMIT 1";
+                sqlCmd.Parameters.AddWithValue("@id", id_user);
+                sqlCmd.Connection = sqlCnn;
+
+
+                using (SqlDataReader sqlReader = sqlCmd.ExecuteReader())
+                {
+                    if (sqlReader.HasRows)
+                    {
+                        while (sqlReader.Read())
+                        {
+                            id = Convert.ToInt32(sqlReader["ProductId"]);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            finally
+            {
+                checkDbClose();
+            }
+
+            return id;
+        }
 
         #region SelectIDaddress
         internal int SelectAddressId(int CustomerId)
