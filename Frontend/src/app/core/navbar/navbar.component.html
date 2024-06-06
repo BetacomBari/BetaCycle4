@@ -21,7 +21,7 @@
           <li class="nav-item mx-2" *ngIf="authStatus.getLoginStatus()">
             <button class="nav-link aNavbar active"  (click)="handleSignOut()">Logout</button>
           </li>
-          <li class="nav-item mx-2">
+          <li *ngIf="isAdmin" class="nav-item mx-2">
             <a class="nav-link aNavbar active" href="/customer">Customer</a>
           </li>
           <li class="nav-item mx-2">

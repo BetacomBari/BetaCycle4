@@ -8,11 +8,12 @@ import { AuthService } from '../../core/services/auth.service';
 import { HttprequestService } from '../../core/services/httprequest.service';
 import { Product } from '../../shared/models/product';
 import * as AOS from 'aos';
+import { ChatComponent } from '../../chat/chat.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [NavbarComponent, FormsModule, CommonModule, FooterComponent],
+  imports: [NavbarComponent, FormsModule, CommonModule, FooterComponent, ChatComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -20,6 +21,7 @@ import * as AOS from 'aos';
 export class HomeComponent {
   products: Product[] = [];
   successMessage: string | null = null;
+
   
   constructor(private route: ActivatedRoute, private mainhttp: HttprequestService, private router: Router){}
 
@@ -30,7 +32,6 @@ export class HomeComponent {
     this.getLast12Product()
     this.route.queryParams.subscribe(params => {
       this.successMessage = params['message'];
-      console.log(this.successMessage);
       
     });
   }
@@ -51,7 +52,6 @@ export class HomeComponent {
     this.mainhttp.getLast12Product().subscribe({
       next: (products: any) => {
         this.products = products
-        console.log(this.products);
         
       },
       error: (error: any) => {
@@ -59,6 +59,5 @@ export class HomeComponent {
       }
     })
   }
-
 
 }

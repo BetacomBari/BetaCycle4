@@ -22,6 +22,8 @@ export const routes: Routes = [
     {path:"login", component:LoginComponent},
     {path:"customer", component:CustomerComponent},
     {path:"reset", component: ResetComponent},
+    {path:"chat", component: ChatComponent},
+    {path:"recommandations", component: RecommandationsComponent},
     // {path:"payment", component:PayWithGoogleComponent},
     {path:"product", component: ProductComponent},
     {path:"product", component: ProductComponent},
