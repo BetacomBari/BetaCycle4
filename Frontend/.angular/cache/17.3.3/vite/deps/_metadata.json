@@ -1,61 +1,61 @@
 {
-  "hash": "7fdb1ca9",
-  "configHash": "0b6add32",
+  "hash": "1533b981",
+  "configHash": "dc953424",
   "lockfileHash": "d03da76a",
-  "browserHash": "9890cf20",
+  "browserHash": "d12814b5",
   "optimized": {
     "@angular/common": {
       "src": "../../../../../node_modules/@angular/common/fesm2022/common.mjs",
       "file": "@angular_common.js",
-      "fileHash": "faa1bb93",
+      "fileHash": "0a2ccd9b",
       "needsInterop": false
     },
     "@angular/common/http": {
       "src": "../../../../../node_modules/@angular/common/fesm2022/http.mjs",
       "file": "@angular_common_http.js",
-      "fileHash": "346a01a8",
+      "fileHash": "bd729c10",
       "needsInterop": false
     },
     "@angular/core": {
       "src": "../../../../../node_modules/@angular/core/fesm2022/core.mjs",
       "file": "@angular_core.js",
-      "fileHash": "6a671861",
+      "fileHash": "15e871fd",
       "needsInterop": false
     },
     "@angular/forms": {
       "src": "../../../../../node_modules/@angular/forms/fesm2022/forms.mjs",
       "file": "@angular_forms.js",
-      "fileHash": "1346e09f",
+      "fileHash": "8818f165",
       "needsInterop": false
     },
     "@angular/platform-browser": {
       "src": "../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
       "file": "@angular_platform-browser.js",
-      "fileHash": "3e067844",
+      "fileHash": "5d5d1eee",
       "needsInterop": false
     },
     "@angular/router": {
       "src": "../../../../../node_modules/@angular/router/fesm2022/router.mjs",
       "file": "@angular_router.js",
-      "fileHash": "b183b8d5",
+      "fileHash": "7914306a",
       "needsInterop": false
     },
     "aos": {
       "src": "../../../../../node_modules/aos/dist/aos.js",
       "file": "aos.js",
-      "fileHash": "f77bd18d",
+      "fileHash": "6ceeedf0",
       "needsInterop": true
     },
     "rxjs": {
       "src": "../../../../../node_modules/rxjs/dist/esm5/index.js",
       "file": "rxjs.js",
-      "fileHash": "a9ee1d13",
+      "fileHash": "2b08f5f8",
       "needsInterop": false
     },
     "swiper/element/bundle": {
       "src": "../../../../../node_modules/swiper/swiper-element-bundle.mjs",
       "file": "swiper_element_bundle.js",
-      "fileHash": "93a3bcaf",
+      "fileHash": "d9612973",
       "needsInterop": false
     }
   },
