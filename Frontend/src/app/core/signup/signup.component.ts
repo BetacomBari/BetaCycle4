@@ -6,11 +6,12 @@ import { HttprequestService } from '../services/httprequest.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FooterComponent } from '../footer/footer.component';
+import { ChatComponent } from '../../chat/chat.component';
 // KANEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [RouterModule, NavbarComponent, CommonModule, FormsModule, FooterComponent],
+  imports: [RouterModule, NavbarComponent, CommonModule, FormsModule, FooterComponent, ChatComponent],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css'
 })

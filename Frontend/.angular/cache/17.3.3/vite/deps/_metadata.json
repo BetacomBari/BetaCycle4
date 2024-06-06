@@ -1,68 +1,62 @@
 {
-  "hash": "1533b981",
-  "configHash": "dc953424",
+  "hash": "7fdb1ca9",
+  "configHash": "0b6add32",
   "lockfileHash": "d03da76a",
-  "browserHash": "b0487e03",
+  "browserHash": "9890cf20",
   "optimized": {
     "@angular/common": {
       "src": "../../../../../node_modules/@angular/common/fesm2022/common.mjs",
       "file": "@angular_common.js",
-      "fileHash": "50912f4c",
+      "fileHash": "faa1bb93",
       "needsInterop": false
     },
     "@angular/common/http": {
       "src": "../../../../../node_modules/@angular/common/fesm2022/http.mjs",
       "file": "@angular_common_http.js",
-      "fileHash": "e38d7fb4",
+      "fileHash": "346a01a8",
       "needsInterop": false
     },
     "@angular/core": {
       "src": "../../../../../node_modules/@angular/core/fesm2022/core.mjs",
       "file": "@angular_core.js",
-      "fileHash": "fd0a655b",
+      "fileHash": "6a671861",
       "needsInterop": false
     },
     "@angular/forms": {
       "src": "../../../../../node_modules/@angular/forms/fesm2022/forms.mjs",
       "file": "@angular_forms.js",
-      "fileHash": "e669708e",
+      "fileHash": "1346e09f",
       "needsInterop": false
     },
     "@angular/platform-browser": {
       "src": "../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
       "file": "@angular_platform-browser.js",
-      "fileHash": "28dc16fb",
+      "fileHash": "3e067844",
       "needsInterop": false
     },
     "@angular/router": {
       "src": "../../../../../node_modules/@angular/router/fesm2022/router.mjs",
       "file": "@angular_router.js",
-      "fileHash": "15e17e9b",
-      "needsInterop": false
-    },
-    "@google-pay/button-angular": {
-      "src": "../../../../../../../node_modules/@google-pay/button-angular/fesm2020/google-pay-button-angular.mjs",
-      "file": "@google-pay_button-angular.js",
-      "fileHash": "2cba824d",
-      "needsInterop": false
-    },
-    "swiper/element/bundle": {
-      "src": "../../../../../node_modules/swiper/swiper-element-bundle.mjs",
-      "file": "swiper_element_bundle.js",
-      "fileHash": "e49b1ce8",
-      "needsInterop": false
-    },
-    "rxjs": {
-      "src": "../../../../../node_modules/rxjs/dist/esm5/index.js",
-      "file": "rxjs.js",
-      "fileHash": "1087d550",
+      "fileHash": "b183b8d5",
       "needsInterop": false
     },
     "aos": {
       "src": "../../../../../node_modules/aos/dist/aos.js",
       "file": "aos.js",
-      "fileHash": "c155653c",
+      "fileHash": "f77bd18d",
       "needsInterop": true
+    },
+    "rxjs": {
+      "src": "../../../../../node_modules/rxjs/dist/esm5/index.js",
+      "file": "rxjs.js",
+      "fileHash": "a9ee1d13",
+      "needsInterop": false
+    },
+    "swiper/element/bundle": {
+      "src": "../../../../../node_modules/swiper/swiper-element-bundle.mjs",
+      "file": "swiper_element_bundle.js",
+      "fileHash": "93a3bcaf",
+      "needsInterop": false
     }
   },
   "chunks": {

@@ -6,10 +6,11 @@ import { Product } from '../../shared/models/product';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FooterComponent } from '../footer/footer.component';
+import { ChatComponent } from '../../chat/chat.component';
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [RouterModule, NavbarComponent, CommonModule, FormsModule, FooterComponent],
+  imports: [RouterModule, NavbarComponent, CommonModule, FormsModule, FooterComponent, ChatComponent],
   templateUrl: './product.component.html',
   styleUrl: './product.component.css'
 })

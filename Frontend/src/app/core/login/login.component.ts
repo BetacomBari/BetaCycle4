@@ -13,12 +13,13 @@ import { AuthService } from '../services/auth.service';
 import { CustomerRegister } from '../../shared/models/CustomerRegister';
 import { Credentials } from '../../shared/models/credentials';
 import { FooterComponent } from '../footer/footer.component';
+import { ChatComponent } from '../../chat/chat.component';
 
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterModule, CommonModule, FormsModule, RouterModule, UserCardComponent, NavbarComponent, FooterComponent],
+  imports: [RouterModule, CommonModule, FormsModule, RouterModule, UserCardComponent, NavbarComponent, FooterComponent, ChatComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })

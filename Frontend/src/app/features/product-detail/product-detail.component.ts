@@ -5,11 +5,12 @@ import { NavbarComponent } from '../../core/navbar/navbar.component';
 import { FooterComponent } from '../../core/footer/footer.component';
 import { ActivatedRoute } from '@angular/router';
 import { HttprequestService } from '../../core/services/httprequest.service';
+import { ChatComponent } from '../../chat/chat.component';
 
 @Component({
   selector: 'app-product-detail',
   standalone: true,
-  imports: [FormsModule,CommonModule,NavbarComponent,FooterComponent],
+  imports: [FormsModule,CommonModule,NavbarComponent,FooterComponent, ChatComponent],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.css'
 })
