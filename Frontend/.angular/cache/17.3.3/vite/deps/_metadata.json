@@ -1,62 +1,68 @@
 {
-  "hash": "7fdb1ca9",
-  "configHash": "0b6add32",
+  "hash": "1533b981",
+  "configHash": "dc953424",
   "lockfileHash": "d03da76a",
-  "browserHash": "9890cf20",
+  "browserHash": "b0487e03",
   "optimized": {
     "@angular/common": {
       "src": "../../../../../node_modules/@angular/common/fesm2022/common.mjs",
       "file": "@angular_common.js",
-      "fileHash": "7976ad44",
+      "fileHash": "50912f4c",
       "needsInterop": false
     },
     "@angular/common/http": {
       "src": "../../../../../node_modules/@angular/common/fesm2022/http.mjs",
       "file": "@angular_common_http.js",
-      "fileHash": "a429a743",
+      "fileHash": "e38d7fb4",
       "needsInterop": false
     },
     "@angular/core": {
       "src": "../../../../../node_modules/@angular/core/fesm2022/core.mjs",
       "file": "@angular_core.js",
-      "fileHash": "efd31236",
+      "fileHash": "fd0a655b",
       "needsInterop": false
     },
     "@angular/forms": {
       "src": "../../../../../node_modules/@angular/forms/fesm2022/forms.mjs",
       "file": "@angular_forms.js",
-      "fileHash": "cfaa70d9",
+      "fileHash": "e669708e",
       "needsInterop": false
     },
     "@angular/platform-browser": {
       "src": "../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
       "file": "@angular_platform-browser.js",
-      "fileHash": "28f9fdfc",
+      "fileHash": "28dc16fb",
       "needsInterop": false
     },
     "@angular/router": {
       "src": "../../../../../node_modules/@angular/router/fesm2022/router.mjs",
       "file": "@angular_router.js",
-      "fileHash": "9cf172ac",
+      "fileHash": "15e17e9b",
       "needsInterop": false
     },
-    "aos": {
-      "src": "../../../../../node_modules/aos/dist/aos.js",
-      "file": "aos.js",
-      "fileHash": "037d8c4a",
-      "needsInterop": true
-    },
-    "rxjs": {
-      "src": "../../../../../node_modules/rxjs/dist/esm5/index.js",
-      "file": "rxjs.js",
-      "fileHash": "144a6aad",
+    "@google-pay/button-angular": {
+      "src": "../../../../../../../node_modules/@google-pay/button-angular/fesm2020/google-pay-button-angular.mjs",
+      "file": "@google-pay_button-angular.js",
+      "fileHash": "2cba824d",
       "needsInterop": false
     },
     "swiper/element/bundle": {
       "src": "../../../../../node_modules/swiper/swiper-element-bundle.mjs",
       "file": "swiper_element_bundle.js",
-      "fileHash": "4db8cf6e",
+      "fileHash": "e49b1ce8",
       "needsInterop": false
+    },
+    "rxjs": {
+      "src": "../../../../../node_modules/rxjs/dist/esm5/index.js",
+      "file": "rxjs.js",
+      "fileHash": "1087d550",
+      "needsInterop": false
+    },
+    "aos": {
+      "src": "../../../../../node_modules/aos/dist/aos.js",
+      "file": "aos.js",
+      "fileHash": "c155653c",
+      "needsInterop": true
     }
   },
   "chunks": {

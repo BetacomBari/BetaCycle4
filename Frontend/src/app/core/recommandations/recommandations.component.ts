@@ -175,19 +175,6 @@ export class RecommandationsComponent {
           console.log("Recom for id: " + this.product_id)
           console.log(this.product);
 
-
-          this.htmlToAdd = this.product;
-
-
-
-          ///////////////
-          return `
-            <h1>product</h1>
-            `
-
-          ///////////////
-
-
         },
         error: (error: any) => {
           console.log(error);
