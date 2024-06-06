@@ -1,0 +1,16 @@
+.btnn{
+    background-color: #587a80;
+    color: white;
+    border-radius: 0%;
+}
+
+.btnn:hover{
+    background-color: #384e51;
+    color: white;
+    border-radius: 0%;
+}
+
+.title{
+    color: #587a80;
+
+}

@@ -17,7 +17,7 @@ import { FooterComponent } from '../footer/footer.component';
 export class SignupComponent {
   type: string = "password";
   isText: boolean = false;
-  eyeIcon: string = "fca-eye-slash"
+  eyeIcon: string = "fa-eye-slash"
   errorMessage: string[] = []
   isRegistered: boolean = false;
   customerRegister: CustomerRegister = new CustomerRegister();

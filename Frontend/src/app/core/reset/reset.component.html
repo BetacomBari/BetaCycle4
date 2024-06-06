@@ -1,36 +1,48 @@
 <div class="outher">
-    <div class="container">
-        <div class ="row">
-            <div class="offset-md-2 col-lg-5 col-md-7 offset-lg-4 offset-md-3">
+    <div class="container mt-5">
+        <div class="row w-100 justify-content-center mt-5">
+            <div class=" col-12 col-md-6">
                 <div class="panel border bg-white">
-                    <div class = "panel-heading">
-                        <h3 class = "pt3 font-weight-bold"> Reset Password</h3>    
+                    <div class="panel-heading">
+                        <h3 class="pt3 text-center font-weight-bold title m-0 mt-2"> Reimposta la password</h3>
                     </div>
+
+                    <!--! message -->
+                    <div class="px-3 pt-2">
+
+                        <div *ngIf="errorPassword != 'error'" class="col-12 col-md-12 col-lg-7 w-100 ">
+                            <div class="p-1 alert alert-danger m-0" role="alert">
+                                <p class="m-0">{{errorPassword}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+
                     <div class="panel-body p-3">
                         <form>
                             <div class="form-group pt-3">
                                 <div class="input-field">
-                                    <span class="fa-solid fa-lock"></span>
-                                    <input [type]=type placeholder="Password" #password>
-                                    <span (click)="hideShowPassword()" class="fa {{eyeIcon}}"></span>
-                                    
+                                    <span class="fa-solid fa-lock p-2"></span>
+                                    <input class="w-75" [type]=type placeholder="Password" #password>
+                                    <span (click)="hideShowPassword()" class="p-2 fa {{eyeIcon}}"></span>
+
                                 </div>
 
                                 <div class="modal-body">
                                     <div class="form-group pt-3">
-                                        <div class="input-field"> <span class="fa fa-user p-2"></span> <input [(ngModel)]="retypePassword" (ngModelChange)="checkEqualPassword(password, $event)" [ngModelOptions]="{standalone: true}" type="text" placeholder="Retype Password" > </div>
-                                        <small *ngIf="!retypePassword" class="text-danger">*Re-Type Password is required*</small>
-                                        <small *ngIf="!arePasswordsEqual && retypePassword " class="text-danger">*Passwords are not equal*</small>
-                                                                       
-                                </div>
-                                
-                                    <button type="submit" class="btn btn-primary btn-block mt-4 w-100" (click)="reset()" >Reset Password</button>
+                                        <div class="input-field"> <span class="fa-solid fa-lock p-2"></span>
+                                            <input class="w-75" [type]="type" [(ngModel)]="retypePassword"
+                                                (ngModelChange)="checkEqualPassword(password, $event)"
+                                                [ngModelOptions]="{standalone: true}" type="text"
+                                                placeholder="Conferma Password">
+                                        </div>
+                                        <small *ngIf="!retypePassword" class="text-danger">*Re-Type Password is
+                                            required*</small>
+                                        <small *ngIf="!arePasswordsEqual && retypePassword "
+                                            class="text-danger">*Passwords are not equal*</small>
+                                    </div>
+
+                                    <button type="submit" class="btn btnn btn-block mt-4 w-100"
+                                        (click)="reset(password.value)">Reset Password</button>
                                 </div>
                             </div>
-                        
-                          
-                
-            
-        
-    
-

@@ -22,6 +22,7 @@ export class ResetComponent implements OnInit{
   retypePassword!: string;
   arePasswordsEqual!: boolean;
   resetPasswordObj: ResetPassword = new ResetPassword();
+  errorPassword:string = "error"
 
   constructor(private activatedRoute: ActivatedRoute, 
     private resetService: ResetPasswordService,
@@ -37,6 +38,34 @@ export class ResetComponent implements OnInit{
 
     })
       
+  }
+
+  isValidPassword(password: string): boolean {
+    if (!password) {
+      return false;
+    }
+
+    // Verifica che la password abbia almeno 8 caratteri
+    if (password.length < 8) {
+      return false;
+    }
+
+    // Verifica che la password contenga almeno un numero
+    if (!/\d/.test(password)) {
+      return false;
+    }
+
+    // Verifica che la password contenga almeno una lettera maiuscola
+    if (!/[A-Z]/.test(password)) {
+      return false;
+    }
+
+    // Verifica che la password contenga almeno un carattere speciale
+    if (!/[!@#$%&?{}|<>.]/.test(password)) {
+      return false;
+    }
+
+    return true;
   }
 
   hideShowPassword(){
@@ -57,27 +86,29 @@ export class ResetComponent implements OnInit{
     return this.arePasswordsEqual;
   }
 
-  reset() {
-    if (this.arePasswordsEqual == true) {
-      this.resetPasswordObj.email = this.emailToReset;
-      this.resetPasswordObj.newPassword = this.retypePassword;
-      this.resetPasswordObj.confirmPassword = this.retypePassword;
-      this.resetPasswordObj.emailToken = this.emailToken;
-
-      this.resetService.resetPassword(this.resetPasswordObj)
-      .subscribe({
-        next:(res) => {
-          console.log("Change of password done");
-          this.router.navigate(['/']);
-
-        } , error: (err) => {
-          console.log("Error in change password ")
-          console.log(this.emailToken);
-        }
-      })
-
-    } else {
-      
+  reset(password:string) {
+    if (this.isValidPassword(password)) {
+      if (this.arePasswordsEqual == true) {
+        this.resetPasswordObj.email = this.emailToReset;
+        this.resetPasswordObj.newPassword = this.retypePassword;
+        this.resetPasswordObj.confirmPassword = this.retypePassword;
+        this.resetPasswordObj.emailToken = this.emailToken;
+  
+        this.resetService.resetPassword(this.resetPasswordObj)
+        .subscribe({
+          next:(res) => {
+            console.log("Change of password done");
+            this.router.navigate(['/']);
+  
+          } , error: (err) => {
+            console.log("Error in change password ")
+            console.log(this.emailToken);
+          }
+        })
+  
+      } 
+    } else{
+      this.errorPassword = "La password deve contenere almeno 8 caratteri di cui un numero, una lettera maiuscola ed un carattere speciale."
     }
   }
 

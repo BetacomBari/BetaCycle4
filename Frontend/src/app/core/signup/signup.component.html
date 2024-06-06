@@ -22,51 +22,50 @@
                     <div class="row justify-content-center">
                         <div class="col-12 col-lg-4 mx-5"  data-aos="fade-right">
 
-                            <label for="FirstName" class="fs-5 label">Nome:</label>
+                            <label for="FirstName" class="label">Nome:</label>
                             <input class="w-100 scuro py-1 my-1" type="text" id="FirstName" #FirstName>
 
-                            <label for="MiddleName" class="fs-5 label">Secondo nome:</label>
+                            <label for="MiddleName" class="label">Secondo nome:</label>
                             <input class=" w-100 scuro py-1 my-1" type="text" id="MiddleName" #MiddleName>
 
-                            <label for="LastName" class="fs-5 label">Cognome:</label>
+                            <label for="LastName" class="label">Cognome:</label>
                             <input class=" w-100 scuro py-1 my-1" type="text" id="LastName" #LastName>
 
-                            <label for="Phone" class="fs-5 label">Cellulare:</label>
+                            <label for="Phone" class="label">Cellulare:</label>
                             <input class=" w-100 scuro py-1 my-1" type="text" id="Phone" #Phone>
 
-                            <label for="AddressType" class="fs-5 label">Tipo di indirizzo:</label>
+                            <label for="AddressType" class="label">Tipo di indirizzo: (casa, negozio...)</label>
                             <input class=" w-100 scuro py-1 my-1" type="text" id="AddressType" #AddressType>
 
-                            <label for="AddressLine1" class="fs-5 label">Indirizzo 1:</label>
+                            <label for="AddressLine1" class="label">Indirizzo 1:</label>
                             <input class=" w-100 scuro py-1 my-1" type="text" id="AddressLine1" #AddressLine1>
 
-                            <label for="AddressLine2" class="fs-5 label">Indirizzo 2 (facoltativo):</label>
+                            <label for="AddressLine2" class="label">Indirizzo 2 (facoltativo):</label>
                             <input class=" w-100 scuro py-1 my-1" type="text" id="AddressLine2" #AddressLine2>
                         </div>
 
                         <div class="col-12 col-md-12 col-lg-4 mx-5"  data-aos="fade-left">
-                            <label for="City" class="fs-5 label">Città:</label>
+                            <label for="City" class="label">Città:</label>
                             <input class="w-100 scuro py-1 my-1" type="text" id="City" #City>
 
-                            <label for="StateProvince" class="fs-5 label">Provincia:</label>
+                            <label for="StateProvince" class="label">Provincia:</label>
                             <input class="w-100 scuro py-1 my-1" type="text" id="StateProvince" #StateProvince>
 
-                            <label for="CountryRegion" class="fs-5 label">Regione:</label>
+                            <label for="CountryRegion" class="label">Regione:</label>
                             <input class="w-100 scuro py-1 my-1" type="text" id="CountryRegion" #CountryRegion>
 
-                            <label for="PostalCode" class="fs-5 label">CAP:</label>
+                            <label for="PostalCode" class="label">CAP:</label>
                             <input class="w-100 scuro py-1 my-1" type="text" id="PostalCode" #PostalCode>
 
-                            <label for="EmailAddress" class="fs-5 label">Email:</label>
+                            <label for="EmailAddress" class="label">Email:</label>
                             <input class="w-100 scuro py-1 my-1" type="email" id="EmailAddress" #EmailAddress>
 
-                            <label for="Password" class="fs-5 label">Password:</label>
-                            <input class="w-100 scuro py-1 my-1" type="password" id="Password" #Password>
-                            <span (click)="hideShowPassword()" class="fa {{eyeIcon}}"></span>
+                            <label for="Password" class="label">Password:</label>
+                            <input class="w-100 scuro py-1 my-1" [type]="type" id="Password" #Password>
 
-                            <label for="PasswordConfirm" class="fs-5 label">Conferma password:</label>
-                            <input class="w-100 scuro py-1 my-1" type="password" id="PasswordConfirm" #PasswordConfirm>
-                            <span (click)="hideShowPassword()" class="fa {{eyeIcon}}"></span>
+                            <label for="PasswordConfirm" class="label">Conferma password:</label>
+                            <input class="w-100 scuro py-1 my-1" [type]="type" id="PasswordConfirm" #PasswordConfirm>
+                            <span (click)="hideShowPassword()" class="text-white fa {{eyeIcon}}"></span>
 
                         </div>
                     </div>
