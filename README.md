@@ -188,9 +188,9 @@ We use Flask (`app.py`) to create our API. With `@app.get("/")`, we return our w
 
 
 
-#RECOMMENDER SYSTEM
+# RECOMMENDER SYSTEM
 
-##Data Pre-processing
+## Data Pre-processing
 We are going to use a technique called colaborative filtering to generate recommendations for users. This technique is based on the premise that similar people like similar things.
 
 First we need to create the dataset, so we have generate 1000 rows with CustomerId, ProductId and a generic rate value from 0 to 5 `recommenderSystem.py`
